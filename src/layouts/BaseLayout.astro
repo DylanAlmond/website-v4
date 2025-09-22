@@ -22,7 +22,7 @@ const { title, inverted = false, class: className } = Astro.props;
     <title>{title}</title>
   </head>
   <body class='grain flex gap-12 h-dvh min-h-dvh w-full flex-row justify-center'>
-    <PageBar class='fixed top-0 left-12 py-12' label='Home' inverted={inverted} />
+    <PageBar class='fixed top-0 left-12 py-12' label={title} inverted={inverted} />
 
     <div
       class='max-w-container w-full mx-12 md:mx-32 transition-all duration-1000 ease-in-out flex flex-col gap-12 flex-1'
