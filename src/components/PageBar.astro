@@ -1,16 +1,22 @@
 ---
+import clsx from 'clsx';
+
 interface Props {
   label?: string;
+  class?: string | null;
 }
 
-const { label } = Astro.props;
+const { label, class: className } = Astro.props;
 ---
 
 <div
-  class='flex flex-col h-full gap-4 items-center select-none
-    transform transition-all duration-500 ease-in-out
+  class={clsx(
+    `flex flex-col w-8 h-full gap-4 items-center select-none
+    transform transition-all duration-1000 ease-in-out
     opacity-0
-    md:opacity-100'
+    md:opacity-100`,
+    className
+  )}
 >
   <hr class='flex-1 border-l-2 border-primary' />
   {

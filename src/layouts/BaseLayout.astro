@@ -19,10 +19,12 @@ const { title, negativeHeader = false } = Astro.props;
     <meta name='generator' content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class='grain flex gap-12 h-dvh min-h-dvh w-full flex-row justify-between'>
-    <PageBar label='Home' />
+  <body class='grain flex gap-12 h-dvh min-h-dvh w-full flex-row justify-center'>
+    <PageBar class='fixed top-0 left-12 py-12' label='Home' />
 
-    <div class='max-w-container flex flex-col gap-12 flex-1'>
+    <div
+      class='max-w-container w-full mx-12 md:mx-32 transition-all duration-1000 ease-in-out flex flex-col gap-12 flex-1'
+    >
       <Header negativeColor={negativeHeader} />
 
       <main class='flex-1 relative'>
@@ -30,6 +32,6 @@ const { title, negativeHeader = false } = Astro.props;
       </main>
     </div>
 
-    <PageBar />
+    <PageBar class='fixed top-0 right-12 py-12' />
   </body>
 </html>

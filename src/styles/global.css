@@ -35,7 +35,7 @@ h6 {
 }
 
 body {
-  @apply bg-background text-primary p-12;
+  @apply bg-background text-primary py-12;
 }
 
 .grain {
