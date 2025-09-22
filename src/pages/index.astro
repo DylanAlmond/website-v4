@@ -1,16 +1,18 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 
+const date = new Date().getFullYear();
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title='Dylan Almond'>
+  <h1
+    class='capitalize text-9xl text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
+  >
+    creatively Driven Web Development
+  </h1>
+
+  <span
+    class='font-serif text-sm text-primary/80 absolute bottom-0 left-1/2 transform -translate-x-1/2'
+    >@{date} Dylan Almond</span
+  >
+</BaseLayout>
