@@ -6,9 +6,10 @@ const date = new Date().getFullYear();
 
 <BaseLayout title='Dylan Almond'>
   <h1
-    class='capitalize text-9xl w-full max-w-2/3 text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
+    class='capitalize text-6xl sm:text-8xl lg:text-9xl w-full text-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
   >
-    creatively Driven<br /> Web Development
+    creatively Driven<br />
+    <span id='service-label' class='transition-opacity duration-1000'></span>
   </h1>
 
   <span
@@ -17,4 +18,40 @@ const date = new Date().getFullYear();
   >
 </BaseLayout>
 
-<style></style>
+<script>
+  const services = [
+    'Web Development',
+    'App Design',
+    'UI/UX',
+    'SEO Optimization',
+    'E-Commerce Solutions'
+  ];
+
+  const serviceLabel = document.querySelector<HTMLSpanElement>('#service-label')!;
+  let currentIndex = 1;
+  const fadeDuration = 1000; // matches Tailwind duration-1000
+  const displayDuration = 2000; // how long each label stays visible
+
+  serviceLabel.textContent = services[0];
+
+  function showNextService() {
+    // Fade out
+    serviceLabel.classList.remove('opacity-100');
+    serviceLabel.classList.add('opacity-0');
+
+    setTimeout(() => {
+      // Change text after fade out
+      serviceLabel.textContent = services[currentIndex];
+      // Fade in
+      serviceLabel.classList.remove('opacity-0');
+      serviceLabel.classList.add('opacity-100');
+
+      // Prepare next index
+      currentIndex = (currentIndex + 1) % services.length;
+    }, fadeDuration);
+  }
+
+  // Start cycling
+  // showNextService();
+  setInterval(showNextService, fadeDuration + displayDuration);
+</script>
