@@ -3,10 +3,11 @@ import clsx from 'clsx';
 
 interface Props {
   label?: string;
+  inverted?: boolean;
   class?: string | null;
 }
 
-const { label, class: className } = Astro.props;
+const { label, inverted, class: className } = Astro.props;
 ---
 
 <div
@@ -18,14 +19,16 @@ const { label, class: className } = Astro.props;
     className
   )}
 >
-  <hr class='flex-1 border-l-2 border-primary' />
+  <hr class={`flex-1 border-l-2 ${inverted ? 'border-inverted' : 'border-primary'}`} />
   {
     label && (
       <>
-        <span class='[writing-mode:sideways-lr] [text-orientation:mixed] truncate max-h-1/2 font-serif leading-none italic text-2xl'>
+        <span
+          class={`${inverted ? 'text-inverted' : 'text-primary'} [writing-mode:sideways-lr] [text-orientation:mixed] truncate max-h-1/2 font-serif leading-none italic text-2xl`}
+        >
           {label}
         </span>
-        <hr class='flex-1 border-l-2 border-primary' />
+        <hr class={`flex-1 border-l-2 ${inverted ? 'border-inverted' : 'border-primary'}`} />
       </>
     )
   }

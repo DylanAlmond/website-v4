@@ -1,15 +1,15 @@
 ---
 interface Props {
-  negativeColor: boolean;
+  inverted: boolean;
 }
 
-const { negativeColor } = Astro.props;
+const { inverted } = Astro.props;
 ---
 
 <header class='flex h-12 w-full items-center justify-between max-w-container'>
   <img
-    src={`/logo${negativeColor ? '-inverted' : ''}.svg`}
-    class={negativeColor ? `mix-blend-difference` : ''}
+    src={`/logo${inverted ? '-inverted' : ''}.svg`}
+    class={inverted ? `mix-blend-difference` : ''}
     height='48px'
     width='99px'
     alt='Dylan Almond Logo'
@@ -17,8 +17,7 @@ const { negativeColor } = Astro.props;
 
   <button
     ><img
-      src={`/menu${negativeColor ? '-inverted' : ''}.svg`}
-      class={negativeColor ? `mix-blend-difference` : ''}
+      src={`/menu${inverted ? '-inverted' : ''}.svg`}
       height='48px'
       width='48px'
       alt='Open Menu Icon'
