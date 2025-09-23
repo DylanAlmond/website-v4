@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title='About' inverted={true}>
-  <h1 class='text-5xl text-white capitalize shadow-lg sm:text-7xl lg:max-w-1/2 lg:text-8xl'>
+  <h1 class='text-white capitalize shadow-lg lg:max-w-1/2'>
     Based in Southampton, I collaborate with businesses across the UK and beyond to create modern
     websites, apps, and digital products that stand out.
   </h1>
@@ -16,5 +16,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     background-repeat: no-repeat;
     background-image:
       linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/src/images/chapel.png');
+  }
+
+  h1 {
+    font-size: clamp(1rem, min(10vw, 7.25vh), 6rem);
+    line-height: 1.1;
   }
 </style>
