@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const date = new Date().getFullYear();
+---
+
+<BaseLayout
+  title='Contact'
+  class='mt-4 flex flex-col items-center gap-12 xl:flex-row xl:items-start xl:justify-between'
+>
+  <h1
+    class='text-inverted mb-8 text-7xl capitalize mix-blend-difference shadow-lg sm:mb-16 sm:text-8xl xl:my-auto xl:text-[17.5rem]'
+  >
+    Let's Talk.
+  </h1>
+
+  <!-- Contacts -->
+  <div
+    class='flex flex-col items-center md:gap-32 gap-16 text-center xl:flex-row xl:items-start xl:gap-16 xl:text-start'
+  >
+    <div class='flex flex-col gap-4'>
+      <h2 class='mb-6 text-[3.5rem] leading-0 md:mb-12 md:text-8xl'>Contacts</h2>
+
+      <a class='text-primary/80 font-serif text-xl md:text-4xl' href='mailto:dylan@dylanalmond.net'
+        >dylan@dylanalmond.net</a
+      >
+      <a class='text-primary/80 font-serif text-xl md:text-4xl' href='tel:+4407900414970'
+        >+44 07900 414 970</a
+      >
+    </div>
+
+    <div class='flex flex-col gap-4'>
+      <h2 class='mb-6 text-[3.5rem] leading-0 md:mb-12 md:text-8xl'>Social</h2>
+
+      <a
+        class='text-primary/80 font-serif text-xl md:text-4xl'
+        href='https://www.linkedin.com/in/dylan-almond/'>LinkedIn</a
+      >
+    </div>
+
+    <!-- Copyright and Privacy Policy -->
+    <span class='text-primary/80 absolute bottom-0 left-0 font-serif text-base xl:text-2xl'
+      >@{date} Dylan Almond</span
+    >
+    <a
+      class='text-primary/80 absolute right-0 bottom-0 font-serif text-base xl:text-2xl'
+      href='/privacy-policy'>Privacy Policy</a
+    >
+  </div>
+</BaseLayout>
