@@ -23,7 +23,9 @@ const { title, leftBarLabel, rightBarLabel, inverted = false, class: className }
     <meta name='generator' content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class='grain flex h-full min-h-dvh w-full flex-row justify-center gap-12 py-8 md:py-12'>
+  <body
+    class='grain flex h-full min-h-dvh w-full flex-row justify-center gap-12 py-8 transition-[padding] duration-1250 ease-in-out md:py-12'
+  >
     <PageBar class='fixed top-0 left-12 py-12' label={leftBarLabel ?? title} inverted={inverted} />
 
     <div
