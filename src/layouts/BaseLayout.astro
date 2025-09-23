@@ -6,11 +6,13 @@ import clsx from 'clsx';
 
 interface Props {
   title: string;
+  leftBarLabel?: string;
+  rightBarLabel?: string;
   inverted?: boolean;
   class?: string | null;
 }
 
-const { title, inverted = false, class: className } = Astro.props;
+const { title, leftBarLabel, rightBarLabel, inverted = false, class: className } = Astro.props;
 ---
 
 <html lang='en'>
@@ -21,11 +23,11 @@ const { title, inverted = false, class: className } = Astro.props;
     <meta name='generator' content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class='grain py-8 md:py-12 flex gap-12 h-dvh min-h-dvh w-full flex-row justify-center'>
-    <PageBar class='fixed top-0 left-12 py-12' label={title} inverted={inverted} />
+  <body class='grain flex h-full min-h-dvh w-full flex-row justify-center gap-12 py-8 md:py-12'>
+    <PageBar class='fixed top-0 left-12 py-12' label={leftBarLabel ?? title} inverted={inverted} />
 
     <div
-      class='max-w-container w-full mx-8 md:mx-32 transition-all duration-1000 ease-in-out flex flex-col gap-12 flex-1'
+      class='max-w-container mx-8 flex w-full flex-1 flex-col gap-12 transition-all duration-1000 ease-in-out md:mx-32'
     >
       <Header inverted={inverted} />
 
@@ -34,6 +36,6 @@ const { title, inverted = false, class: className } = Astro.props;
       </main>
     </div>
 
-    <PageBar class='fixed top-0 right-12 py-12' inverted={inverted} />
+    <PageBar class='fixed top-0 right-12 py-12' label={rightBarLabel} inverted={inverted} />
   </body>
 </html>
