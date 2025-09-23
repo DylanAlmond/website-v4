@@ -1,43 +1,65 @@
-# Astro Starter Kit: Minimal
+# Website V4
+
+4th iteration of my Portfolio site.
+
+## 🛠️ Tech Stack
+
+- **Astro** – Static site generator
+- **TypeScript** – Type safety and scripting
+- **Tailwind CSS** – Utility-first CSS framework
+- **Markdown** – Content for blog posts
+- **Yarn** – Package manager
+
+## 📁 Project Structure
+
+```
+/
+├── public/           # Static assets (images, etc.)
+├── src/
+│   ├── blog/         # Markdown blog posts
+│   ├── components/   # Reusable UI components
+│   ├── images/       # Project images
+│   ├── layouts/      # Layout components
+│   ├── pages/        # Site pages and routes
+│   └── styles/       # Global styles (Tailwind)
+└── package.json      # Project metadata and scripts
+```
+
+## 🚀 Getting Started
+
+Install dependencies:
 
 ```sh
-yarn create astro@latest -- --template minimal
+yarn install
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Start the development server:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+yarn dev
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Build for production:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```sh
+yarn build
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
+Preview the production build locally:
 
-## 🧞 Commands
+```sh
+yarn preview
+```
 
-All commands are run from the root of the project, from a terminal:
+Run Astro CLI commands:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `yarn install`             | Installs dependencies                            |
-| `yarn dev`             | Starts local dev server at `localhost:4321`      |
-| `yarn build`           | Build your production site to `./dist/`          |
-| `yarn preview`         | Preview your build locally, before deploying     |
-| `yarn astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `yarn astro -- --help` | Get help using the Astro CLI                     |
+```sh
+yarn astro ...
+```
 
-## 👀 Want to learn more?
+## 🌟 Features
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Accessible, keyboard-friendly navigation
+- SEO best practices
+- Responsive design
+- Markdown-powered blog
