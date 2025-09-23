@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const defaultText = `I deliver modern digital solutions that prepare businesses for what's next. From brand transformation to striking visual content, I turn strategy into measurable impact.`;
+
+const services = {
+  'Web Development': 'Web Development Description',
+  'App Development': 'App Development Description',
+  'Software Development': 'Software Development Description',
+  'AI Development': 'AI Development Description',
+  'Backend Systems': 'Backend Systems Description',
+  'Design & SEO': 'Design & SEO Description'
+};
+---
+
+<BaseLayout title='Services' class='flex flex-col'>
+  <h1
+    class='text-inverted mb-8 text-[3.5rem] capitalize mix-blend-difference shadow-lg md:text-8xl'
+  >
+    What I Deliver
+  </h1>
+  <div class='grid gap-8 lg:grid-cols-2 lg:gap-32'>
+    <div class='flex flex-col gap-8'>
+      <p
+        id='service-description'
+        data-default-description={defaultText}
+        class='text-primary/80 font-serif text-2xl md:text-4xl'
+      >
+      </p>
+    </div>
+
+    <div>
+      <ol>
+        {
+          Object.keys(services).map((v) => (
+            <li
+              class='data-[active=true]:bg-primary cursor-pointer gap-3! py-5! pl-3! text-[1.75rem]! before:text-xl! data-[active=true]:text-white data-[active=true]:before:text-white/80! md:gap-6! md:py-6! md:pl-6! md:text-4xl! md:before:text-[1.75rem]! xl:text-5xl!'
+              data-service-item={v}
+              data-service-description={services[v as keyof typeof services]}
+            >
+              {v}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const descriptionElem = document.querySelector<HTMLParagraphElement>('#service-description')!;
+  const serviceItems = document.querySelectorAll('[data-service-item]');
+
+  const defaultDescription = descriptionElem.getAttribute('data-default-description');
+  descriptionElem.textContent = defaultDescription;
+
+  serviceItems.forEach((item) => {
+    item.addEventListener('click', () => {
+      item.setAttribute('data-active', 'true');
+      const serviceDescription = item.getAttribute('data-service-description');
+      descriptionElem.textContent = serviceDescription;
+    });
+
+    item.addEventListener('mouseenter', () => {
+      item.setAttribute('data-active', 'true');
+      const serviceDescription = item.getAttribute('data-service-description');
+      descriptionElem.textContent = serviceDescription;
+    });
+
+    item.addEventListener('mouseleave', () => {
+      item.setAttribute('data-active', 'false');
+      descriptionElem.textContent = defaultDescription;
+    });
+  });
+</script>
+
+<style>
+  @reference '../styles/global.css';
+
+  ol {
+    @apply divide-primary border-primary divide-y-2 border-y-2;
+    list-style: none;
+    counter-reset: list-counter;
+  }
+
+  li {
+    @apply flex items-center gap-6 py-6 pl-6 font-serif text-5xl;
+    counter-increment: list-counter;
+
+    &::before {
+      @apply text-primary/80 text-[1.75rem];
+      content: counter(list-counter, decimal-leading-zero) ' ';
+    }
+  }
+</style>
