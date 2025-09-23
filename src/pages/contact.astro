@@ -16,7 +16,7 @@ const date = new Date().getFullYear();
 
   <!-- Contacts -->
   <div
-    class='flex flex-col items-center md:gap-32 gap-16 text-center xl:flex-row xl:items-start xl:gap-16 xl:text-start'
+    class='flex flex-col items-center gap-16 text-center md:gap-32 xl:flex-row xl:items-start xl:gap-16 xl:text-start'
   >
     <div class='flex flex-col gap-4'>
       <h2 class='mb-6 text-[3.5rem] leading-0 md:mb-12 md:text-8xl'>Contacts</h2>
@@ -39,12 +39,17 @@ const date = new Date().getFullYear();
     </div>
 
     <!-- Copyright and Privacy Policy -->
-    <span class='text-primary/80 absolute bottom-0 left-0 font-serif text-base xl:text-2xl'
+    <!-- <span class='text-primary/80 absolute bottom-0 left-0 font-serif text-base xl:text-2xl'
       >@{date} Dylan Almond</span
-    >
-    <a
+    > -->
+    <!-- <a
       class='text-primary/80 absolute right-0 bottom-0 font-serif text-base xl:text-2xl'
       href='/privacy-policy'>Privacy Policy</a
+    > -->
+
+    <span
+      class='text-primary/80 absolute bottom-0 left-1/2 -translate-x-1/2 transform font-serif text-sm'
+      >@{date} Dylan Almond</span
     >
   </div>
 </BaseLayout>
