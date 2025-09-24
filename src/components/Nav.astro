@@ -1,0 +1,75 @@
+---
+import PageBar from './PageBar.astro';
+
+const routes = {
+  Home: '/',
+  Work: '/work',
+  About: '/about',
+  Services: '/services',
+  Contact: '/contact'
+};
+---
+
+<div
+  id='nav-menu'
+  class='grain bg-background fixed top-0 left-0 z-10 flex h-full overflow-y-scroll min-h-dvh w-full flex-row justify-center gap-12 py-8 opacity-0 transition-all duration-700 ease-in-out md:py-12'
+>
+  <!-- Header Show Here -->
+
+  <PageBar class='fixed top-0 left-12 py-12' label={'Menu'} />
+
+  <div
+    class='max-w-container relative mx-8 mt-24 flex w-full flex-1 flex-col gap-12 transition-all duration-1000 ease-in-out md:mx-32'
+  >
+    <ol class='md:ml-auto md:w-1/2'>
+      {
+        Object.keys(routes).map((v) => (
+          <li>
+            <a
+              class='hover:bg-primary cursor-pointer gap-8! py-5! pl-3! text-5xl! before:text-[1.75rem]! hover:text-white hover:before:text-white/80! md:py-8! md:pl-8! md:text-[5.25rem]!'
+              href={routes[v as keyof typeof routes]}
+            >
+              {' '}
+              {v}
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+
+  <PageBar class='fixed top-0 right-12 py-12' />
+</div>
+
+<style>
+  @reference '../styles/global.css';
+
+  :root[data-nav-open='true'] {
+    #nav-menu {
+      opacity: 100;
+      pointer-events: all;
+    }
+  }
+
+  :root[data-nav-open='false'] {
+    #nav-menu {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  ol {
+    list-style: none;
+    counter-reset: list-counter;
+  }
+
+  a {
+    @apply flex items-center gap-6 py-6 pl-6 font-serif text-5xl;
+    counter-increment: list-counter;
+
+    &::before {
+      @apply text-primary/80 text-[1.75rem];
+      content: counter(list-counter, decimal-leading-zero) ' ';
+    }
+  }
+</style>

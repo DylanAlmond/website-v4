@@ -3,11 +3,10 @@ import clsx from 'clsx';
 
 interface Props {
   label?: string;
-  inverted?: boolean;
   class?: string | null;
 }
 
-const { label, inverted, class: className } = Astro.props;
+const { label, class: className } = Astro.props;
 ---
 
 <div
@@ -19,17 +18,34 @@ const { label, inverted, class: className } = Astro.props;
     className
   )}
 >
-  <hr class={`flex-1 border-l-2 ${inverted ? 'border-inverted' : 'border-primary'}`} />
+  <hr class={`flex-1 border-l-2 border-primary`} />
   {
     label && (
       <>
         <span
-          class={`${inverted ? 'text-inverted' : 'text-primary'} [writing-mode:sideways-lr] overflow-visible [text-orientation:mixed] truncate max-h-1/2 font-serif leading-none italic text-2xl`}
+          class={`text-primary max-h-1/2 truncate overflow-visible font-serif text-2xl leading-none italic [text-orientation:mixed] [writing-mode:sideways-lr]`}
         >
           {label}
         </span>
-        <hr class={`flex-1 border-l-2 ${inverted ? 'border-inverted' : 'border-primary'}`} />
+        <hr class={`border-primary flex-1 border-l-2`} />
       </>
     )
   }
 </div>
+
+<style>
+  @reference '../styles/global.css';
+
+  :root[data-inverted='true'] {
+    /* Only invert when nav is closed */
+    &:root[data-nav-open='false'] {
+      hr {
+        @apply border-inverted;
+      }
+
+      span {
+        @apply text-inverted;
+      }
+    }
+  }
+</style>
