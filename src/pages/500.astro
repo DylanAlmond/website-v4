@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+
+interface Props {
+  error: unknown;
+}
+
+const { error } = Astro.props;
+---
+
+<BaseLayout
+  title='Dylan Almond'
+  leftBarLabel='Error'
+  class='flex flex-col items-center justify-center gap-6'
+>
+  <h1 class='mb-2 w-full transform text-center leading-none capitalize'>Oops!</h1>
+
+  <h2 class='text-primary/80 font-sans! text-3xl font-semibold'>An Error Has Occurred.</h2>
+
+  <p class='text-primary/80 max-w-4xl text-center text-xl'>
+    {error instanceof Error ? error.message : 'Unknown Error'}
+  </p>
+
+  <Button href='/'>Go Home</Button>
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: clamp(1rem, min(20vw, 20vh), 8rem);
+    line-height: 1.2;
+  }
+</style>
