@@ -1,11 +1,17 @@
 import Alpine from 'alpinejs';
 
-declare global {
-  interface Window {
-    Alpine: typeof Alpine;
-  }
-}
+document.addEventListener('alpine:init', () => {
+  console.log('Init Alpine');
 
-window.Alpine = Alpine;
+  Alpine.store('menuOpen', false);
 
-Alpine.start();
+  // Controlled from `html` tag by layout component
+  Alpine.data('inverted', (initialState = false) => ({
+    inverted: initialState,
+  }));
+
+  // Close our menu when navigating to a new page
+  document.addEventListener('astro:page-load', () => {
+    Alpine.store('menuOpen', false);
+  });
+});
