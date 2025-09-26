@@ -31,8 +31,13 @@ const routes = {
   <template x-teleport='body'>
     <div
       x-show='$store.menuOpen'
-      id='nav-menu'
-      class='grain bg-background fixed top-0 left-0 z-10 flex h-full min-h-dvh w-full flex-row justify-center gap-12 overflow-y-scroll py-8 transition-all duration-700 ease-in-out md:py-12'
+      x-transition:enter='transition-opacity duration-500'
+      x-transition:enter-start='opacity-0'
+      x-transition:enter-end='opacity-100'
+      x-transition:leave='transition-opacity duration-750'
+      x-transition:leave-start='opacity-100'
+      x-transition:leave-end='opacity-0'
+      class='grain bg-background fixed top-0 left-0 z-10 flex h-full min-h-dvh w-full flex-row justify-center gap-12 overflow-y-scroll py-8 md:py-12'
     >
       <!-- Header Shows Here -->
 
