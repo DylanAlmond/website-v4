@@ -18,34 +18,18 @@ const { label, class: className } = Astro.props;
     className
   )}
 >
-  <hr class={`flex-1 border-l-2 border-primary`} />
+  <hr class={`flex-1 border-l-2 `} :class="inverted && !$store.menuOpen ? 'border-inverted' : 'border-primary'" />
   {
     label && (
       <>
         <span
-          class={`text-primary max-h-1/2 truncate overflow-visible font-serif text-2xl leading-none italic [text-orientation:mixed] [writing-mode:sideways-lr]`}
+          class={`max-h-1/2 truncate overflow-visible font-serif text-2xl leading-none italic [text-orientation:mixed] [writing-mode:sideways-lr]`}
+          :class="inverted && !$store.menuOpen ? 'text-inverted' : 'text-primary'"
         >
           {label}
         </span>
-        <hr class={`border-primary flex-1 border-l-2`} />
+        <hr class={`flex-1 border-l-2`} :class="inverted && !$store.menuOpen ? 'border-inverted' : 'border-primary'"/>
       </>
     )
   }
 </div>
-
-<style>
-  @reference '../styles/global.css';
-
-  :root[data-inverted='true'] {
-    /* Only invert when nav is closed */
-    &:root[data-nav-open='false'] {
-      hr {
-        @apply border-inverted;
-      }
-
-      span {
-        @apply text-inverted;
-      }
-    }
-  }
-</style>

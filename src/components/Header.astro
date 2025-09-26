@@ -1,51 +1,24 @@
 ---
-
+import Nav from './Nav.astro';
 ---
 
-<header
-  transition:persist
-  class='fixed z-20 h-12 w-full px-8 transition-[padding] duration-1250 ease-in-out md:px-32'
->
+<header class='fixed z-20 h-12 w-full px-8 transition-[padding] duration-1250 ease-in-out md:px-32 tras'>
   <div class='max-w-container relative mx-auto flex items-center justify-between'>
-    <img id='logo-img' src={'/logo.svg'} height='48px' width='99px' alt='Dylan Almond Logo' />
+    <a
+      href='/'
+      aria-label='Home'
+      class='focus:ring-primary focus:ring-2 focus:ring-offset-2 focus:outline-none transition-all duration-250'
+    >
+      <img
+        id='logo-img'
+        :src="inverted && !$store.menuOpen ? '/logo-inverted.svg' : '/logo.svg'"
+        src={'/logo.svg'}
+        height='48px'
+        width='99px'
+        alt='Dylan Almond Logo'
+      /></a
+    >
 
-    <button id='nav-button' class='cursor-pointer'>
-      <img id='menu-img' src={'/menu.svg'} height='48px' width='48px' alt='Open Menu Icon' />
-    </button>
+    <Nav />
   </div>
 </header>
-
-<script>
-  // Toggle nav
-  document.addEventListener('DOMContentLoaded', () => {
-    const html = document.documentElement;
-    const navButton = document.getElementById('nav-button') as HTMLButtonElement;
-    const logoImg = document.getElementById('logo-img') as HTMLImageElement;
-    const menuImg = document.getElementById('menu-img') as HTMLImageElement;
-
-    // Initial update
-    updateImages();
-
-    // Listen for data-inverted changes
-    const observer = new MutationObserver(() => {
-      updateImages();
-    });
-
-    observer.observe(html, { attributes: true, attributeFilter: ['data-inverted'] });
-
-    function updateImages() {
-      const isInverted = html.getAttribute('data-inverted') === 'true';
-      const navOpen = html.getAttribute('data-nav-open') === 'true';
-
-      logoImg.src = isInverted && !navOpen ? '/logo-inverted.svg' : '/logo.svg';
-      menuImg.src = isInverted && !navOpen ? '/menu-inverted.svg' : '/menu.svg';
-    }
-
-    navButton.addEventListener('click', () => {
-      const navOpen = html.getAttribute('data-nav-open') === 'true';
-      html.setAttribute('data-nav-open', navOpen ? 'false' : 'true');
-
-      updateImages();
-    });
-  });
-</script>

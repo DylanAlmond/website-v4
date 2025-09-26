@@ -1,6 +1,5 @@
 ---
 import Header from '../components/Header.astro';
-import Nav from '../components/Nav.astro';
 import PageBar from '../components/PageBar.astro';
 import '../styles/global.css';
 import clsx from 'clsx';
@@ -17,13 +16,14 @@ interface Props {
 const { title, leftBarLabel, rightBarLabel, inverted = false, class: className } = Astro.props;
 ---
 
-<html lang='en' data-nav-open='false' data-inverted={inverted}>
+<html lang='en' x-data=`inverted(${inverted})` :class="$store.menuOpen && 'overflow-hidden'">
   <head>
     <meta charset='utf-8' />
     <link rel='icon' type='image/png' href='/favicon.png' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <meta name='generator' content={Astro.generator} />
     <title>{title}</title>
+    <script src='../scripts/local.ts'></script>
     <ClientRouter />
   </head>
   <body
@@ -38,20 +38,11 @@ const { title, leftBarLabel, rightBarLabel, inverted = false, class: className }
         'max-w-container mx-8 md:mx-32 transition-all duration-1000 ease-in-out flex-1 relative mt-28',
         className
       )}
+      :inert='$store.menuOpen'
     >
       <slot />
     </main>
 
     <PageBar class='fixed top-0 right-12 py-12' label={rightBarLabel} />
-
-    <Nav />
   </body>
 </html>
-
-<style>
-  :root[data-nav-open='true'] {
-    body {
-      overflow: hidden;
-    }
-  }
-</style>

@@ -8,7 +8,7 @@ interface Props extends ButtonProps {
 
 const { href, class: className, ...props } = Astro.props;
 const baseClasses =
-  'inline-flex items-center justify-center bg-brown px-[2.375rem] cursor-pointer h-16 min-w-40 font-serif text-4xl leading-0 text-white italic shadow-lg transition-all duration-250 ease-in-out hover:opacity-75';
+  'inline-flex items-center justify-center bg-brown px-[2.375rem] focus:outline-none focus:shadow-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer h-16 min-w-40 font-serif text-4xl leading-0 text-white italic  transition-all duration-250 ease-in-out hover:opacity-75';
 ---
 
 {

@@ -6,10 +6,83 @@ const date = new Date().getFullYear();
 
 <BaseLayout title='Dylan Almond' leftBarLabel='Home'>
   <h1
+    x-data="{
+      services: [
+        'Web Development',
+        'App Design',
+        'UI/UX', 
+        'SEO Optimization',
+        'E-Commerce Solutions'
+      ],
+      currentIndex: 0,
+      isVisible: true,
+      fadeDuration: 1000,
+      displayDuration: 2000,
+      intervalId: null,
+      
+      init() {
+        console.log('Start Cycling');
+        this.startCycling();
+        
+        // Clean up when component is destroyed
+        this.$watch('$el', (el) => {
+          if (!el) this.cleanup();
+        });
+        
+        // Listen for Astro navigation events
+        document.addEventListener('astro:before-preparation', () => {
+          this.cleanup();
+        });
+      },
+      
+      cleanup() {
+        if (this.intervalId) {
+          clearInterval(this.intervalId);
+          this.intervalId = null;
+          console.log('Cleaned up interval');
+        }
+      },
+    
+      showNextService() {
+        console.log('Cycling');
+        
+        // Fade out
+        this.isVisible = false;
+        
+        setTimeout(() => {
+          // Change text after fade out and prepare next index
+          this.currentIndex = (this.currentIndex + 1) % this.services.length;
+          // Fade in
+          this.isVisible = true;
+        }, this.fadeDuration);
+      },
+      
+      startCycling() {
+        this.intervalId = setInterval(() => {
+          this.showNextService();
+        }, this.fadeDuration + this.displayDuration);
+      },
+      
+      get currentService() {
+        return this.services[this.currentIndex];
+      },
+      
+      get currentYear() {
+        return new Date().getFullYear();
+      }
+    }"
     class='fixed top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2 transform text-center leading-none capitalize'
   >
     creatively Driven<br />
-    <span id='service-label' class='transition-opacity duration-1000'></span>
+    <span
+      x-text='currentService'
+      x-show='isVisible'
+      x-transition:enter='transition-opacity duration-1000'
+      x-transition:enter-start='opacity-0'
+      x-transition:enter-end='opacity-100'
+      x-transition:leave='transition-opacity duration-1000'
+      x-transition:leave-start='opacity-100'
+      x-transition:leave-end='opacity-0'></span>
   </h1>
 
   <span
@@ -17,46 +90,6 @@ const date = new Date().getFullYear();
     >@{date} Dylan Almond</span
   >
 </BaseLayout>
-
-<script>
-  const services = [
-    'Web Development',
-    'App Design',
-    'UI/UX',
-    'SEO Optimization',
-    'E-Commerce Solutions'
-  ];
-
-  const serviceLabel = document.querySelector<HTMLSpanElement>('#service-label')!;
-  let currentIndex = 1;
-  const fadeDuration = 1000; // matches Tailwind duration-1000
-  const displayDuration = 2000; // how long each label stays visible
-
-  serviceLabel.textContent = services[0];
-
-  function showNextService() {
-    console.log('Cycling');
-
-    // Fade out
-    serviceLabel.classList.remove('opacity-100');
-    serviceLabel.classList.add('opacity-0');
-
-    setTimeout(() => {
-      // Change text after fade out
-      serviceLabel.textContent = services[currentIndex];
-      // Fade in
-      serviceLabel.classList.remove('opacity-0');
-      serviceLabel.classList.add('opacity-100');
-
-      // Prepare next index
-      currentIndex = (currentIndex + 1) % services.length;
-    }, fadeDuration);
-  }
-
-  // Start cycling
-  // showNextService();
-  setInterval(showNextService, fadeDuration + displayDuration);
-</script>
 
 <style>
   h1 {
