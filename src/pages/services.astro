@@ -19,11 +19,43 @@ const services = {
   >
     What I Deliver
   </h1>
-  <div class='grid gap-8 lg:grid-cols-2 lg:gap-32'>
+  <div
+    x-data=`{
+      activeItem: null,
+      defaultDescription: "${defaultText}",
+      currentDescription: "${defaultText}",
+      services: ${JSON.stringify(Object.entries(services).map(([name, description]) => ({ name, description })))},
+      focusedIndex: -1,
+
+      selectService(service) {
+        this.activeItem = service.name;
+        this.currentDescription = service.description;
+      },
+      
+      deselectService() {
+        this.activeItem = null;
+        this.currentDescription = this.defaultDescription;
+      },
+
+      handleKeydown(event, service) {
+        const currentIndex = this.services.findIndex(s => s.name === service.name);
+        
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          this.selectService(service);
+        } else if (event.key === 'Escape') {
+          this.deselectService();
+          event.target.blur();
+          this.focusedIndex = -1;
+        }
+      }
+    }`
+    class='grid gap-8 lg:grid-cols-2 lg:gap-32'
+  >
     <div class='flex flex-col gap-8'>
       <p
         id='service-description'
-        data-default-description={defaultText}
+        x-text='currentDescription'
         class='text-primary/80 font-serif text-2xl md:text-4xl'
       >
       </p>
@@ -31,78 +63,25 @@ const services = {
 
     <div>
       <ol>
-        {
-          Object.keys(services).map((v) => (
-            <li
-              class='hover:bg-primary data-[active=true]:bg-primary cursor-pointer gap-3! py-5! pl-3! text-[1.75rem]! before:text-xl! hover:text-white hover:before:text-white/80! data-[active=true]:text-white data-[active=true]:before:text-white/80! md:gap-6! md:py-6! md:pl-6! md:text-4xl! md:before:text-[1.75rem]! xl:text-5xl!'
-              data-service-item={v}
-              data-service-description={services[v as keyof typeof services]}
-              tabindex='0'
-              role='button'
-              aria-label={v}
-            >
-              {v}
-            </li>
-          ))
-        }
+        <template x-for='(service, index) in services' :key='service.name'>
+          <li
+            class='hover:bg-primary focus:ring-primary cursor-pointer gap-3! py-5! pl-3! text-[1.75rem]! transition-all duration-200 before:text-xl! hover:text-white hover:before:text-white/80! focus:ring-2 focus:ring-offset-2 focus:outline-none md:gap-6! md:py-6! md:pl-6! md:text-4xl! md:before:text-[1.75rem]! xl:text-5xl!'
+            :class="activeItem === service.name && 'bg-primary text-white before:text-white/80!'"
+            @click='selectService(service)'
+            @keydown='handleKeydown($event, service)'
+            tabindex='0'
+            role='button'
+            :aria-label='"Select " + service.name + " service"'
+            :aria-pressed='activeItem === service.name'
+            :aria-describedby='activeItem === service.name ? "service-description" : null'
+            x-text='service.name'
+          >
+          </li>
+        </template>
       </ol>
     </div>
   </div>
 </BaseLayout>
-
-<script>
-  const descriptionElem = document.querySelector<HTMLParagraphElement>('#service-description')!;
-  const serviceItems = document.querySelectorAll<HTMLLIElement>('[data-service-item]');
-
-  const defaultDescription = descriptionElem.getAttribute('data-default-description');
-  descriptionElem.textContent = defaultDescription;
-
-  // Helper to set active item
-  function setActiveItem(item: HTMLLIElement | null) {
-    serviceItems.forEach((i) => i.setAttribute('data-active', 'false'));
-    if (item) {
-      item.setAttribute('data-active', 'true');
-      descriptionElem.textContent = item.getAttribute('data-service-description');
-      item.focus();
-    } else {
-      descriptionElem.textContent = defaultDescription;
-    }
-  }
-
-  serviceItems.forEach((item, idx) => {
-    item.addEventListener('click', () => {
-      setActiveItem(item);
-    });
-
-    item.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        setActiveItem(item);
-      }
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        const next = serviceItems[(idx + 1) % serviceItems.length];
-        next.focus();
-      }
-      if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        const prev = serviceItems[(idx - 1 + serviceItems.length) % serviceItems.length];
-        prev.focus();
-      }
-      if (e.key === 'Escape') {
-        setActiveItem(null);
-      }
-    });
-  });
-
-  // Deselect on click away
-  document.addEventListener('click', (e) => {
-    // If click is outside any service item
-    if (![...serviceItems].some((item) => item.contains(e.target as HTMLElement))) {
-      setActiveItem(null);
-    }
-  });
-</script>
 
 <style>
   @reference '../styles/global.css';
