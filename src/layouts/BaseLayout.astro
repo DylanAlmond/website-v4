@@ -38,6 +38,7 @@ const { title, leftBarLabel, rightBarLabel, inverted = false, class: className }
         'max-w-container mx-8 md:mx-32 transition-all duration-1000 ease-in-out flex-1 relative mt-28',
         className
       )}
+      :inert='$store.menuOpen'
     >
       <slot />
     </main>
