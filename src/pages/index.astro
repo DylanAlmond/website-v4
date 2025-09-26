@@ -35,6 +35,8 @@ const date = new Date().getFullYear();
   serviceLabel.textContent = services[0];
 
   function showNextService() {
+    console.log('Cycling');
+
     // Fade out
     serviceLabel.classList.remove('opacity-100');
     serviceLabel.classList.add('opacity-0');

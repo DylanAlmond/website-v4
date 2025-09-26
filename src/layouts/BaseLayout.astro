@@ -4,6 +4,7 @@ import Nav from '../components/Nav.astro';
 import PageBar from '../components/PageBar.astro';
 import '../styles/global.css';
 import clsx from 'clsx';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -23,6 +24,7 @@ const { title, leftBarLabel, rightBarLabel, inverted = false, class: className }
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <meta name='generator' content={Astro.generator} />
     <title>{title}</title>
+    <ClientRouter />
   </head>
   <body
     class='grain flex h-full min-h-dvh w-full flex-row justify-center gap-12 py-8 transition-[padding] duration-1250 ease-in-out md:py-12'
