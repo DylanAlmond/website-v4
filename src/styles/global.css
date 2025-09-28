@@ -22,6 +22,8 @@
   --font-sans: 'Inria Sans', sans-serif;
 
   --breakpoint-3xl: 1666px;
+  --breakpoint-4xl: 1920px;
+  --spacing-container-sm: 1280px;
   --spacing-container: 1666px;
 }
 

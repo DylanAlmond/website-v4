@@ -1,0 +1,85 @@
+---
+import Header from '../components/Header.astro';
+import PageBar from '../components/PageBar.astro';
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+---
+
+<html lang='en' x-data='inverted(false)' :class="$store.menuOpen && 'overflow-hidden'">
+  <head>
+    <meta charset='utf-8' />
+    <link rel='icon' type='image/png' href='/favicon.png' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='generator' content={Astro.generator} />
+    <title>{post.data.title}</title>
+    <script src='../scripts/local.ts'></script>
+    <ClientRouter />
+  </head>
+  <body
+    class='grain flex h-full min-h-dvh w-full flex-row justify-center gap-12 py-8 transition-[padding] duration-1250 ease-in-out md:py-12'
+  >
+    <Header />
+
+    <PageBar class='fixed top-0 left-12 py-12' label={post.data.title} />
+
+    <main
+      class={'max-w-container-sm mx-8 md:mx-32 transition-all duration-1000 ease-in-out flex-1 relative mt-28 4xl:mt-0'}
+      :inert='$store.menuOpen'
+    >
+      <article class='flex flex-col gap-8'>
+        <!-- Featured Image -->
+        <Image src={post.data.image.src} alt={post.data.image.alt} width={1280} height={700} />
+
+        <header class='flex flex-col gap-4'>
+          <h1 class='text-[5.25rem] leading-27'>{post.data.title}</h1>
+
+          <hr class='border-primary w-full border-1' />
+
+          <div class='mt-4 grid grid-cols-2 gap-8'>
+            <div class='flex flex-col gap-5'>
+              <!-- Tags -->
+              <div class='grid grid-cols-[10rem_1fr]'>
+                <h6 class='font-sans! text-2xl font-bold'>Category</h6>
+
+                <ul class='text-primary/80 mt-1 text-xl capitalize'>
+                  {post.data.tags.map((tag) => <li>{tag}</li>)}
+                </ul>
+              </div>
+
+              <!-- Published -->
+              <div class='grid grid-cols-[10rem_1fr]'>
+                <h6 class='font-sans! text-2xl font-bold'>Year</h6>
+
+                <span class='text-primary/80 mt-1 text-xl capitalize'
+                  >{post.data.date.getFullYear()}</span
+                >
+              </div>
+            </div>
+
+            <!-- Description -->
+            {
+              post.data.description && (
+                <p class='text-primary/80 text-xl'>{post.data.description}</p>
+              )
+            }
+          </div>
+        </header>
+
+        <!-- Post Content -->
+        <section class="prose prose-xl mt-4">
+          <slot />
+        </section>
+      </article>
+    </main>
+
+    <PageBar class='fixed top-0 right-12 py-12' />
+  </body>
+</html>
