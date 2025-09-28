@@ -20,7 +20,7 @@ const { post } = Astro.props;
     <link rel='icon' type='image/png' href='/favicon.png' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <meta name='generator' content={Astro.generator} />
-    <title>{post.data.title}</title>
+    <title>{post.data.title} - Dylan Almond</title>
     <script src='../scripts/local.ts'></script>
     <ClientRouter />
   </head>
@@ -29,7 +29,7 @@ const { post } = Astro.props;
   >
     <Header />
 
-    <PageBar class='fixed top-0 left-12 py-12' label={post.data.title} />
+    <PageBar class='fixed top-0 left-12 py-12' label={`Blog - ${post.data.title}`} />
 
     <main
       class={'max-w-container-sm mx-8 md:mx-32 transition-all duration-1000 ease-in-out flex-1 relative mt-28 4xl:mt-0'}
