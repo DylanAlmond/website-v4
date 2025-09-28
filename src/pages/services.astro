@@ -25,9 +25,8 @@ const services = {
       defaultDescription: "${defaultText}",
       currentDescription: "${defaultText}",
       services: ${JSON.stringify(Object.entries(services).map(([name, description]) => ({ name, description })))},
-      focusedIndex: -1,
 
-      selectService(service) {
+      selectService(service) {        
         this.activeItem = service.name;
         this.currentDescription = service.description;
       },
@@ -35,19 +34,6 @@ const services = {
       deselectService() {
         this.activeItem = null;
         this.currentDescription = this.defaultDescription;
-      },
-
-      handleKeydown(event, service) {
-        const currentIndex = this.services.findIndex(s => s.name === service.name);
-        
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          this.selectService(service);
-        } else if (event.key === 'Escape') {
-          this.deselectService();
-          event.target.blur();
-          this.focusedIndex = -1;
-        }
       }
     }`
     class='grid gap-8 lg:grid-cols-2 lg:gap-32'
@@ -62,13 +48,17 @@ const services = {
     </div>
 
     <div>
-      <ol class='divide-primary border-primary divide-y-2 border-y-2'>
+      <ol
+        @click.outside='deselectService()'
+        @keyup.escape='deselectService()'
+        class='divide-primary border-primary divide-y-2 border-y-2'
+      >
         <template x-for='(service, index) in services' :key='service.name'>
           <li>
             <button
               class='hover:bg-primary focus:ring-primary before:text-primary/80 flex w-full cursor-pointer items-center gap-3 py-4 pl-3 font-serif text-[1.75rem] transition-all duration-200 before:text-xl hover:text-white hover:before:text-white/80 focus:ring-2 focus:ring-offset-2 focus:outline-none md:gap-6 md:py-6 md:pl-6 md:text-4xl md:before:text-[1.75rem] xl:text-5xl'
               :class="activeItem === service.name && 'bg-primary text-white before:text-white/80'"
-              @click='selectService(service)'
+              @click.self='selectService(service)'
               :aria-label='"Select " + service.name + " service"'
               :aria-pressed='activeItem === service.name'
               :aria-describedby='activeItem === service.name ? "service-description" : null'
