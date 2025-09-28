@@ -62,20 +62,19 @@ const services = {
     </div>
 
     <div>
-      <ol>
+      <ol class='divide-primary border-primary divide-y-2 border-y-2'>
         <template x-for='(service, index) in services' :key='service.name'>
-          <li
-            class='hover:bg-primary focus:ring-primary cursor-pointer gap-3! py-5! pl-3! text-[1.75rem]! transition-all duration-200 before:text-xl! hover:text-white hover:before:text-white/80! focus:ring-2 focus:ring-offset-2 focus:outline-none md:gap-6! md:py-6! md:pl-6! md:text-4xl! md:before:text-[1.75rem]! xl:text-5xl!'
-            :class="activeItem === service.name && 'bg-primary text-white before:text-white/80!'"
-            @click='selectService(service)'
-            @keydown='handleKeydown($event, service)'
-            tabindex='0'
-            role='button'
-            :aria-label='"Select " + service.name + " service"'
-            :aria-pressed='activeItem === service.name'
-            :aria-describedby='activeItem === service.name ? "service-description" : null'
-            x-text='service.name'
-          >
+          <li>
+            <button
+              class='hover:bg-primary focus:ring-primary before:text-primary/80 flex w-full cursor-pointer items-center gap-3 py-4 pl-3 font-serif text-[1.75rem] transition-all duration-200 before:text-xl hover:text-white hover:before:text-white/80 focus:ring-2 focus:ring-offset-2 focus:outline-none md:gap-6 md:py-6 md:pl-6 md:text-4xl md:before:text-[1.75rem] xl:text-5xl'
+              :class="activeItem === service.name && 'bg-primary text-white before:text-white/80'"
+              @click='selectService(service)'
+              :aria-label='"Select " + service.name + " service"'
+              :aria-pressed='activeItem === service.name'
+              :aria-describedby='activeItem === service.name ? "service-description" : null'
+              x-text='service.name'
+            >
+            </button>
           </li>
         </template>
       </ol>
@@ -87,18 +86,15 @@ const services = {
   @reference '../styles/global.css';
 
   ol {
-    @apply divide-primary border-primary divide-y-2 border-y-2;
     list-style: none;
     counter-reset: list-counter;
-  }
 
-  li {
-    @apply flex items-center gap-6 py-6 pl-6 font-serif text-5xl;
-    counter-increment: list-counter;
+    button {
+      counter-increment: list-counter;
 
-    &::before {
-      @apply text-primary/80 text-[1.75rem];
-      content: counter(list-counter, decimal-leading-zero) ' ';
+      &::before {
+        content: counter(list-counter, decimal-leading-zero) ' ';
+      }
     }
   }
 </style>
