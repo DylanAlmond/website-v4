@@ -30,7 +30,7 @@ const posts = (await getCollection('blog')).sort(
         posts.map((post) => (
           <a
             x-show={`activeItem?.id === '${post.id}'`}
-            x-transition:enter='transition-all duration-700 ease-out'
+            x-transition:enter='transition-all duration-500 ease-in'
             x-transition:enter-start='opacity-0'
             x-transition:enter-end='opacity-100'
             x-transition:leave='transition-all duration-500 ease-in'
