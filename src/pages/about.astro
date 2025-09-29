@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ChapelImage from '../images/chapel.png';
 ---
 
 <BaseLayout title='About' inverted={true}>
@@ -7,17 +9,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     Based in Southampton, I collaborate with businesses across the UK and beyond to create modern
     websites, apps, and digital products that stand out.
   </h1>
+
+  <Image
+    class='fixed top-0 left-0 -z-1 h-full w-full object-cover object-center'
+    src={ChapelImage}
+    alt={'A chapel.'}
+  />
 </BaseLayout>
 
 <style>
-  body {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-image:
-      linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/src/images/chapel.png');
-  }
-
   h1 {
     font-size: clamp(1rem, min(10vw, 7.25vh), 6rem);
     line-height: 1.1;
