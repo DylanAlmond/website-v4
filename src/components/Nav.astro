@@ -19,7 +19,7 @@ const routes = {
   <!-- Toggle Button -->
   <button
     class='focus:ring-primary cursor-pointer transition-all duration-250 focus:shadow-none focus:ring-2 focus:ring-offset-2 focus:outline-none'
-    @click='$store.menuOpen = ! $store.menuOpen'
+    @click='$store.menuOpen = !$store.menuOpen'
   >
     <img
       :src="inverted && !$store.menuOpen ? '/menu-inverted.svg' : '/menu.svg'"

@@ -37,7 +37,12 @@ const { post } = Astro.props;
     >
       <article class='flex flex-col'>
         <!-- Featured Image -->
-        <Image class={'shadow-xl w-full'} src={post.data.image.src} alt={post.data.image.alt} />
+        <Image
+          class={'shadow-xl'}
+          src={post.data.image.src}
+          alt={post.data.image.alt}
+          layout={'full-width'}
+        />
 
         <header class='mt-8 flex flex-col gap-4'>
           <h1 class='text-5xl md:text-[5.25rem] md:leading-27'>{post.data.title}</h1>
@@ -141,7 +146,7 @@ const { post } = Astro.props;
 
     img,
     video {
-      @apply mt-6 md:mt-8 w-full shadow-xl;
+      @apply mt-6 w-full shadow-xl md:mt-8;
     }
   }
 </style>
