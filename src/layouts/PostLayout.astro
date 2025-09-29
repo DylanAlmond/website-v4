@@ -29,7 +29,7 @@ const { post } = Astro.props;
   >
     <Header />
 
-    <PageBar class='fixed top-0 left-12 py-12' label={`Blog - ${post.data.title}`} />
+    <PageBar class='fixed top-0 left-12 py-12' label={`Work - ${post.data.title}`} />
 
     <main
       class={'max-w-container-sm mx-8 md:mx-32 transition-all duration-1000 ease-in-out flex-1 relative mt-28 4xl:mt-0'}
@@ -38,7 +38,7 @@ const { post } = Astro.props;
       <article class='flex flex-col'>
         <!-- Featured Image -->
         <Image
-          class={'shadow-xl'}
+          class={'shadow-xl aspect-16/9 bg-white object-contain w-full'}
           src={post.data.image.src}
           alt={post.data.image.alt}
           layout={'full-width'}
@@ -49,8 +49,8 @@ const { post } = Astro.props;
 
           <hr class='border-primary w-full border-1' />
 
-          <div class='mt-4 grid gap-8 md:grid-cols-2'>
-            <div class='flex flex-col gap-5'>
+          <div class='mt-4 flex flex-col gap-8 lg:flex-row'>
+            <div class='flex flex-1 flex-col gap-5'>
               <!-- Tags -->
               <div class='grid grid-cols-[10rem_1fr]'>
                 <h6 class='font-sans! text-xl font-bold md:text-2xl'>Category</h6>
@@ -73,7 +73,7 @@ const { post } = Astro.props;
             <!-- Description -->
             {
               post.data.description && (
-                <p class='text-primary/80 text-xl'>{post.data.description}</p>
+                <p class='text-primary/80 flex-1 text-xl'>{post.data.description}</p>
               )
             }
           </div>
