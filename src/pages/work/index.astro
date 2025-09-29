@@ -1,0 +1,88 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title='Work' class='flex flex-col'>
+  <div
+    x-data=`{
+      posts: ${JSON.stringify(posts)},
+      activeItem: ${JSON.stringify(posts[0])},
+
+      highlightWork(data) {      
+        this.activeItem = data;
+      },
+      
+      reset() {
+        this.activeItem = null;
+      }
+    }`
+    class='grid h-full gap-16 xl:grid-cols-2'
+  >
+    <div class='relative hidden overflow-hidden xl:flex'>
+      <!-- Workaround due to not being able to serve /src/images content dynamically from a single `<Image />` component. -->
+      {
+        posts.map((post) => (
+          <a
+            x-show={`activeItem?.id === '${post.id}'`}
+            x-transition:enter='transition-all duration-700 ease-out'
+            x-transition:enter-start='opacity-0'
+            x-transition:enter-end='opacity-100'
+            x-transition:leave='transition-all duration-500 ease-in'
+            x-transition:leave-start='opacity-100'
+            x-transition:leave-end='opacity-0'
+            aria-label={`"Go to ${post.data.title} project"`}
+            class='absolute inset-0'
+            href={`/work/${post.id}`}
+          >
+            <Image
+              src={post.data.image.src}
+              alt={post.data.image.alt}
+              class='h-full w-full object-cover'
+            />
+          </a>
+        ))
+      }
+    </div>
+
+    <div class='overflow-hidden'>
+      <h1
+        class='text-inverted mb-8 text-[3.5rem] capitalize mix-blend-difference shadow-lg md:text-8xl'
+      >
+        Work
+      </h1>
+
+      <ul
+        class='divide-primary border-primary no-scrollbar h-full divide-y-2 overflow-x-visible overflow-y-auto border-y-2 pb-8'
+      >
+        <template x-for='(post, index) in posts' :key='post.id'>
+          <li>
+            <a
+              class='hover:bg-primary focus:ring-primary flex w-full cursor-pointer items-center gap-3 py-4 pl-3 font-serif text-[1.75rem] transition-all duration-200 hover:text-white focus:ring-2 focus:ring-offset-2 focus:outline-none md:gap-6 md:py-6 md:pl-6 md:text-4xl xl:text-5xl'
+              :class="activeItem?.id === post.id && 'bg-primary text-white'"
+              :aria-label='"Go to " + post.data.title + " project"'
+              :aria-pressed='activeItem?.id === post.id'
+              @mouseover='highlightWork(post)'
+              x-text='post.data.title'
+              :href='"/work/" + post.id'
+            >
+            </a>
+          </li>
+        </template>
+      </ul>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  @reference '../../styles/global.css';
+
+  body {
+    @apply h-dvh overflow-hidden;
+  }
+</style>

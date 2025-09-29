@@ -40,6 +40,15 @@ body {
   @apply bg-background text-primary;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .grain {
   &::before {
     animation: grain 8s steps(10) infinite;
