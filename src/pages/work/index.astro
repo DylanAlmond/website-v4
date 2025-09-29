@@ -68,6 +68,7 @@ const posts = (await getCollection('blog')).sort(
               :aria-label='"Go to " + post.data.title + " project"'
               :aria-pressed='activeItem?.id === post.id'
               @mouseover='highlightWork(post)'
+              @focus='highlightWork(post)'
               x-text='post.data.title'
               :href='"/work/" + post.id'
             >
