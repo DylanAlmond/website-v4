@@ -37,35 +37,29 @@ const { post } = Astro.props;
     >
       <article class='flex flex-col'>
         <!-- Featured Image -->
-        <Image
-          class={'shadow-xl'}
-          src={post.data.image.src}
-          alt={post.data.image.alt}
-          width={1280}
-          height={700}
-        />
+        <Image class={'shadow-xl w-full'} src={post.data.image.src} alt={post.data.image.alt} />
 
         <header class='mt-8 flex flex-col gap-4'>
-          <h1 class='text-[5.25rem] leading-27'>{post.data.title}</h1>
+          <h1 class='text-5xl md:text-[5.25rem] md:leading-27'>{post.data.title}</h1>
 
           <hr class='border-primary w-full border-1' />
 
-          <div class='mt-4 grid grid-cols-2 gap-8'>
+          <div class='mt-4 grid gap-8 md:grid-cols-2'>
             <div class='flex flex-col gap-5'>
               <!-- Tags -->
               <div class='grid grid-cols-[10rem_1fr]'>
-                <h6 class='font-sans! text-2xl font-bold'>Category</h6>
+                <h6 class='font-sans! text-xl font-bold md:text-2xl'>Category</h6>
 
-                <ul class='text-primary/80 mt-1 text-xl capitalize'>
+                <ul class='text-primary/80 mt-0.5 text-lg capitalize md:mt-1 md:text-xl'>
                   {post.data.tags.map((tag) => <li>{tag}</li>)}
                 </ul>
               </div>
 
               <!-- Published -->
               <div class='grid grid-cols-[10rem_1fr]'>
-                <h6 class='font-sans! text-2xl font-bold'>Year</h6>
+                <h6 class='font-sans! text-xl font-bold md:text-2xl'>Year</h6>
 
-                <span class='text-primary/80 mt-1 text-xl capitalize'
+                <span class='text-primary/80 mt-0.5 text-lg capitalize md:mt-1 md:text-xl'
                   >{post.data.date.getFullYear()}</span
                 >
               </div>
@@ -85,8 +79,10 @@ const { post } = Astro.props;
           <slot />
         </section>
 
-        <footer class='border-primary mt-8 flex items-center justify-between border-t-2 pt-8'>
-          <span class='font-serif text-5xl'>{post.data.title}</span>
+        <footer
+          class='border-primary mt-8 flex flex-col items-start justify-between gap-4 border-t-2 pt-3 md:flex-row md:items-center md:pt-8'
+        >
+          <span class='font-serif text-[2rem] md:text-5xl'>{post.data.title}</span>
           <Button href='/'>Next Project</Button>
         </footer>
       </article>
@@ -116,35 +112,36 @@ const { post } = Astro.props;
     h4,
     h5,
     h6 {
-      @apply text-primary mt-8 font-serif;
+      @apply text-primary mt-6 font-serif md:mt-8;
     }
 
     h1 {
-      @apply text-[4rem];
+      @apply text-[3.5rem] md:text-[4rem];
     }
 
     h2 {
-      @apply text-[3.5rem];
+      @apply text-[3rem] md:text-[3.5rem];
     }
 
     h3 {
-      @apply text-[3rem];
+      @apply text-[2.5rem] md:text-[3rem];
     }
 
     h4 {
-      @apply text-[2.5rem];
+      @apply text-[2rem] md:text-[2.5rem];
     }
 
     h5 {
-      @apply text-[2rem];
+      @apply text-[1.5rem] md:text-[2rem];
     }
 
     h6 {
-      @apply text-[1.5rem];
+      @apply text-[1.25rem] md:text-[1.5rem];
     }
 
-    img {
-      @apply mt-8 w-full shadow-xl;
+    img,
+    video {
+      @apply mt-6 md:mt-8 w-full shadow-xl;
     }
   }
 </style>
