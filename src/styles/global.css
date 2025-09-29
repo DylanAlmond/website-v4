@@ -42,14 +42,15 @@ body {
 
 .grain {
   &::before {
-    animation: grain 12s steps(10) infinite;
+    animation: grain 8s steps(10) infinite;
     background-image: url('/noise.svg');
     content: '';
     height: 300%;
     width: 300%;
     left: -100%;
     top: -110%;
-    opacity: 0.4;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
     position: fixed;
   }
 }
