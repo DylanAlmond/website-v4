@@ -34,6 +34,12 @@ const services = {
       deselectService() {
         this.activeItem = null;
         this.currentDescription = this.defaultDescription;
+
+        const activeIsChildOfList = !!document.activeElement.closest('[data-list]');
+
+        if (activeIsChildOfList) {
+          document.activeElement.blur();
+        }
       }
     }`
     class='grid gap-8 lg:grid-cols-2 lg:gap-32'
@@ -49,6 +55,7 @@ const services = {
 
     <div>
       <ol
+        data-list
         @click.outside='deselectService()'
         @keyup.escape='deselectService()'
         class='divide-primary border-primary divide-y-2 border-y-2'
