@@ -56,8 +56,8 @@ const services = {
         <template x-for='(service, index) in services' :key='service.name'>
           <li>
             <button
-              class='hover:bg-primary focus:ring-primary before:text-primary/80 flex w-full cursor-pointer items-center gap-3 py-4 pl-3 font-serif text-[1.75rem] transition-all duration-200 before:text-xl hover:text-white hover:before:text-white/80 focus:ring-2 focus:ring-offset-2 focus:outline-none md:gap-6 md:py-6 md:pl-6 md:text-4xl md:before:text-[1.75rem] xl:text-5xl'
-              :class="activeItem === service.name && 'bg-primary text-white before:text-white/80'"
+              class='hover:bg-primary/90 before:text-primary/80 focus:bg-primary/90 flex w-full cursor-pointer items-center gap-3 py-4 pl-3 font-serif text-[1.75rem] transition-all duration-200 before:text-xl hover:text-white hover:before:text-white/80 focus:text-white focus:outline-none focus:before:text-white/80 md:gap-6 md:py-6 md:pl-6 md:text-4xl md:before:text-[1.75rem] xl:text-5xl'
+              :class="activeItem === service.name && 'bg-primary! text-white before:text-white/80'"
               @click.self='selectService(service)'
               :aria-label='"Select " + service.name + " service"'
               :aria-pressed='activeItem === service.name'

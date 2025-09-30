@@ -53,7 +53,7 @@ const routes = {
           <template x-for='(route, index) in routes' :key='route.name'>
             <li>
               <a
-                class='before:text-primary/80 hover:bg-primary flex cursor-pointer items-center gap-8 py-5 pl-3 font-serif text-5xl transition-all duration-250 before:text-[1.75rem] hover:text-white hover:before:text-white/80 focus:shadow-none focus:ring-2 focus:ring-offset-2 focus:outline-none md:py-8 md:pl-8 md:text-[5.25rem]'
+                class='before:text-primary/80 hover:bg-primary focus:bg-primary flex cursor-pointer items-center gap-8 py-5 pl-3 font-serif text-5xl transition-all duration-250 before:text-[1.75rem] hover:text-white hover:before:text-white/80 focus:text-white focus:shadow-none focus:outline-none focus:before:text-white/80 md:py-8 md:pl-8 md:text-[5.25rem]'
                 :href='route.href'
                 x-text='route.name'
               >
