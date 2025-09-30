@@ -4,7 +4,6 @@ import PageBar from '../components/PageBar.astro';
 import '../styles/global.css';
 import clsx from 'clsx';
 import { ClientRouter } from 'astro:transitions';
-import Shapes from '../components/Shapes.astro';
 
 interface Props {
   title: string;
@@ -43,8 +42,6 @@ const { title, leftBarLabel, rightBarLabel, inverted = false, class: className }
     >
       <slot />
     </main>
-
-    <Shapes />
 
     <PageBar class='fixed top-0 right-12 py-12' label={rightBarLabel} />
   </body>

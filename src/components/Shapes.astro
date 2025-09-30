@@ -1,153 +1,27 @@
 ---
+import clsx from 'clsx';
+import type { ShapeOptions } from './ShapeManager';
 
+interface Props {
+  shapes: ShapeOptions[];
+  class?: string;
+}
+
+const { shapes, class: className } = Astro.props;
+
+// Generate a unique ID for every canvas element
+const canvasId = `canvas-${Math.random().toString(36).substring(2, 11)}`;
 ---
 
-<div class='fixed top-0 left-0 z-1 h-full w-full'>
-  <div class='w-ful relative h-full' id='shapes'></div>
+<div class={clsx('absolute top-0 left-0 h-full w-full pointer-events-none', className)}>
+  <canvas id={canvasId} class='h-full w-full'> </canvas>
 </div>
 
-<script>
-  function createMovingPolygon(options: {
-    percentX: number;
-    percentY: number;
-    radius?: number;
-    sides?: number;
-    speed?: number;
-    stroke?: string;
-    strokeWidth?: number;
-    strokeDasharray?: string;
-    offset?: number;
-    rotation?: number; // rotation in degrees
-  }) {
-    const {
-      percentX,
-      percentY,
-      radius = 50,
-      sides = 5,
-      speed = 0.01,
-      stroke = 'rgba(0,0,0,0.7)',
-      strokeWidth = 4,
-      strokeDasharray = '',
-      offset = 60,
-      rotation = 0 // default override
-    } = options;
-
-    const shapesDiv = document.getElementById('shapes');
-    if (!shapesDiv) return;
-
-    const svgNS = 'http://www.w3.org/2000/svg';
-    const svg = document.createElementNS(svgNS, 'svg');
-    svg.setAttribute('width', window.innerWidth.toString());
-    svg.setAttribute('height', window.innerHeight.toString());
-    svg.style.position = 'absolute';
-    svg.style.top = '0';
-    svg.style.left = '0';
-    svg.style.transformOrigin = 'center center';
-
-    let originX = window.innerWidth * percentX;
-    let originY = window.innerHeight * percentY;
-
-    // 1080 = reference design height/width designed for
-    let scaleFactor = Math.max(0.5, Math.min(window.innerWidth, window.innerHeight) / 1080);
-
-    const polygon = document.createElementNS(svgNS, 'polygon');
-    polygon.setAttribute('fill', 'none');
-    polygon.setAttribute('stroke', stroke);
-    polygon.setAttribute('stroke-width', (strokeWidth * scaleFactor).toString());
-    if (strokeDasharray) polygon.setAttribute('stroke-dasharray', strokeDasharray);
-    svg.appendChild(polygon);
-    shapesDiv.appendChild(svg);
-
-    // polygon.style.transform = `scale(${scaleFactor})`;
-
-    // Rotation logic:
-    // Odd-sided: top vertex up (-90°)
-    // Even-sided: flat base (-180 / sides)
-    const rotationRad = (((sides % 2 === 0 ? -180 / sides : -90) + rotation) * Math.PI) / 180;
-
-    // Assign random direction and phase
-    const direction = Math.random() < 0.5 ? 1 : -1;
-    const phase = Math.random() * 2 * Math.PI;
-
-    let t = 0;
-    function animate() {
-      t += speed;
-      const scaledOffset = offset * scaleFactor;
-
-      const centerX = originX + scaledOffset * Math.cos(direction * t + phase);
-      const centerY = originY + scaledOffset * Math.sin(direction * t + phase);
-
-      const points: string[] = [];
-      for (let i = 0; i < sides; i++) {
-        const theta = (2 * Math.PI * i) / sides + rotationRad;
-
-        const x = centerX + radius * scaleFactor * Math.cos(theta);
-        const y = centerY + radius * scaleFactor * Math.sin(theta);
-        points.push(`${x},${y}`);
-      }
-      polygon.setAttribute('points', points.join(' '));
-      requestAnimationFrame(animate);
+<script define:vars={{ canvasId, shapes }}>
+  import('./src/components/ShapeManager.ts').then(({ ShapeManager }) => {
+    const canvas = document.getElementById(canvasId);
+    if (canvas && shapes) {
+      new ShapeManager(canvas, shapes);
     }
-    animate();
-
-    function handleResize() {
-      svg.setAttribute('width', window.innerWidth.toString());
-      svg.setAttribute('height', window.innerHeight.toString());
-      originX = window.innerWidth * percentX;
-      originY = window.innerHeight * percentY;
-
-      scaleFactor = Math.max(0.5, Math.min(window.innerWidth, window.innerHeight) / 1080);
-      polygon.setAttribute('stroke-width', (strokeWidth * scaleFactor).toString());
-
-      // polygon.style.transform = `scale(${scaleFactor})`;
-    }
-
-    window.addEventListener('resize', handleResize);
-
-    svg.addEventListener('DOMNodeRemoved', () => {
-      window.removeEventListener('resize', handleResize);
-    });
-  }
-
-  // Triangle (solid outline)
-  createMovingPolygon({
-    percentX: 0.32,
-    percentY: 0.6,
-    radius: 200,
-    sides: 3,
-    speed: 0.0025,
-    offset: 10,
-    stroke: 'var(--color-red)',
-    strokeWidth: 8,
-    strokeDasharray: '',
-    rotation: 45
-  });
-
-  // Square (dashed outline)
-  createMovingPolygon({
-    percentX: 0.16,
-    percentY: 0.27,
-    radius: 180,
-    sides: 4,
-    speed: 0.0025,
-    offset: 10,
-    stroke: 'var(--color-green)',
-    strokeWidth: 8,
-    strokeDasharray: '',
-    rotation: 15
-  });
-
-  // Pentagon (solid outline)
-  createMovingPolygon({
-    percentX: 0.82,
-    percentY: 0.75,
-    radius: 170,
-    sides: 5,
-    speed: 0.0025,
-    offset: 10,
-    stroke: 'var(--color-yellow)',
-    strokeWidth: 8,
-    strokeDasharray: '',
-    rotation: 10
   });
 </script>

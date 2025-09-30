@@ -1,5 +1,7 @@
 ---
 import PageBar from './PageBar.astro';
+import type { ShapeOptions } from './ShapeManager';
+import Shapes from './Shapes.astro';
 
 const routes = {
   Home: '/',
@@ -8,6 +10,35 @@ const routes = {
   Services: '/services',
   Contact: '/contact'
 };
+
+const defaultShapes: ShapeOptions[] = [
+  {
+    // Triangle
+    type: 'polygon',
+    percentX: 0.25,
+    percentY: 0.5,
+    radius: 350,
+    sides: 3,
+    speed: 0.0025,
+    offset: 10,
+    stroke: '#d03232',
+    strokeWidth: 16,
+    rotation: -15
+  },
+  {
+    // Pentagon
+    type: 'polygon',
+    percentX: 0.82,
+    percentY: 0.75,
+    radius: 170,
+    sides: 5,
+    speed: 0.0025,
+    offset: 10,
+    stroke: '#3489c7',
+    strokeWidth: 8,
+    rotation: 10
+  }
+];
 ---
 
 <div
@@ -41,6 +72,8 @@ const routes = {
       x-transition:leave-end='opacity-0'
       class='grain bg-background fixed top-0 left-0 z-10 flex h-full min-h-dvh w-full flex-row justify-center gap-12 overflow-y-scroll py-8 md:py-12'
     >
+      <Shapes class='blur-sm' shapes={defaultShapes} />
+
       <!-- Header Shows Here -->
 
       <PageBar class='fixed top-0 left-12 py-12' label={'Menu'} />
