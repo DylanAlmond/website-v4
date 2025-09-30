@@ -9,9 +9,10 @@ import Button from '../components/Button.astro';
 
 interface Props {
   post: CollectionEntry<'blog'>;
+  next: CollectionEntry<'blog'>;
 }
 
-const { post } = Astro.props;
+const { post, next } = Astro.props;
 ---
 
 <html lang='en' x-data='inverted(false)' :class="$store.menuOpen && 'overflow-hidden'">
@@ -88,7 +89,8 @@ const { post } = Astro.props;
           class='border-primary mt-8 flex flex-col items-start justify-between gap-4 border-t-2 pt-3 md:flex-row md:items-center md:pt-8'
         >
           <span class='font-serif text-[2rem] md:text-5xl'>{post.data.title}</span>
-          <Button href='/'>Next Project</Button>
+
+          <Button href={`/work/${next.id}`}>Next Project</Button>
         </footer>
       </article>
     </main>
