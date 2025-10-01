@@ -1,6 +1,5 @@
 ---
 import type { ShapeOptions } from '../components/ShapeManager';
-import Shapes from '../components/Shapes.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const date = new Date().getFullYear();
@@ -13,7 +12,7 @@ const defaultShapes: ShapeOptions[] = [
     percentY: 0.6,
     radius: 200,
     sides: 3,
-    speed: 0.0025,
+    speed: 0.005,
     offset: 10,
     stroke: '#d03232',
     strokeWidth: 8,
@@ -26,7 +25,7 @@ const defaultShapes: ShapeOptions[] = [
     percentY: 0.27,
     width: 240,
     height: 240,
-    speed: 0,
+    speed: 0.005,
     offset: 10,
     stroke: '#34c738',
     strokeWidth: 8,
@@ -39,7 +38,7 @@ const defaultShapes: ShapeOptions[] = [
     percentY: 0.75,
     radius: 170,
     sides: 5,
-    speed: 0.0025,
+    speed: 0.005,
     offset: 10,
     stroke: '#ffc300',
     strokeWidth: 8,
@@ -51,7 +50,7 @@ const defaultShapes: ShapeOptions[] = [
     percentX: 0.67,
     percentY: 0.4,
     radius: 150,
-    speed: 0.0025,
+    speed: 0.005,
     offset: 10,
     stroke: '#3489C7',
     strokeDasharray: '16, 16',
@@ -66,7 +65,7 @@ const defaultShapes: ShapeOptions[] = [
     percentY: 0.81,
     width: 300,
     height: 150,
-    speed: 0,
+    speed: 0.005,
     offset: 10,
     stroke: '#C7347B',
     strokeDasharray: '16, 16',
@@ -77,9 +76,7 @@ const defaultShapes: ShapeOptions[] = [
 ];
 ---
 
-<Shapes class='fixed top-0 left-0 h-full w-full' shapes={defaultShapes} />
-
-<BaseLayout title='Dylan Almond' leftBarLabel='Home'>
+<BaseLayout title='Dylan Almond' leftBarLabel='Home' shapes={defaultShapes}>
   <h1
     class='text-inverted fixed top-1/2 left-1/2 z-10 w-full -translate-x-1/2 -translate-y-1/2 transform text-center leading-none capitalize mix-blend-difference select-none'
     x-data="{
@@ -97,7 +94,7 @@ const defaultShapes: ShapeOptions[] = [
       intervalId: null,
       
       init() {
-        console.log('Start Cycling');
+        // console.log('Start Cycling');
         this.startCycling();
         
         // Clean up when component is destroyed
@@ -115,12 +112,12 @@ const defaultShapes: ShapeOptions[] = [
         if (this.intervalId) {
           clearInterval(this.intervalId);
           this.intervalId = null;
-          console.log('Cleaned up interval');
+          // console.log('Cleaned up interval');
         }
       },
     
       showNextService() {
-        console.log('Cycling');
+        // console.log('Cycling');
         
         // Fade out
         this.isVisible = false;

@@ -1,6 +1,5 @@
 ---
 import type { ShapeOptions } from '../components/ShapeManager';
-import Shapes from '../components/Shapes.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const defaultText = `I deliver modern digital solutions that prepare businesses for what's next. From brand transformation to striking visual content, I turn strategy into measurable impact.`;
@@ -22,7 +21,7 @@ const defaultShapes: ShapeOptions[] = [
     percentY: 0.7,
     radius: 200,
     sides: 3,
-    speed: 0.0005,
+    speed: 0.005,
     offset: 10,
     stroke: '#d03232',
     strokeWidth: 8,
@@ -36,7 +35,7 @@ const defaultShapes: ShapeOptions[] = [
     radius: 500,
     sides: 5,
     speed: 0.0005,
-    offset: 10,
+    offset: 40,
     stroke: '#ffc300',
     strokeWidth: 16,
     rotation: 10
@@ -44,9 +43,7 @@ const defaultShapes: ShapeOptions[] = [
 ];
 ---
 
-<Shapes class='fixed top-0 left-0 h-full w-full' shapes={defaultShapes} />
-
-<BaseLayout title='Services' class='flex flex-col'>
+<BaseLayout title='Services' class='flex flex-col' shapes={defaultShapes}>
   <h1
     class='text-inverted mb-8 text-[3.5rem] capitalize mix-blend-difference shadow-lg md:text-8xl'
   >

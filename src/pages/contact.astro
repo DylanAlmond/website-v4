@@ -1,6 +1,5 @@
 ---
 import type { ShapeOptions } from '../components/ShapeManager';
-import Shapes from '../components/Shapes.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const date = new Date().getFullYear();
@@ -35,13 +34,9 @@ const defaultShapes: ShapeOptions[] = [
 ];
 ---
 
-<Shapes
-  class='fixed top-0 left-0 h-full w-full'
-  shapes={defaultShapes}
-/>
-
 <BaseLayout
   title='Contact'
+  shapes={defaultShapes}
   class='mt-4 flex flex-col items-center gap-12 xl:flex-row xl:items-start xl:justify-between'
 >
   <h1
