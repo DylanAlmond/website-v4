@@ -32,6 +32,7 @@ export class ShapeManager {
   private scaleFactor: number = 1;
   private animationId: number | null = null;
   private isRunning: boolean = false;
+  private resizeObserver!: ResizeObserver;
   private debug: boolean = false;
 
   constructor(
@@ -51,8 +52,14 @@ export class ShapeManager {
 
     this.debug = debug;
 
-    this.resize();
-    window.addEventListener('resize', () => this.resize());
+    // Wait a frame for content shift
+    requestAnimationFrame(() => {
+      this.resize();
+    });
+
+    // window.addEventListener('resize', () => this.resize());
+    this.resizeObserver = new ResizeObserver(() => this.resize());
+    this.resizeObserver.observe(canvas);
 
     console.log(`${this.id} - starting`);
     this.isRunning = true;
@@ -60,11 +67,20 @@ export class ShapeManager {
   }
 
   private resize() {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
+    // this.canvas.width = window.innerWidth;
+    // this.canvas.height = window.innerHeight;
+
+    this.canvas.width = this.canvas.clientWidth;
+    this.canvas.height = this.canvas.clientHeight;
+
+    // this.scaleFactor = Math.max(
+    //   0.5,
+    //   Math.min(window.innerWidth, window.innerHeight) / 1080,
+    // );
+
     this.scaleFactor = Math.max(
-      0.5,
-      Math.min(window.innerWidth, window.innerHeight) / 1080,
+      0.25,
+      Math.min(this.canvas.clientWidth, this.canvas.clientHeight) / 1080,
     );
   }
 
@@ -254,6 +270,7 @@ export class ShapeManager {
 
   public stop() {
     console.log(`${this.id} - stopping`);
+    this.resizeObserver.disconnect();
     this.isRunning = false;
 
     if (this.animationId !== null) {
