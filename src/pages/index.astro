@@ -77,6 +77,8 @@ const defaultShapes: ShapeOptions[] = [
 ];
 ---
 
+<Shapes class='fixed top-0 left-0 h-full w-full' shapes={defaultShapes} />
+
 <BaseLayout title='Dylan Almond' leftBarLabel='Home'>
   <h1
     class='text-inverted fixed top-1/2 left-1/2 z-10 w-full -translate-x-1/2 -translate-y-1/2 transform text-center leading-none capitalize mix-blend-difference select-none'
@@ -163,8 +165,6 @@ const defaultShapes: ShapeOptions[] = [
     >@{date} Dylan Almond</span
   >
 </BaseLayout>
-
-<Shapes shapes={defaultShapes} />
 
 <style>
   h1 {

@@ -1,8 +1,44 @@
 ---
+import type { ShapeOptions } from '../components/ShapeManager';
+import Shapes from '../components/Shapes.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const date = new Date().getFullYear();
+
+const defaultShapes: ShapeOptions[] = [
+  {
+    // Rectangle
+    type: 'rectangle',
+    percentX: 0.25,
+    percentY: 0.5,
+    width: 414,
+    height: 414,
+    speed: 0.0025,
+    offset: 10,
+    stroke: '#d03232',
+    strokeWidth: 12,
+    rotation: 22
+  },
+  {
+    // Circle
+    type: 'circle',
+    percentX: 0.75,
+    percentY: 0.6,
+    radius: 221,
+    speed: 0.0025,
+    offset: 10,
+    strokeDasharray: '16, 16',
+    stroke: '#3489c7',
+    strokeWidth: 12,
+    rotation: 10
+  }
+];
 ---
+
+<Shapes
+  class='fixed top-0 left-0 h-full w-full'
+  shapes={defaultShapes}
+/>
 
 <BaseLayout
   title='Contact'

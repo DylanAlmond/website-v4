@@ -2,11 +2,48 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
+import Shapes from '../../components/Shapes.astro';
+import type { ShapeOptions } from '../../components/ShapeManager';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+const defaultShapes: ShapeOptions[] = [
+  {
+    // Triangle
+    type: 'polygon',
+    percentX: 0.2,
+    percentY: 0.7,
+    radius: 200,
+    sides: 3,
+    speed: 0.0005,
+    offset: 10,
+    stroke: '#d03232',
+    strokeWidth: 8,
+    rotation: -105
+  },
+  {
+    // Pentagon
+    type: 'polygon',
+    percentX: 0.68,
+    percentY: 0.5,
+    radius: 450,
+    sides: 5,
+    speed: 0.0005,
+    offset: 10,
+    strokeDasharray: '32, 32',
+    stroke: '#c7347b',
+    strokeWidth: 16,
+    rotation: -10
+  }
+];
 ---
+
+<Shapes
+  class='fixed top-0 left-0 h-full w-full'
+  shapes={defaultShapes}
+/>
 
 <BaseLayout title='Work' class='flex flex-col'>
   <div
