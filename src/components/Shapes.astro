@@ -1,5 +1,4 @@
 ---
-import clsx from 'clsx';
 import type { ShapeOptions } from './ShapeManager';
 
 interface Props {
@@ -8,20 +7,61 @@ interface Props {
 }
 
 const { shapes, class: className } = Astro.props;
-
-// Generate a unique ID for every canvas element
-const canvasId = `canvas-${Math.random().toString(36).substring(2, 11)}`;
 ---
 
-<div class={clsx('absolute top-0 left-0 h-full w-full pointer-events-none', className)}>
-  <canvas id={canvasId} class='h-full w-full'> </canvas>
-</div>
+<shape-canvas class={className} shapes={JSON.stringify(shapes)}></shape-canvas>
 
-<script define:vars={{ canvasId, shapes }}>
-  import('./src/components/ShapeManager.ts').then(({ ShapeManager }) => {
-    const canvas = document.getElementById(canvasId);
-    if (canvas && shapes) {
-      new ShapeManager(canvas, shapes);
+<script>
+  import { ShapeManager, type ShapeOptions } from './ShapeManager';
+
+  class ShapeCanvas extends HTMLElement {
+    private canvas!: HTMLCanvasElement;
+    private shapes: ShapeOptions[] = [];
+    private manager: ShapeManager | null = null;
+
+    static get observedAttributes() {
+      return ['shapes'];
     }
-  });
+
+    connectedCallback() {
+      // Create shadow DOM if you want encapsulation
+      const shadow = this.attachShadow({ mode: 'open' });
+
+      this.canvas = document.createElement('canvas');
+      this.canvas.style.width = '100%';
+      this.canvas.style.height = '100%';
+      this.canvas.style.pointerEvents = 'none';
+      this.canvas.style.overflow = 'hidden';
+
+      shadow.appendChild(this.canvas);
+
+      this.initManager();
+    }
+
+    disconnectedCallback() {
+      this.manager?.stop();
+      this.manager = null;
+    }
+
+    attributeChangedCallback(name: string, _old: string, value: string) {
+      if (name === 'shapes' && value) {
+        try {
+          this.shapes = JSON.parse(value);
+          this.manager?.stop();
+          this.manager = null;
+          this.initManager();
+        } catch {
+          console.warn('Invalid shapes JSON passed to <shape-canvas>');
+        }
+      }
+    }
+
+    private initManager() {
+      if (this.canvas && this.shapes.length > 0) {
+        this.manager = new ShapeManager(this.canvas, this.shapes);
+      }
+    }
+  }
+
+  customElements.define('shape-canvas', ShapeCanvas);
 </script>

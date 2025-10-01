@@ -25,10 +25,13 @@ export interface Shape extends Required<Omit<ShapeOptions, 'strokeDasharray'>> {
 }
 
 export class ShapeManager {
+  private id: string = `shapeManager-${Math.random().toString(36).substring(2, 11)}`;
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private shapes: Shape[] = [];
   private scaleFactor: number = 1;
+  private animationId: number | null = null;
+  private isRunning: boolean = false;
   private debug: boolean = false;
 
   constructor(
@@ -36,9 +39,6 @@ export class ShapeManager {
     shapes: ShapeOptions[] = [],
     debug: boolean = false,
   ) {
-    // const canvas = document.getElementById(
-    //   canvasId,
-    // ) as HTMLCanvasElement | null;
     if (!canvas) throw new Error(`Canvas not found`);
 
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D | null;
@@ -54,7 +54,9 @@ export class ShapeManager {
     this.resize();
     window.addEventListener('resize', () => this.resize());
 
-    requestAnimationFrame(() => this.animate());
+    console.log(`${this.id} - starting`);
+    this.isRunning = true;
+    this.animationId = requestAnimationFrame(() => this.animate());
   }
 
   private resize() {
@@ -241,10 +243,22 @@ export class ShapeManager {
   }
 
   private animate() {
+    if (!this.isRunning) return;
+
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     for (const shape of this.shapes) {
       this.drawShape(shape);
     }
     requestAnimationFrame(() => this.animate());
+  }
+
+  public stop() {
+    console.log(`${this.id} - stopping`);
+    this.isRunning = false;
+
+    if (this.animationId !== null) {
+      cancelAnimationFrame(this.animationId);
+      this.animationId = null;
+    }
   }
 }
