@@ -15,16 +15,31 @@ const { shapes, class: className } = Astro.props;
   import { ShapeManager, type ShapeOptions } from './ShapeManager';
 
   class ShapeCanvas extends HTMLElement {
+    public id: string = `shapeCanvas-${Math.random().toString(36).substring(2, 11)}`;
     private canvas!: HTMLCanvasElement;
     private shapes: ShapeOptions[] = [];
     private manager: ShapeManager | null = null;
+    private hasInitialized = false;
 
     static get observedAttributes() {
       return ['shapes'];
     }
 
     connectedCallback() {
-      // Create shadow DOM if you want encapsulation
+      // If already initialized (persisted element), do nothing
+      if (this.hasInitialized && this.shadowRoot && this.manager) {
+        this.manager.start();
+        return;
+      }
+
+      // Check if shadow root already exists (shouldn't happen with the flag, but safety check)
+      if (this.shadowRoot) {
+        this.canvas = this.shadowRoot.querySelector('canvas')!;
+        this.hasInitialized = true;
+        return;
+      }
+
+      // First time setup
       const shadow = this.attachShadow({ mode: 'open' });
 
       this.canvas = document.createElement('canvas');
@@ -36,32 +51,32 @@ const { shapes, class: className } = Astro.props;
       shadow.appendChild(this.canvas);
 
       this.initManager();
+      this.hasInitialized = true;
     }
 
     disconnectedCallback() {
       this.manager?.stop();
-      this.manager = null;
-    }
-
-    attributeChangedCallback(name: string, _old: string, value: string) {
-      if (name === 'shapes' && value) {
-        try {
-          this.shapes = JSON.parse(value);
-          this.manager?.stop();
-          this.manager = null;
-          this.initManager();
-        } catch {
-          console.warn('Invalid shapes JSON passed to <shape-canvas>');
-        }
-      }
     }
 
     private initManager() {
-      if (this.canvas && this.shapes.length > 0) {
-        this.manager = new ShapeManager(this.canvas, this.shapes);
+      const shapesAttr = this.getAttribute('shapes');
+
+      if (shapesAttr) {
+        try {
+          this.shapes = JSON.parse(shapesAttr);
+        } catch {
+          console.warn('Invalid shapes JSON');
+        }
+      }
+
+      if (this.canvas && this.shapes.length > 0 && !this.manager) {
+        this.manager = new ShapeManager(this.canvas, this.shapes, false);
       }
     }
   }
 
-  customElements.define('shape-canvas', ShapeCanvas);
+  // Only define once
+  if (!customElements.get('shape-canvas')) {
+    customElements.define('shape-canvas', ShapeCanvas);
+  }
 </script>

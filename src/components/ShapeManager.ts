@@ -25,10 +25,10 @@ export interface Shape extends Required<Omit<ShapeOptions, 'strokeDasharray'>> {
 }
 
 export class ShapeManager {
-  private id: string = `shapeManager-${Math.random().toString(36).substring(2, 11)}`;
-  private canvas: HTMLCanvasElement;
+  public id: string = `shapeManager-${Math.random().toString(36).substring(2, 11)}`;
+  private _canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
-  private shapes: Shape[] = [];
+  private _shapes: Shape[] = [];
   private scaleFactor: number = 1;
   private animationId: number | null = null;
   private isRunning: boolean = false;
@@ -45,7 +45,7 @@ export class ShapeManager {
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D | null;
     if (!ctx) throw new Error('Could not get 2D context');
 
-    this.canvas = canvas;
+    this._canvas = canvas;
     this.ctx = ctx;
 
     shapes.forEach((o) => this.addShape(o));
@@ -57,30 +57,16 @@ export class ShapeManager {
       this.resize();
     });
 
-    // window.addEventListener('resize', () => this.resize());
-    this.resizeObserver = new ResizeObserver(() => this.resize());
-    this.resizeObserver.observe(canvas);
-
-    console.log(`${this.id} - starting`);
-    this.isRunning = true;
-    this.animationId = requestAnimationFrame(() => this.animate());
+    this.start();
   }
 
   private resize() {
-    // this.canvas.width = window.innerWidth;
-    // this.canvas.height = window.innerHeight;
-
-    this.canvas.width = this.canvas.clientWidth;
-    this.canvas.height = this.canvas.clientHeight;
-
-    // this.scaleFactor = Math.max(
-    //   0.5,
-    //   Math.min(window.innerWidth, window.innerHeight) / 1080,
-    // );
+    this._canvas.width = this._canvas.clientWidth;
+    this._canvas.height = this._canvas.clientHeight;
 
     this.scaleFactor = Math.max(
       0.25,
-      Math.min(this.canvas.clientWidth, this.canvas.clientHeight) / 1080,
+      Math.min(this._canvas.clientWidth, this._canvas.clientHeight) / 1080,
     );
   }
 
@@ -114,7 +100,7 @@ export class ShapeManager {
     const direction = Math.random() < 0.5 ? 1 : -1;
     const phase = Math.random() * 2 * Math.PI;
 
-    this.shapes.push({
+    this._shapes.push({
       type,
       percentX,
       percentY,
@@ -191,7 +177,7 @@ export class ShapeManager {
 
   private drawShape(shape: Shape) {
     const ctx = this.ctx;
-    const { width, height } = this.canvas;
+    const { width, height } = this._canvas;
 
     const originX = width * shape.percentX;
     const originY = height * shape.percentY;
@@ -261,15 +247,36 @@ export class ShapeManager {
   private animate() {
     if (!this.isRunning) return;
 
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    for (const shape of this.shapes) {
+    if (this.debug) {
+      console.log(`${this.id} - running`);
+    }
+
+    this.ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
+    for (const shape of this._shapes) {
       this.drawShape(shape);
     }
-    requestAnimationFrame(() => this.animate());
+    this.animationId = requestAnimationFrame(() => this.animate());
+  }
+
+  public start() {
+    if (this.debug) {
+      console.log(`${this.id} - starting`);
+    }
+
+    if (this.isRunning) return;
+
+    this.resizeObserver = new ResizeObserver(() => this.resize());
+    this.resizeObserver.observe(this._canvas);
+
+    this.isRunning = true;
+    this.animationId = requestAnimationFrame(() => this.animate());
   }
 
   public stop() {
-    console.log(`${this.id} - stopping`);
+    if (this.debug) {
+      console.log(`${this.id} - stopping`);
+    }
+
     this.resizeObserver.disconnect();
     this.isRunning = false;
 
@@ -277,5 +284,31 @@ export class ShapeManager {
       cancelAnimationFrame(this.animationId);
       this.animationId = null;
     }
+
+    // Clear canvas so nothing remains drawn
+    this.ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
+  }
+
+  get canvas() {
+    return this._canvas;
+  }
+
+  set canvas(canvas: HTMLCanvasElement) {
+    if (!canvas) throw new Error(`Canvas not found`);
+
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D | null;
+    if (!ctx) throw new Error('Could not get 2D context');
+
+    this._canvas = canvas;
+    this.ctx = ctx;
+  }
+
+  get shapes() {
+    return this._shapes;
+  }
+
+  set shapes(shapes: ShapeOptions[]) {
+    this._shapes = [];
+    shapes.forEach((o) => this.addShape(o));
   }
 }
