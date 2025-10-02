@@ -30,6 +30,9 @@ const { title, description, inverted = false, class: className } = Astro.props;
     <meta name='description' content={description} />
     <link rel='canonical' href={new URL(Astro.url.pathname, Astro.site!)} />
 
+    <!-- Sitemap -->
+    <link rel='sitemap' href='/sitemap-index.xml' />
+
     <!-- RSS -->
     <link
       rel='alternate'
