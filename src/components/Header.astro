@@ -2,12 +2,12 @@
 import Nav from './Nav.astro';
 ---
 
-<header class='fixed z-20 h-12 w-full px-8 transition-[padding] duration-1250 ease-in-out md:px-32 tras'>
+<header class='fixed z-20 h-12 w-full px-8 transition-[padding] duration-1250 ease-in-out md:px-32'>
   <div class='max-w-container relative mx-auto flex items-center justify-between'>
     <a
       href='/'
       aria-label='Home'
-      class='focus:ring-primary focus:ring-2 focus:ring-offset-2 focus:outline-none transition-all duration-250'
+      class='focus:ring-primary transition-all duration-250 focus:ring-2 focus:ring-offset-2 focus:outline-none'
     >
       <img
         id='logo-img'
@@ -19,6 +19,18 @@ import Nav from './Nav.astro';
       /></a
     >
 
-    <Nav />
+    <!-- Nav Toggle Button -->
+    <button
+      class='focus:ring-primary cursor-pointer transition-all duration-250 focus:shadow-none focus:ring-2 focus:ring-offset-2 focus:outline-none'
+      @click='$store.menuOpen = !$store.menuOpen'
+    >
+      <img
+        :src="inverted && !$store.menuOpen ? '/menu-inverted.svg' : '/menu.svg'"
+        src={'/menu.svg'}
+        height='48px'
+        width='48px'
+        alt='Open Menu Icon'
+      />
+    </button>
   </div>
 </header>

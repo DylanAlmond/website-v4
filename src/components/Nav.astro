@@ -46,58 +46,44 @@ const defaultShapes: ShapeOptions[] = [
     routes: ${JSON.stringify(Object.entries(routes).map(([name, href]) => ({ name, href })))}
   }`
 >
-  <!-- Toggle Button -->
-  <button
-    class='focus:ring-primary cursor-pointer transition-all duration-250 focus:shadow-none focus:ring-2 focus:ring-offset-2 focus:outline-none'
-    @click='$store.menuOpen = !$store.menuOpen'
-  >
-    <img
-      :src="inverted && !$store.menuOpen ? '/menu-inverted.svg' : '/menu.svg'"
-      src={'/menu.svg'}
-      height='48px'
-      width='48px'
-      alt='Open Menu Icon'
-    />
-  </button>
-
   <!-- Fullscreen Menu -->
-  <template x-teleport='body'>
+  <!-- <template x-teleport='body'> -->
+  <div
+    x-show='$store.menuOpen'
+    x-transition:enter='transition-opacity duration-500'
+    x-transition:enter-start='opacity-0'
+    x-transition:enter-end='opacity-100'
+    x-transition:leave='transition-opacity duration-500'
+    x-transition:leave-start='opacity-100'
+    x-transition:leave-end='opacity-0'
+    class='grain bg-background fixed top-0 left-0 z-10 flex h-full min-h-dvh w-full flex-row justify-center gap-12 overflow-y-auto py-8 md:py-12'
+  >
+    <Shapes class='fixed top-0 left-0 h-full w-full blur-sm' shapes={defaultShapes} />
+
+    <!-- Header Shows Here -->
+
+    <PageBar class='fixed top-0 left-12 py-12' label={'Menu'} />
+
     <div
-      x-show='$store.menuOpen'
-      x-transition:enter='transition-opacity duration-500'
-      x-transition:enter-start='opacity-0'
-      x-transition:enter-end='opacity-100'
-      x-transition:leave='transition-opacity duration-500'
-      x-transition:leave-start='opacity-100'
-      x-transition:leave-end='opacity-0'
-      class='grain bg-background fixed top-0 left-0 z-10 flex h-full min-h-dvh w-full flex-row justify-center gap-12 overflow-y-auto py-8 md:py-12'
+      class='max-w-container relative mx-8 mt-24 flex w-full flex-1 flex-col gap-12 transition-all duration-1000 ease-in-out md:mx-32'
     >
-      <Shapes class='fixed top-0 left-0 h-full w-full blur-sm' shapes={defaultShapes} />
-
-      <!-- Header Shows Here -->
-
-      <PageBar class='fixed top-0 left-12 py-12' label={'Menu'} />
-
-      <div
-        class='max-w-container relative mx-8 mt-24 flex w-full flex-1 flex-col gap-12 transition-all duration-1000 ease-in-out md:mx-32'
-      >
-        <ol class='md:ml-auto md:w-1/2'>
-          <template x-for='(route, index) in routes' :key='route.name'>
-            <li>
-              <a
-                class='before:text-primary/80 hover:bg-primary focus:bg-primary flex cursor-pointer items-center gap-8 py-5 pl-3 font-serif text-5xl transition-all duration-250 before:text-[1.75rem] hover:text-white hover:before:text-white/80 focus:text-white focus:shadow-none focus:outline-none focus:before:text-white/80 md:py-8 md:pl-8 md:text-[5.25rem]'
-                :href='route.href'
-                x-text='route.name'
-              >
-              </a>
-            </li>
-          </template>
-        </ol>
-      </div>
-
-      <PageBar class='fixed top-0 right-12 py-12' />
+      <ol class='md:ml-auto md:w-1/2'>
+        <template x-for='(route, index) in routes' :key='route.name'>
+          <li>
+            <a
+              class='before:text-primary/80 hover:bg-primary focus:bg-primary flex cursor-pointer items-center gap-8 py-5 pl-3 font-serif text-5xl transition-all duration-250 before:text-[1.75rem] hover:text-white hover:before:text-white/80 focus:text-white focus:shadow-none focus:outline-none focus:before:text-white/80 md:py-8 md:pl-8 md:text-[5.25rem]'
+              :href='route.href'
+              x-text='route.name'
+            >
+            </a>
+          </li>
+        </template>
+      </ol>
     </div>
-  </template>
+
+    <PageBar class='fixed top-0 right-12 py-12' />
+  </div>
+  <!-- </template> -->
 </div>
 
 <style>

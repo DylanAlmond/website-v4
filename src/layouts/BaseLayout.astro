@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { ClientRouter, fade } from 'astro:transitions';
 import Shapes from '../components/Shapes.astro';
 import type { ShapeOptions } from '../components/ShapeManager';
+import Nav from '../components/Nav.astro';
 
 interface Props {
   title: string;
@@ -42,7 +43,7 @@ const {
     {
       shapes && (
         <Shapes
-          class='absolute overflow-hidden top-0 left-0 h-full w-full opacity-50 transition-opacity duration-700 ease-in-out md:opacity-100'
+          class='absolute top-0 left-0 h-full w-full overflow-hidden opacity-50 transition-opacity duration-700 ease-in-out md:opacity-100'
           shapes={shapes}
         />
       )
@@ -63,5 +64,7 @@ const {
     </main>
 
     <PageBar class='fixed top-0 right-12 py-12' label={rightBarLabel} />
+
+    <Nav />
   </body>
 </html>
