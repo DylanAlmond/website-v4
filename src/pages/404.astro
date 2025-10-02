@@ -1,10 +1,14 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 import Button from '../components/Button.astro';
+
+const description =
+  "404 Page Not Found – The page you're looking for doesn't exist. Return home to explore Dylan Almond's websites, apps, and digital projects.";
 ---
 
-<BaseLayout
+<PageLayout
   title='Dylan Almond'
+  description={description}
   leftBarLabel='Not Found'
   class='flex flex-col items-center justify-center gap-6'
 >
@@ -18,7 +22,7 @@ import Button from '../components/Button.astro';
   </p>
 
   <Button href='/'>Go Home</Button>
-</BaseLayout>
+</PageLayout>
 
 <style>
   h1 {

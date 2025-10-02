@@ -1,16 +1,20 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 import Button from '../components/Button.astro';
 
 interface Props {
   error: unknown;
 }
 
+const description =
+  'An unexpected error has occurred. Return home to continue exploring websites, apps, and digital projects.';
+
 const { error } = Astro.props;
 ---
 
-<BaseLayout
+<PageLayout
   title='Dylan Almond'
+  description={description}
   leftBarLabel='Error'
   class='flex flex-col items-center justify-center gap-6'
 >
@@ -23,7 +27,7 @@ const { error } = Astro.props;
   </p>
 
   <Button href='/'>Go Home</Button>
-</BaseLayout>
+</PageLayout>
 
 <style>
   h1 {

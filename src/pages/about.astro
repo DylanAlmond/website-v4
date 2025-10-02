@@ -1,13 +1,15 @@
 ---
 import { Image } from 'astro:assets';
-import BaseLayout from '../layouts/BaseLayout.astro';
 import ChapelImage from '../images/chapel.png';
+import PageLayout from '../layouts/PageLayout.astro';
+
+const description = `Based in Southampton, I collaborate with businesses across the UK and beyond to create modern
+    websites, apps, and digital products that stand out.`;
 ---
 
-<BaseLayout title='About' inverted={true}>
+<PageLayout title='About' inverted={true} description={description}>
   <h1 class='text-white capitalize shadow-lg lg:max-w-1/2'>
-    Based in Southampton, I collaborate with businesses across the UK and beyond to create modern
-    websites, apps, and digital products that stand out.
+    {description}
   </h1>
 
   <Image
@@ -15,7 +17,7 @@ import ChapelImage from '../images/chapel.png';
     src={ChapelImage}
     alt={'A chapel.'}
   />
-</BaseLayout>
+</PageLayout>
 
 <style>
   h1 {

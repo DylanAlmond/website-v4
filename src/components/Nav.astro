@@ -46,6 +46,7 @@ const defaultShapes: ShapeOptions[] = [
       routes: ${JSON.stringify(Object.entries(routes).map(([name, href]) => ({ name, href })))}
     }`
   x-show='$store.menuOpen'
+  :inert='!$store.menuOpen'
   transition:persist
   x-transition:enter='transition-opacity duration-700'
   x-transition:enter-start='opacity-0'

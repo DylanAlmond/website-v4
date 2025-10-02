@@ -1,6 +1,6 @@
 ---
 import type { ShapeOptions } from '../components/ShapeManager';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 
 const date = new Date().getFullYear();
 
@@ -74,9 +74,17 @@ const defaultShapes: ShapeOptions[] = [
     borderRadius: [150, 150, 0, 0]
   }
 ];
+
+const description =
+  'Creative web developer delivering modern websites, apps, and digital products. Specializing in web development, app design, UI/UX, SEO optimization, and e-commerce solutions.';
 ---
 
-<BaseLayout title='Dylan Almond' leftBarLabel='Home' shapes={defaultShapes}>
+<PageLayout
+  title='Dylan Almond'
+  description={description}
+  leftBarLabel='Home'
+  shapes={defaultShapes}
+>
   <h1
     class='text-inverted fixed top-1/2 left-1/2 z-10 w-full -translate-x-1/2 -translate-y-1/2 transform text-center leading-none capitalize mix-blend-difference select-none'
     x-data="{
@@ -161,7 +169,7 @@ const defaultShapes: ShapeOptions[] = [
     class='text-primary/80 absolute bottom-0 left-1/2 -translate-x-1/2 transform font-serif text-sm'
     >@{date} Dylan Almond</span
   >
-</BaseLayout>
+</PageLayout>
 
 <style>
   h1 {

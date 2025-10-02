@@ -1,70 +1,41 @@
 ---
-import Header from '../components/Header.astro';
-import PageBar from '../components/PageBar.astro';
 import '../styles/global.css';
 import clsx from 'clsx';
 import { ClientRouter, fade } from 'astro:transitions';
-import Shapes from '../components/Shapes.astro';
-import type { ShapeOptions } from '../components/ShapeManager';
-import Nav from '../components/Nav.astro';
 
 interface Props {
   title: string;
-  leftBarLabel?: string;
-  rightBarLabel?: string;
+  description: string;
   inverted?: boolean;
   class?: string | null;
-  shapes?: ShapeOptions[];
 }
 
-const {
-  title,
-  leftBarLabel,
-  rightBarLabel,
-  inverted = false,
-  shapes,
-  class: className
-} = Astro.props;
+const { title, description, inverted = false, class: className } = Astro.props;
 ---
 
-<html lang='en' x-data=`inverted(${inverted})` :class="$store.menuOpen && 'overflow-hidden'">
+<html
+  lang='en'
+  transition:name='root'
+  x-data=`inverted(${inverted})`
+  :class="$store.menuOpen && 'overflow-hidden'"
+>
   <head>
     <meta charset='utf-8' />
     <link rel='icon' type='image/png' href='/favicon.png' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <meta name='generator' content={Astro.generator} />
     <title>{title}</title>
+    <meta name='title' content={title} />
+    <meta name='description' content={description} />
     <script src='../scripts/local.ts'></script>
     <ClientRouter />
   </head>
   <body
-    class='grain relative flex h-full min-h-dvh w-full flex-row justify-center gap-12 py-8 transition-[padding] duration-1250 ease-in-out md:py-12'
+    class={clsx(
+      'grain relative flex h-full min-h-dvh w-full flex-row justify-center gap-12 py-8 transition-[padding] duration-1250 ease-in-out md:py-12',
+      className
+    )}
   >
-    {
-      shapes && (
-        <Shapes
-          class='absolute top-0 left-0 h-full w-full overflow-hidden opacity-50 transition-opacity duration-700 ease-in-out md:opacity-100'
-          shapes={shapes}
-        />
-      )
-    }
-
-    <Header />
-
-    <PageBar class='fixed top-0 left-12 py-12' label={leftBarLabel ?? title} />
-
-    <main
-      class={clsx(
-        'max-w-container mx-8 md:mx-32 transition-all duration-1000 ease-in-out flex-1 relative mt-28',
-        className
-      )}
-      :inert='$store.menuOpen'
-    >
-      <slot />
-    </main>
-
-    <PageBar class='fixed top-0 right-12 py-12' label={rightBarLabel} />
-
-    <Nav />
+    <slot />
   </body>
 </html>

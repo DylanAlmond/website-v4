@@ -1,6 +1,6 @@
 ---
 import type { ShapeOptions } from '../components/ShapeManager';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 
 const date = new Date().getFullYear();
 
@@ -32,10 +32,14 @@ const defaultShapes: ShapeOptions[] = [
     rotation: 10
   }
 ];
+
+const description =
+  'Get in touch with Dylan Almond for web development, app design, and digital product inquiries. Email, call, or connect via LinkedIn.';
 ---
 
-<BaseLayout
+<PageLayout
   title='Contact'
+  description={description}
   shapes={defaultShapes}
   class='mt-4 flex flex-col items-center gap-12 xl:flex-row xl:items-start xl:justify-between'
 >
@@ -83,4 +87,4 @@ const defaultShapes: ShapeOptions[] = [
       >@{date} Dylan Almond</span
     >
   </div>
-</BaseLayout>
+</PageLayout>

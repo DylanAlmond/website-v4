@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
 import { Image } from 'astro:assets';
 import type { ShapeOptions } from '../../components/ShapeManager';
 
@@ -37,9 +37,11 @@ const defaultShapes: ShapeOptions[] = [
     rotation: -10
   }
 ];
+
+const description = "Explore Dylan Almond's portfolio of websites, apps, and digital projects.";
 ---
 
-<BaseLayout title='Work' class='flex flex-col' shapes={defaultShapes}>
+<PageLayout title='Work' description={description} class='flex flex-col' shapes={defaultShapes}>
   <div
     x-data=`{
       posts: ${JSON.stringify(posts)},
@@ -109,7 +111,7 @@ const defaultShapes: ShapeOptions[] = [
       </ul>
     </div>
   </div>
-</BaseLayout>
+</PageLayout>
 
 <style>
   @reference '../../styles/global.css';

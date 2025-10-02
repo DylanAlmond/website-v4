@@ -1,8 +1,8 @@
 ---
 import type { ShapeOptions } from '../components/ShapeManager';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 
-const defaultText = `I deliver modern digital solutions that prepare businesses for what's next. From brand transformation to striking visual content, I turn strategy into measurable impact.`;
+const description = `I deliver modern digital solutions that prepare businesses for what's next. From brand transformation to striking visual content, I turn strategy into measurable impact.`;
 
 const services = {
   'Web Development': 'Web Development Description',
@@ -43,7 +43,7 @@ const defaultShapes: ShapeOptions[] = [
 ];
 ---
 
-<BaseLayout title='Services' class='flex flex-col' shapes={defaultShapes}>
+<PageLayout title='Services' description={description} class='flex flex-col' shapes={defaultShapes}>
   <h1
     class='text-inverted mb-8 text-[3.5rem] capitalize mix-blend-difference shadow-lg md:text-8xl'
   >
@@ -52,8 +52,8 @@ const defaultShapes: ShapeOptions[] = [
   <div
     x-data=`{
       activeItem: null,
-      defaultDescription: "${defaultText}",
-      currentDescription: "${defaultText}",
+      defaultDescription: "${description}",
+      currentDescription: "${description}",
       services: ${JSON.stringify(Object.entries(services).map(([name, description]) => ({ name, description })))},
 
       selectService(service) {        
@@ -107,7 +107,7 @@ const defaultShapes: ShapeOptions[] = [
       </ol>
     </div>
   </div>
-</BaseLayout>
+</PageLayout>
 
 <style>
   @reference '../styles/global.css';
