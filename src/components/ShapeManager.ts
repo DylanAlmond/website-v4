@@ -34,6 +34,9 @@ export class ShapeManager {
   private isRunning: boolean = false;
   private resizeObserver!: ResizeObserver;
   private debug: boolean = false;
+  private reducedMotionQuery = window.matchMedia(
+    '(prefers-reduced-motion: reduce)',
+  );
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -184,17 +187,30 @@ export class ShapeManager {
     const scale = this.scaleFactor;
 
     shape.t += shape.speed;
-    const scaledOffset = shape.offset * scale;
 
-    const centerX =
-      originX +
-      scaledOffset * Math.cos(shape.direction * shape.t + shape.phase);
-    const centerY =
-      originY +
-      scaledOffset * Math.sin(shape.direction * shape.t + shape.phase);
+    let scaledOffset;
+    let centerX;
+    let centerY;
+
+    // Don't moved if reduced motion is on
+    if (this.reducedMotionQuery.matches) {
+      scaledOffset = scale;
+      centerX = originX;
+      centerY = originY;
+    } else {
+      scaledOffset = shape.offset * scale;
+
+      centerX =
+        originX +
+        scaledOffset * Math.cos(shape.direction * shape.t + shape.phase);
+      centerY =
+        originY +
+        scaledOffset * Math.sin(shape.direction * shape.t + shape.phase);
+    }
 
     ctx.lineWidth = shape.strokeWidth * scale;
     ctx.strokeStyle = shape.stroke;
+
     if (shape.strokeDasharray)
       ctx.setLineDash(shape.strokeDasharray.split(',').map(Number));
     else ctx.setLineDash([]);

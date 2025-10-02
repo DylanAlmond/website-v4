@@ -27,6 +27,14 @@
   --spacing-container: 1666px;
 }
 
+/* Disable animations on reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition-duration: 0s !important;
+  }
+}
+
 h1,
 h2,
 h3,
