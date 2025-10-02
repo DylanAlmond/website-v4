@@ -77,6 +77,18 @@ const defaultShapes: ShapeOptions[] = [
 
 const description =
   'Creative web developer delivering modern websites, apps, and digital products. Specializing in web development, app design, UI/UX, SEO optimization, and e-commerce solutions.';
+
+const structuredData = {
+  '@context': 'https://schema.org/',
+  '@type': 'WebSite',
+  name: 'Dylan Almond',
+  description: description,
+  url: new URL(Astro.url.pathname, Astro.site!),
+  author: {
+    '@type': 'Person',
+    name: 'Dylan Almond'
+  }
+};
 ---
 
 <PageLayout
@@ -84,6 +96,7 @@ const description =
   description={description}
   leftBarLabel='Home'
   shapes={defaultShapes}
+  structuredData={structuredData}
 >
   <h1
     class='text-inverted fixed top-1/2 left-1/2 z-10 w-full -translate-x-1/2 -translate-y-1/2 transform text-center leading-none capitalize mix-blend-difference select-none'

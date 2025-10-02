@@ -26,9 +26,29 @@ const {
   shapes,
   class: className
 } = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site!);
+const isRootPage = Astro.url.pathname === '/';
+
+const structuredData = {
+  '@context': 'https://schema.org/',
+  '@type': isRootPage ? 'WebSite' : 'WebPage',
+  name: 'Dylan Almond',
+  description: description,
+  url: canonicalUrl.toString(),
+  author: {
+    '@type': 'Person',
+    name: 'Dylan Almond'
+  }
+};
 ---
 
 <BaseLayout title={title} description={description} inverted={inverted}>
+  <!-- Head meta -->
+  <Fragment slot='head'>
+    <script type='application/ld+json' set:html={JSON.stringify(structuredData)} />
+  </Fragment>
+
   {
     shapes && (
       <Shapes
