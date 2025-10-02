@@ -74,6 +74,7 @@ const description = "Explore Dylan Almond's portfolio of websites, apps, and dig
             href={`/work/${post.id}`}
           >
             <Image
+              loading={'eager'}
               src={post.data.image.src}
               alt={post.data.image.alt}
               class='h-full w-full object-cover'
@@ -83,15 +84,15 @@ const description = "Explore Dylan Almond's portfolio of websites, apps, and dig
       }
     </div>
 
-    <div class='overflow-hidden'>
+    <div class='flex flex-col overflow-hidden'>
       <h1
-        class='text-inverted mb-8 text-[3.5rem] capitalize mix-blend-difference shadow-lg md:text-8xl'
+        class='text-inverted z-10 mb-8 text-[3.5rem] capitalize mix-blend-difference shadow-lg md:text-8xl'
       >
         Work
       </h1>
 
       <ul
-        class='divide-primary border-primary no-scrollbar h-full divide-y-2 overflow-x-visible overflow-y-auto border-y-2 pb-8'
+        class='divide-primary border-primary no-scrollbar h-fit divide-y-2 overflow-x-visible overflow-y-auto border-y-2'
       >
         <template x-for='(post, index) in posts' :key='post.id'>
           <li>
@@ -99,7 +100,6 @@ const description = "Explore Dylan Almond's portfolio of websites, apps, and dig
               class='hover:bg-primary flex w-full cursor-pointer items-center gap-3 py-4 pl-3 font-serif text-[1.75rem] transition-all duration-200 hover:text-white focus:outline-none md:gap-6 md:py-6 md:pl-6 md:text-4xl xl:text-5xl'
               :class="activeItem?.id === post.id && 'bg-primary text-white'"
               :aria-label='"Go to " + post.data.title + " project"'
-              :aria-pressed='activeItem?.id === post.id'
               @mouseover='highlightWork(post)'
               @focus='highlightWork(post)'
               x-text='post.data.title'

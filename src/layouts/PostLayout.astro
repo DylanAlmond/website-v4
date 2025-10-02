@@ -6,7 +6,6 @@ import { Image } from 'astro:assets';
 import Button from '../components/Button.astro';
 import Nav from '../components/Nav.astro';
 import BaseLayout from './BaseLayout.astro';
-import { slide } from 'astro:transitions';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -35,6 +34,7 @@ const { post, next } = Astro.props;
         src={post.data.image.src}
         alt={post.data.image.alt}
         layout={'full-width'}
+        loading={'eager'}
       />
 
       <header class='mt-8 flex flex-col gap-4'>
