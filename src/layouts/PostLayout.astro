@@ -100,7 +100,7 @@ const structuredData = {
           </div>
 
           {(post.data.description || post.data.link) && (
-            <div class='flex flex-1 flex-col gap-4'>
+            <div class='flex flex-1 flex-col gap-4 items-start'>
                 <!-- Description -->
                 {
                   post.data.description && (
@@ -111,7 +111,7 @@ const structuredData = {
                 <!-- Link -->
                 {
                   post.data.link && (
-                    <a aria-label="Visit Project Link" href={post.data.link} class='text-blue/80 mt-0.5 text-lg md:mt-1 md:text-xl'>
+                    <a aria-label="Visit Project Link" href={post.data.link} class='text-[#20577E] transition-all duration-250 ease-in-out hover:opacity-60 mt-0.5 text-lg md:mt-1 md:text-xl'>
                       {post.data.link}
                     </a>
                   )
