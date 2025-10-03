@@ -84,7 +84,7 @@ const structuredData = {
           <div class='flex flex-1 flex-col gap-5'>
             <!-- Tags -->
             <div class='grid grid-cols-[10rem_1fr]'>
-              <h6 class='font-sans! text-xl font-bold md:text-2xl'>Category</h6>
+              <span class='font-sans! text-xl font-bold md:text-2xl'>Category</span>
 
               <ul class='text-primary/80 mt-0.5 text-lg capitalize md:mt-1 md:text-xl'>
                 {post.data.tags.map((tag) => <li>{tag}</li>)}
@@ -93,7 +93,7 @@ const structuredData = {
 
             <!-- Published -->
             <div class='grid grid-cols-[10rem_1fr]'>
-              <h6 class='font-sans! text-xl font-bold md:text-2xl'>Year</h6>
+              <span class='font-sans! text-xl font-bold md:text-2xl'>Year</span>
 
               <span class='text-primary/80 mt-0.5 text-lg capitalize md:mt-1 md:text-xl'
                 >{post.data.date.getFullYear()}</span
@@ -116,7 +116,7 @@ const structuredData = {
       </section>
 
       <footer
-        class='border-primary mt-8 flex flex-col items-start justify-between gap-4 border-t-2 pt-3 md:flex-row md:items-center md:pt-8'
+        class='border-primary flex-wrap mt-8 flex justify-between gap-4 border-t-2 pt-3 flex-row items-center md:pt-8'
       >
         <span class='font-serif text-[2rem] md:text-5xl'>{post.data.title}</span>
 
