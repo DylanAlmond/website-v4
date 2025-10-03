@@ -95,18 +95,29 @@ const structuredData = {
             <div class='grid grid-cols-[10rem_1fr]'>
               <span class='font-sans! text-xl font-bold md:text-2xl'>Year</span>
 
-              <span class='text-primary/80 mt-0.5 text-lg capitalize md:mt-1 md:text-xl'
-                >{post.data.date.getFullYear()}</span
-              >
+              <span class='text-primary/80 mt-0.5 text-lg capitalize md:mt-1 md:text-xl'>{post.data.date.getFullYear()}</span>
             </div>
           </div>
 
-          <!-- Description -->
-          {
-            post.data.description && (
-              <p class='text-primary/80 flex-1 text-xl'>{post.data.description}</p>
-            )
-          }
+          {(post.data.description || post.data.link) && (
+            <div class='flex flex-1 flex-col gap-4'>
+                <!-- Description -->
+                {
+                  post.data.description && (
+                    <p class='text-primary/80 text-xl'>{post.data.description}</p>
+                  )
+                }
+
+                <!-- Link -->
+                {
+                  post.data.link && (
+                    <a aria-label="Visit Project Link" href={post.data.link} class='text-blue/80 mt-0.5 text-lg md:mt-1 md:text-xl'>
+                      {post.data.link}
+                    </a>
+                  )
+                }
+            </div>
+          )}
         </div>
       </header>
 
