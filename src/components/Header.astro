@@ -1,36 +1,68 @@
 ---
-
+import LogoInverted from '../../public/logo-inverted.svg';
 ---
 
-<header class='fixed z-20 h-12 w-full px-8 transition-[padding] duration-1250 ease-in-out md:px-32'>
+<header
+  class='fixed z-20 h-12 w-full px-8 mix-blend-difference transition-[padding] duration-1250 ease-in-out md:px-32'
+>
   <div class='max-w-container relative mx-auto flex items-center justify-between'>
     <a
       href='/'
       aria-label='Home'
-      class='focus:ring-primary transition-all duration-250 focus:ring-2 focus:ring-offset-2 focus:outline-none'
+      class='focus-visible:ring-primary transition-all duration-250 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none'
     >
-      <img
-        id='logo-img'
-        :src="inverted && !$store.menuOpen ? '/logo-inverted.svg' : '/logo.svg'"
-        src={'/logo.svg'}
-        height='48px'
-        width='99px'
-        alt='Dylan Almond Logo'
-      /></a
-    >
+      <LogoInverted class='h-10 w-20 transition-all duration-500 md:h-12 md:w-24' />
+    </a>
 
     <!-- Nav Toggle Button -->
     <button
-      class='focus:ring-primary cursor-pointer transition-all duration-250 focus:shadow-none focus:ring-2 focus:ring-offset-2 focus:outline-none'
+      transition:persist
+      class='nav-button focus-visible:ring-primary h-10 w-10 cursor-pointer transition-all duration-250 focus-visible:shadow-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none md:h-12 md:w-12'
+      :class='{ open: $store.menuOpen }'
       @click='$store.menuOpen = !$store.menuOpen'
     >
-      <img
-        :src="inverted && !$store.menuOpen ? '/menu-inverted.svg' : '/menu.svg'"
-        src={'/menu.svg'}
-        height='48px'
-        width='48px'
-        alt='Open Menu Icon'
-      />
+      <span></span>
+      <span></span>
     </button>
   </div>
 </header>
+
+<style>
+  .nav-button {
+    position: relative;
+  }
+
+  .nav-button span {
+    position: absolute;
+    right: 0;
+    height: 2px;
+    background-color: var(--color-inverted);
+    border-radius: 1px;
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  /* Top bar */
+  .nav-button span:nth-child(1) {
+    top: 35%;
+    width: 100%;
+  }
+
+  /* Bottom bar */
+  .nav-button span:nth-child(2) {
+    bottom: 35%;
+    width: 66%;
+  }
+
+  /* When open (animate into X) */
+  .nav-button.open span:nth-child(1) {
+    transform: rotate(45deg);
+    top: 50%;
+  }
+
+  .nav-button.open span:nth-child(2) {
+    transform: rotate(-45deg);
+    bottom: 0;
+    top: 50%;
+    width: 100%;
+  }
+</style>
