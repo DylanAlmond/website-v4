@@ -1,6 +1,6 @@
 ---
 title: 'Sudoku'
-date: '2022-05-01'
+date: '2025-05-01'
 description: 'A simple Sudoku game written in React + CSS.'
 tags: ['Web Development', 'Game Development', 'Responsive Design']
 link: 'https://sudoku.dylanalmond.net/'
