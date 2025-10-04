@@ -15,6 +15,7 @@ const blog = defineCollection({
       }),
       // Transform string to Date object
       date: z.date({ coerce: true }),
+      lastModified: z.date({ coerce: true }).optional(),
     }),
 });
 

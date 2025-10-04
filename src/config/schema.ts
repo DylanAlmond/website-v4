@@ -23,6 +23,7 @@ export const personSchema = {
 export const BlogPostSchema = (
   url: string,
   post: CollectionEntry<'blog'>,
+  lastModifiedISO?: string,
 ): BlogPosting => {
   return {
     '@type': 'BlogPosting',
@@ -33,6 +34,7 @@ export const BlogPostSchema = (
     description: post.data.description,
     datePublished: post.data.date.toISOString(),
     dateCreated: post.data.date.toISOString(),
+    dateModified: lastModifiedISO ?? undefined,
     author: { '@id': personSchema['@id'] },
     publisher: { '@id': personSchema['@id'] },
     image: post.data.image ? site.url + post.data.image.src.src : '',

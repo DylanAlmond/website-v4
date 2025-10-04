@@ -9,18 +9,24 @@ import BaseLayout from './BaseLayout.astro';
 import JsonLD from '../components/JsonLD.astro';
 import { site } from '../config/site';
 import { BlogPostSchema } from '../config/schema';
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
 
 interface Props {
   post: CollectionEntry<'blog'>;
   next: CollectionEntry<'blog'>;
+  remarkPluginFrontmatter: Record<string, any>;
 }
 
-const { post, next } = Astro.props;
+const { post, next, remarkPluginFrontmatter } = Astro.props;
 
 // Page Meta
 const title = `${post.data.title} | Dylan Almond`;
 const canonicalUrl = new URL(Astro.url.pathname, site.url);
-const pageSchema = BlogPostSchema(canonicalUrl.toString(), post);
+const lastModifiedISO = dayjs(remarkPluginFrontmatter.lastModified).toISOString();
+const pageSchema = BlogPostSchema(canonicalUrl.toString(), post, lastModifiedISO);
 ---
 
 <BaseLayout
@@ -34,6 +40,7 @@ const pageSchema = BlogPostSchema(canonicalUrl.toString(), post);
     <!-- Open Graph -->
     <meta property='og:type' content='article' />
     <meta property='article:published_time' content={post.data.date.toISOString()} />
+    <meta property='article:modified_time' content={lastModifiedISO} />
     <meta property='article:tag' content={post.data.tags.join(', ')} />
     {
       post.data.image && (
