@@ -1,15 +1,9 @@
 ---
-title: 'Psion Vision'
-date: '2022-12-01'
+title: 'Psion Vision - AR ANPR System'
+dateStarted: '2023-06-01'
+dateFinished: '2023-09-01'
 description: ''
-tags:
-  [
-    'Software Development',
-    'App Development',
-    'Machine Learning',
-    'Backend Systems',
-    'Design & SEO',
-  ]
+tags: ['App Development', 'Machine Learning', 'Design']
 link: 'https://psionvision.com/'
 image:
   src: '../images/psion-vision/banner.png'

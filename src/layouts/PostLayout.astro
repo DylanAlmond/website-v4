@@ -9,24 +9,24 @@ import BaseLayout from './BaseLayout.astro';
 import JsonLD from '../components/JsonLD.astro';
 import { site } from '../config/site';
 import { BlogPostSchema } from '../config/schema';
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-
-dayjs.extend(utc);
+import getModifiedTime from '../util/getModifiedTime';
 
 interface Props {
   post: CollectionEntry<'blog'>;
   next: CollectionEntry<'blog'>;
-  remarkPluginFrontmatter: Record<string, any>;
 }
 
-const { post, next, remarkPluginFrontmatter } = Astro.props;
+const { post, next } = Astro.props;
+
+const formatDate = (d: Date) => d.toLocaleDateString('en-GB', { month: '2-digit', year: 'numeric' });
 
 // Page Meta
 const title = `${post.data.title} | Dylan Almond`;
 const canonicalUrl = new URL(Astro.url.pathname, site.url);
-const lastModifiedISO = dayjs(remarkPluginFrontmatter.lastModified).toISOString();
-const pageSchema = BlogPostSchema(canonicalUrl.toString(), post, lastModifiedISO);
+
+const { lastModified, dateCreated } = getModifiedTime(post.filePath!);
+
+const pageSchema = BlogPostSchema(canonicalUrl.toString(), post, dateCreated, lastModified);
 ---
 
 <BaseLayout
@@ -39,8 +39,8 @@ const pageSchema = BlogPostSchema(canonicalUrl.toString(), post, lastModifiedISO
 
     <!-- Open Graph -->
     <meta property='og:type' content='article' />
-    <meta property='article:published_time' content={post.data.date.toISOString()} />
-    <meta property='article:modified_time' content={lastModifiedISO} />
+    <meta property='article:published_time' content={dateCreated} />
+    <meta property='article:modified_time' content={lastModified} />
     <meta property='article:tag' content={post.data.tags.join(', ')} />
     {
       post.data.image && (
@@ -86,16 +86,34 @@ const pageSchema = BlogPostSchema(canonicalUrl.toString(), post, lastModifiedISO
             <div class='grid grid-cols-[10rem_1fr]'>
               <span class='font-sans! text-xl font-bold md:text-2xl'>Category</span>
 
-              <ul class='text-primary/80 mt-0.5 text-lg capitalize md:mt-1 md:text-xl'>
+              <ul class='text-primary/80 text-lg capitalize md:mt-1 md:text-xl'>
                 {post.data.tags.map((tag) => <li>{tag}</li>)}
               </ul>
             </div>
 
             <!-- Published -->
             <div class='grid grid-cols-[10rem_1fr]'>
-              <span class='font-sans! text-xl font-bold md:text-2xl'>Year</span>
+              <span class='font-sans! text-xl font-bold md:text-2xl'>Period</span>
 
-              <time class='text-primary/80 mt-0.5 text-lg capitalize md:mt-1 md:text-xl' datetime={post.data.date.toISOString()}>{post.data.date.getFullYear()}</time>
+              <span class="text-primary/80 text-lg capitalize md:mt-1 md:text-xl">
+                <time 
+                  datetime={post.data.dateStarted.toISOString()}
+                >
+                  {formatDate(post.data.dateStarted)}
+                </time>
+
+                <span>-</span>
+
+                {post.data.dateFinished ? (
+                  <time 
+                    datetime={post.data.dateFinished.toISOString()}
+                  >
+                    {formatDate(post.data.dateFinished)}
+                  </time>
+                ) : <span>Ongoing</span>}
+              </span>
+
+       
             </div>
           </div>
 

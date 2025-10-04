@@ -13,8 +13,13 @@ const blog = defineCollection({
         src: image(),
         alt: z.string(),
       }),
-      // Transform string to Date object
-      date: z.date({ coerce: true }),
+      // Project start + finish dates
+      dateStarted: z.date({ coerce: true }),
+      // Undefined = ongoing project
+      dateFinished: z.date({ coerce: true }).optional(),
+
+      // Handled by remark plugin
+      dateCreated: z.date({ coerce: true }).optional(),
       lastModified: z.date({ coerce: true }).optional(),
     }),
 });

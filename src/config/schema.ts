@@ -8,6 +8,7 @@ import type {
   WebPage,
   WebSite,
 } from 'schema-dts';
+import getModifiedTime from '../util/getModifiedTime';
 
 export const personSchema = {
   '@type': 'Person',
@@ -23,7 +24,8 @@ export const personSchema = {
 export const BlogPostSchema = (
   url: string,
   post: CollectionEntry<'blog'>,
-  lastModifiedISO?: string,
+  dateCreatedISO: string,
+  lastModifiedISO: string,
 ): BlogPosting => {
   return {
     '@type': 'BlogPosting',
@@ -32,9 +34,9 @@ export const BlogPostSchema = (
     headline: post.data.title,
     name: post.data.title,
     description: post.data.description,
-    datePublished: post.data.date.toISOString(),
-    dateCreated: post.data.date.toISOString(),
-    dateModified: lastModifiedISO ?? undefined,
+    datePublished: dateCreatedISO,
+    dateCreated: dateCreatedISO,
+    dateModified: lastModifiedISO,
     author: { '@id': personSchema['@id'] },
     publisher: { '@id': personSchema['@id'] },
     image: post.data.image ? site.url + post.data.image.src.src : '',
@@ -55,9 +57,16 @@ export const BlogSchema = (
     name: title,
     description: description,
     publisher: { '@id': personSchema['@id'] },
-    blogPost: posts.map((post) =>
-      BlogPostSchema(new URL(post.id, site.url).toString(), post),
-    ),
+    blogPost: posts.map((post) => {
+      const { dateCreated, lastModified } = getModifiedTime(post.filePath!);
+
+      return BlogPostSchema(
+        new URL(post.id, site.url).toString(),
+        post,
+        dateCreated,
+        lastModified,
+      );
+    }),
   };
 };
 

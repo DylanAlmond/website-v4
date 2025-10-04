@@ -1,6 +1,6 @@
 ---
 title: "Pete's Property Services"
-date: '2025-07-01'
+dateStarted: '2025-07-15'
 description: 'I was asked to produce a brand new website from the ground up for a startup property maintenance company in Southampton, UK.'
 tags: ['Web Development', 'Design & SEO']
 link: 'https://petespropertyservices.uk/'
