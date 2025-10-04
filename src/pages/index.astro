@@ -1,5 +1,8 @@
 ---
+import JsonLD from '../components/JsonLD.astro';
 import type { ShapeOptions } from '../components/ShapeManager';
+import { WebSiteSchema } from '../config/schema';
+import { site } from '../config/site';
 import PageLayout from '../layouts/PageLayout.astro';
 
 const date = new Date().getFullYear();
@@ -75,39 +78,24 @@ const defaultShapes: ShapeOptions[] = [
   }
 ];
 
+// Page Meta
+const title = 'Dylan Almond';
 const description =
   'Creative web developer delivering modern websites, apps, and digital products. Specializing in web development, app design, UI/UX, SEO optimization, and e-commerce solutions.';
-
-const structuredData = {
-  '@context': 'https://schema.org/',
-  '@type': 'WebSite',
-  name: 'Dylan Almond',
-  description: description,
-  url: new URL(Astro.url.pathname, Astro.site!),
-  author: {
-    '@type': 'Person',
-    name: 'Dylan Almond'
-  }
-};
+const canonicalUrl = new URL(Astro.url.pathname, site.url);
+const pageSchema = WebSiteSchema(canonicalUrl.toString(), title, description);
 ---
 
-<PageLayout
-  title='Dylan Almond'
-  description={description}
-  leftBarLabel='Home'
-  shapes={defaultShapes}
-  structuredData={structuredData}
->
+<PageLayout title={title} description={description} leftBarLabel='Home' shapes={defaultShapes}>
+  <!-- Head meta -->
+  <Fragment slot='head'>
+    <JsonLD graph={pageSchema} />
+  </Fragment>
+
   <h1
     class='text-inverted fixed top-1/2 left-1/2 z-10 w-full -translate-x-1/2 -translate-y-1/2 transform text-center leading-none capitalize mix-blend-difference select-none'
-    x-data="{
-      services: [
-        'Web Development',
-        'App Design',
-        'UI/UX', 
-        'SEO Optimization',
-        'E-Commerce Solutions'
-      ],
+    x-data=`{
+      services: ${JSON.stringify(site.services.map((s) => s.name))},
       currentIndex: 0,
       isVisible: true,
       fadeDuration: 1000,
@@ -164,7 +152,7 @@ const structuredData = {
       get currentYear() {
         return new Date().getFullYear();
       }
-    }"
+    }`
   >
     creatively Driven<br />
     <span
@@ -178,10 +166,13 @@ const structuredData = {
       x-transition:leave-end='opacity-0'></span>
   </h1>
 
-  <span
-    class='text-primary/80 absolute bottom-0 left-1/2 -translate-x-1/2 transform font-serif text-sm'
-    >@{date} Dylan Almond</span
-  >
+  <Fragment slot='footer'>
+    <footer
+      class='fixed bottom-8 left-1/2 -translate-x-1/2 transform transition-all duration-700 ease-in-out md:bottom-12'
+    >
+      <small class='text-primary/80 font-serif text-sm'>@{date} Dylan Almond</small>
+    </footer>
+  </Fragment>
 </PageLayout>
 
 <style>

@@ -10,11 +10,10 @@ tags:
     'Backend Systems',
     'Design & SEO',
   ]
+link: 'https://psionvision.com/'
 image:
   src: '../images/psion-vision/banner.png'
   alt: 'The Psion Vision logo on a grey background.'
 ---
 
-## TODO
-
-Some placeholder text here.
+## Coming Soon!

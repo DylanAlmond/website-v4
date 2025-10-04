@@ -1,6 +1,9 @@
 ---
 import type { ShapeOptions } from '../components/ShapeManager';
+import { ContactSchema } from '../config/schema';
+import { site } from '../config/site';
 import PageLayout from '../layouts/PageLayout.astro';
+import type { ContactPage } from 'schema-dts';
 
 const date = new Date().getFullYear();
 
@@ -33,60 +36,78 @@ const defaultShapes: ShapeOptions[] = [
   }
 ];
 
+// Page Meta
+const title = 'Contact | Dylan Almond';
 const description =
   'Get in touch with Dylan Almond for web development, app design, and digital product inquiries. Email, call, or connect via LinkedIn.';
+const canonicalUrl = new URL(Astro.url.pathname, site.url);
+const pageSchema = ContactSchema(canonicalUrl.toString(), title, description);
 ---
 
 <PageLayout
-  title='Contact'
+  title={title}
+  leftBarLabel='Contact'
   description={description}
   shapes={defaultShapes}
-  class='mt-4 flex flex-col items-center gap-12 xl:flex-row xl:items-start xl:justify-between'
+  class='mt-4 flex flex-col items-center gap-8 xl:items-end xl:justify-start xl:gap-12'
 >
+  <!-- Head meta -->
+  <Fragment slot='head'>
+    <script type='application/ld+json' set:html={JSON.stringify(pageSchema)} />
+  </Fragment>
+
   <h1
-    class='text-inverted z-10 mb-8 text-7xl capitalize mix-blend-difference shadow-lg sm:mb-16 sm:text-8xl xl:my-auto xl:text-[17.5rem]'
+    class='text-inverted top-1/2 left-0 z-10 transform text-6xl capitalize mix-blend-difference shadow-lg transition-all duration-1000 ease-in-out sm:text-8xl xl:absolute xl:-translate-y-1/2 xl:text-[17.5rem]'
   >
     Let's Talk.
   </h1>
 
   <!-- Contacts -->
   <div
-    class='flex flex-col items-center gap-16 text-center md:gap-32 xl:flex-row xl:items-start xl:gap-16 xl:text-start'
+    class='flex flex-col items-center gap-8 text-center xl:flex-row xl:items-start xl:gap-16 xl:text-start'
   >
-    <div class='flex flex-col gap-4'>
-      <h2 class='mb-6 text-[3.5rem] leading-0 md:mb-12 md:text-8xl'>Contacts</h2>
+    <div aria-labelledby='contact-methods-heading' class='flex flex-col gap-4'>
+      <h2 id='contact-methods-heading' class='text-5xl xl:mb-2 xl:text-8xl'>Contacts</h2>
+
+      <address class='flex flex-col gap-4 not-italic'>
+        <a
+          class='text-primary/80 font-serif text-xl transition-all duration-250 ease-in-out hover:opacity-60 xl:text-4xl'
+          href={`mailto:${site.email}`}>{site.email}</a
+        >
+        <a
+          class='text-primary/80 font-serif text-xl transition-all duration-250 ease-in-out hover:opacity-60 xl:text-4xl'
+          href=`tel:${site.telephone}`>{site.telephone}</a
+        >
+      </address>
+    </div>
+
+    <div aria-labelledby='social-links-heading' class='flex flex-col gap-4'>
+      <h2 id='social-links-heading' class='text-5xl xl:mb-2 xl:text-8xl'>Social</h2>
 
       <a
-        class='text-primary/80 font-serif text-xl transition-all duration-250 ease-in-out hover:opacity-60 md:text-4xl'
-        href='mailto:dylan@dylanalmond.net'>dylan@dylanalmond.net</a
+        class='text-primary/80 font-serif text-xl transition-all duration-250 ease-in-out hover:opacity-60 xl:text-4xl'
+        target='_blank'
+        rel='noopener noreferrer'
+        href={site.socials.linkedin}>LinkedIn</a
       >
+
       <a
-        class='text-primary/80 font-serif text-xl transition-all duration-250 ease-in-out hover:opacity-60 md:text-4xl'
-        href='tel:+4407900414970'>+44 07900 414 970</a
+        class='text-primary/80 font-serif text-xl transition-all duration-250 ease-in-out hover:opacity-60 xl:text-4xl'
+        target='_blank'
+        rel='noopener noreferrer'
+        href={site.socials.github}>GitHub</a
       >
     </div>
 
-    <div class='flex flex-col gap-4'>
-      <h2 class='mb-6 text-[3.5rem] leading-0 md:mb-12 md:text-8xl'>Social</h2>
+    <div aria-labelledby='other-links-heading' class='flex flex-col gap-4'>
+      <h2 id='other-links-heading' class='text-5xl xl:mb-2 xl:text-8xl'>Other</h2>
 
       <a
-        class='text-primary/80 font-serif text-xl transition-all duration-250 ease-in-out hover:opacity-60 md:text-4xl'
-        href='https://www.linkedin.com/in/dylan-almond/'>LinkedIn</a
+        class='text-primary/80 font-serif text-xl transition-all duration-250 ease-in-out hover:opacity-60 xl:text-4xl'
+        target='_blank'
+        rel='noopener noreferrer'
+        href={site.cv}>CV</a
       >
     </div>
-
-    <!-- Copyright and Privacy Policy -->
-    <!-- <span class='text-primary/80 absolute bottom-0 left-0 font-serif text-base xl:text-2xl'
-      >@{date} Dylan Almond</span
-    > -->
-    <!-- <a
-      class='text-primary/80 absolute right-0 bottom-0 font-serif text-base xl:text-2xl'
-      href='/privacy-policy'>Privacy Policy</a
-    > -->
-
-    <span
-      class='text-primary/80 absolute bottom-0 left-1/2 -translate-x-1/2 transform font-serif text-sm'
-      >@{date} Dylan Almond</span
-    >
   </div>
 </PageLayout>

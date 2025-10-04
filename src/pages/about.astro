@@ -2,12 +2,24 @@
 import { Image } from 'astro:assets';
 import ChapelImage from '../images/chapel.png';
 import PageLayout from '../layouts/PageLayout.astro';
+import JsonLD from '../components/JsonLD.astro';
+import { site } from '../config/site';
+import { AboutSchema } from '../config/schema';
 
+// Page Meta
+const title = 'About | Dylan Almond';
 const description = `Based in Southampton, I collaborate with businesses across the UK and beyond to create modern
     websites, apps, and digital products that stand out.`;
+const canonicalUrl = new URL(Astro.url.pathname, site.url);
+const pageSchema = AboutSchema(canonicalUrl.toString(), title, description);
 ---
 
-<PageLayout title='About' inverted={true} description={description}>
+<PageLayout title={title} leftBarLabel={'About'} inverted={true} description={description}>
+  <!-- Head meta -->
+  <Fragment slot='head'>
+    <JsonLD graph={pageSchema} />
+  </Fragment>
+
   <h1 class='z-10 text-white capitalize shadow-lg lg:max-w-1/2'>
     {description}
   </h1>

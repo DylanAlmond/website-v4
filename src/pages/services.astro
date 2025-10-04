@@ -1,17 +1,9 @@
 ---
 import type { ShapeOptions } from '../components/ShapeManager';
 import PageLayout from '../layouts/PageLayout.astro';
-
-const description = `I deliver modern digital solutions that prepare businesses for what's next. From brand transformation to striking visual content, I turn strategy into measurable impact.`;
-
-const services = {
-  'Web Development': 'Web Development Description',
-  'App Development': 'App Development Description',
-  'Software Development': 'Software Development Description',
-  'AI Development': 'AI Development Description',
-  'Backend Systems': 'Backend Systems Description',
-  'Design & SEO': 'Design & SEO Description'
-};
+import JsonLD from '../components/JsonLD.astro';
+import { site } from '../config/site';
+import { ServicesSchema } from '../config/schema';
 
 const defaultShapes: ShapeOptions[] = [
   {
@@ -41,9 +33,26 @@ const defaultShapes: ShapeOptions[] = [
     rotation: 10
   }
 ];
+
+// Page Meta
+const title = 'Services | Dylan Almond';
+const description = `I deliver modern digital solutions that prepare businesses for what's next. From brand transformation to striking visual content, I turn strategy into measurable impact.`;
+const canonicalUrl = new URL(Astro.url.pathname, site.url);
+const pageSchema = ServicesSchema(canonicalUrl.toString(), title, description);
 ---
 
-<PageLayout title='Services' description={description} class='flex flex-col' shapes={defaultShapes}>
+<PageLayout
+  title={title}
+  leftBarLabel='Services'
+  description={description}
+  class='flex flex-col'
+  shapes={defaultShapes}
+>
+  <!-- Head meta -->
+  <Fragment slot='head'>
+    <JsonLD graph={pageSchema} />
+  </Fragment>
+
   <h1
     class='text-inverted z-10 mb-8 text-[3.5rem] capitalize mix-blend-difference shadow-lg md:text-8xl'
   >
@@ -54,7 +63,7 @@ const defaultShapes: ShapeOptions[] = [
       activeItem: null,
       defaultDescription: "${description}",
       currentDescription: "${description}",
-      services: ${JSON.stringify(Object.entries(services).map(([name, description]) => ({ name, description })))},
+      services: ${JSON.stringify(site.services)},
 
       selectService(service) {        
         this.activeItem = service.name;

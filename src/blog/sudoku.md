@@ -1,11 +1,12 @@
 ---
 title: 'Sudoku'
 date: '2022-05-01'
-description: 'A simple Sudoku game.'
+description: 'A simple Sudoku game written in React + CSS.'
 tags: ['Web Development', 'Game Development', 'Responsive Design']
+link: 'https://sudoku.dylanalmond.net/'
 image:
   src: '../images/sudoku/desktop-light.png'
-  alt: 'A Sudoku game.'
+  alt: 'An online Sudoku game.'
 ---
 
 ![Sudoku Dark Mode](../images/sudoku/desktop-dark.png)

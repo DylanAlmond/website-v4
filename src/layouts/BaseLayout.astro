@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import clsx from 'clsx';
 import { ClientRouter } from 'astro:transitions';
+import { site } from '../config/site';
 
 interface Props {
   title: string;
@@ -11,6 +12,8 @@ interface Props {
 }
 
 const { title, description, inverted = false, class: className } = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, site.url);
 ---
 
 <html
@@ -28,7 +31,13 @@ const { title, description, inverted = false, class: className } = Astro.props;
 
     <meta name='title' content={title} />
     <meta name='description' content={description} />
-    <link rel='canonical' href={new URL(Astro.url.pathname, Astro.site!)} />
+
+    <!-- Open Graph -->
+    <meta property='og:title' content={title} />
+    <meta property='og:description' content={description} />
+    <meta property='og:url' content={canonicalUrl} />
+    <meta property='og:site_name' content={site.name} />
+    <meta property='og:locale' content='en_GB' />
 
     <!-- Sitemap -->
     <link rel='sitemap' href='/sitemap-index.xml' />
@@ -40,6 +49,9 @@ const { title, description, inverted = false, class: className } = Astro.props;
       title='Dylan Almond'
       href={new URL('rss.xml', Astro.site)}
     />
+
+    <!-- Canonical -->
+    <link rel='canonical' href={canonicalUrl} />
 
     <script src='../scripts/local.ts'></script>
     <ClientRouter />
@@ -53,5 +65,7 @@ const { title, description, inverted = false, class: className } = Astro.props;
     )}
   >
     <slot />
+
+    <slot name='footer' />
   </body>
 </html>

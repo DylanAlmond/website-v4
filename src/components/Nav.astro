@@ -41,7 +41,7 @@ const defaultShapes: ShapeOptions[] = [
 ];
 ---
 
-<div
+<nav
   x-data=`{ 
       routes: ${JSON.stringify(Object.entries(routes).map(([name, href]) => ({ name, href })))}
     }`
@@ -80,7 +80,7 @@ const defaultShapes: ShapeOptions[] = [
   </div>
 
   <PageBar class='fixed top-0 right-12 py-12' />
-</div>
+</nav>
 
 <style>
   @reference '../styles/global.css';

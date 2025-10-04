@@ -6,6 +6,9 @@ import { Image } from 'astro:assets';
 import Button from '../components/Button.astro';
 import Nav from '../components/Nav.astro';
 import BaseLayout from './BaseLayout.astro';
+import JsonLD from '../components/JsonLD.astro';
+import { site } from '../config/site';
+import { BlogPostSchema } from '../config/schema';
 
 interface Props {
   post: CollectionEntry<'blog'>;
@@ -14,73 +17,63 @@ interface Props {
 
 const { post, next } = Astro.props;
 
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site!);
-
-const structuredData = {
-  '@context': 'https://schema.org/',
-  '@type': 'BlogPosting',
-  headline: post.data.title,
-  description: post.data.description,
-  url: canonicalUrl.toString(),
-  datePublished: post.data.date.toISOString(),
-  dateCreated: post.data.date.toISOString(),
-  keywords: post.data.tags.join(', '),
-  image: post.data.image ? Astro.site!.origin + post.data.image.src.src : '',
-  author: {
-    '@type': 'Person',
-    name: 'Dylan Almond'
-  }
-};
+// Page Meta
+const title = `${post.data.title} | Dylan Almond`;
+const canonicalUrl = new URL(Astro.url.pathname, site.url);
+const pageSchema = BlogPostSchema(canonicalUrl.toString(), post);
 ---
 
 <BaseLayout
-  title={`Work - ${post.data.title}`}
-  description={post.data.description || `Work - ${post.data.title}`}
+  title={title}
+  description={post.data.description ?? title}
 >
   <!-- Meta -->
   <Fragment slot='head'>
     <meta name='keywords' content={post.data.tags.join(', ')} />
 
-    <!-- Open Graph / Social -->
-    <meta property='og:title' content={post.data.title} />
-    <meta property='og:description' content={post.data.description} />
+    <!-- Open Graph -->
     <meta property='og:type' content='article' />
     <meta property='article:published_time' content={post.data.date.toISOString()} />
     <meta property='article:tag' content={post.data.tags.join(', ')} />
     {
       post.data.image && (
-        <meta property='og:image' content={Astro.site!.origin + post.data.image.src.src} />
-        <meta property='og:image:alt' content={post.data.image.alt} />
+        <>
+          <meta property='og:image' content={site.url + post.data.image.src.src} />
+          <meta property='og:image:alt' content={post.data.image.alt} />
+        </>
       )
     }
-
-    <script type='application/ld+json' set:html={JSON.stringify(structuredData)} />
+    
+    <JsonLD graph={pageSchema} />
   </Fragment>
 
   <Header />
 
-  <PageBar class='fixed top-0 left-12 py-12' label={`Work - ${post.data.title}`} />
+  <PageBar class='fixed top-0 left-12 py-12' label={post.data.title} />
 
   <main
     class={'max-w-container-sm mx-8 md:mx-32 transition-all duration-1000 ease-in-out flex-1 relative mt-18 md:mt-28 4xl:mt-0!'}
     :inert='$store.menuOpen'
   >
     <article class='flex flex-col'>
-      <!-- Featured Image -->
-      <Image
-        class={'shadow-xl aspect-16/9 bg-white object-contain w-full'}
-        src={post.data.image.src}
-        alt={post.data.image.alt}
-        layout={'full-width'}
-        loading={'eager'}
-      />
+      <header class='flex flex-col gap-4'>
+        <!-- Featured Image -->
+        <Image
+          class={'shadow-xl aspect-16/9 bg-white object-contain w-full mb-4'}
+          src={post.data.image.src}
+          alt={post.data.image.alt}
+          layout={'full-width'}
+          loading={'eager'}
+        />
 
-      <header class='mt-8 flex flex-col gap-4'>
         <h1 class='text-5xl md:text-[5.25rem] md:leading-27'>{post.data.title}</h1>
 
         <hr class='border-primary w-full border-1' />
 
-        <div class='mt-4 flex flex-col gap-8 lg:flex-row'>
+        <!-- Post Meta -->
+        <section aria-labelledby="post-meta-heading" class='mt-4 flex flex-col gap-8 lg:flex-row'>
+          <h2 id="post-meta-heading" class="sr-only">Post details</h2>
+
           <div class='flex flex-1 flex-col gap-5'>
             <!-- Tags -->
             <div class='grid grid-cols-[10rem_1fr]'>
@@ -95,7 +88,7 @@ const structuredData = {
             <div class='grid grid-cols-[10rem_1fr]'>
               <span class='font-sans! text-xl font-bold md:text-2xl'>Year</span>
 
-              <span class='text-primary/80 mt-0.5 text-lg capitalize md:mt-1 md:text-xl'>{post.data.date.getFullYear()}</span>
+              <time class='text-primary/80 mt-0.5 text-lg capitalize md:mt-1 md:text-xl' datetime={post.data.date.toISOString()}>{post.data.date.getFullYear()}</time>
             </div>
           </div>
 
@@ -111,14 +104,20 @@ const structuredData = {
                 <!-- Link -->
                 {
                   post.data.link && (
-                    <a aria-label="Visit Project Link" href={post.data.link} class='text-[#20577E] transition-all duration-250 ease-in-out hover:opacity-60 mt-0.5 text-lg md:mt-1 md:text-xl'>
+                    <a 
+                      aria-label="Visit Project Link"           
+                      target="_blank"
+                      rel="noopener noreferrer" 
+                      href={post.data.link} 
+                      class='text-[#20577E] transition-all duration-250 ease-in-out hover:opacity-60 mt-0.5 text-lg md:mt-1 md:text-xl'
+                    >
                       {post.data.link}
                     </a>
                   )
                 }
             </div>
           )}
-        </div>
+        </section>
       </header>
 
       <!-- Post Content -->

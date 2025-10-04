@@ -3968,6 +3968,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"schema-dts@npm:^1.1.5":
+  version: 1.1.5
+  resolution: "schema-dts@npm:1.1.5"
+  checksum: 10c0/babe23a1577c75c5df79d73acf34af3399e60928eab46f2236a0c4212061f5778d613a31c9e9ec86a2807d20b1ea460673d72d3fe1f64fb7543867460e607f76
+  languageName: node
+  linkType: hard
+
 "semver@npm:^7.3.5, semver@npm:^7.7.2":
   version: 7.7.2
   resolution: "semver@npm:7.7.2"
@@ -4739,6 +4746,7 @@ __metadata:
     prettier: "npm:^3.6.2"
     prettier-plugin-astro: "npm:^0.14.1"
     prettier-plugin-tailwindcss: "npm:^0.6.14"
+    schema-dts: "npm:^1.1.5"
     tailwindcss: "npm:^4.1.13"
   languageName: unknown
   linkType: soft

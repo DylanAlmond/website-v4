@@ -3,6 +3,9 @@ import { getCollection } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
 import { Image } from 'astro:assets';
 import type { ShapeOptions } from '../../components/ShapeManager';
+import JsonLD from '../../components/JsonLD.astro';
+import { site } from '../../config/site';
+import { BlogSchema } from '../../config/schema';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
@@ -38,10 +41,25 @@ const defaultShapes: ShapeOptions[] = [
   }
 ];
 
+// Page Meta
+const title = 'Work | Dylan Almond';
 const description = "Explore Dylan Almond's portfolio of websites, apps, and digital projects.";
+const canonicalUrl = new URL(Astro.url.pathname, site.url);
+const pageSchema = BlogSchema(canonicalUrl.toString(), posts, title, description);
 ---
 
-<PageLayout title='Work' description={description} class='flex flex-col' shapes={defaultShapes}>
+<PageLayout
+  title={title}
+  leftBarLabel='Work'
+  description={description}
+  class='flex flex-col'
+  shapes={defaultShapes}
+>
+  <!-- Head meta -->
+  <Fragment slot='head'>
+    <JsonLD graph={pageSchema} />
+  </Fragment>
+
   <div
     x-data=`{
       posts: ${JSON.stringify(posts)},
