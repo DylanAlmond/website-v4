@@ -2,11 +2,9 @@
 import Header from '../components/Header.astro';
 import PageBar from '../components/PageBar.astro';
 import clsx from 'clsx';
-import Shapes from '../components/Shapes.astro';
 import type { ShapeOptions } from '../components/ShapeManager';
 import Nav from '../components/Nav.astro';
 import BaseLayout from './BaseLayout.astro';
-import { site } from '../config/site';
 
 interface Props {
   title: string;
@@ -27,8 +25,6 @@ const {
   shapes,
   class: className
 } = Astro.props;
-
-const canonicalUrl = new URL(Astro.url.pathname, site.url);
 ---
 
 <BaseLayout title={title} description={description} inverted={inverted}>
@@ -41,9 +37,10 @@ const canonicalUrl = new URL(Astro.url.pathname, site.url);
 
   {
     shapes && (
-      <Shapes
+      <shape-canvas
+        :disabled="$store.menuOpen"
         class='absolute top-0 left-0 h-full w-full overflow-hidden opacity-50 transition-opacity duration-700 ease-in-out md:opacity-100'
-        shapes={shapes}
+        shapes={JSON.stringify(shapes)}
       />
     )
   }

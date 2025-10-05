@@ -1,7 +1,6 @@
 ---
 import PageBar from './PageBar.astro';
 import type { ShapeOptions } from './ShapeManager';
-import Shapes from './Shapes.astro';
 
 const routes = {
   Home: '/',
@@ -11,7 +10,7 @@ const routes = {
   Contact: '/contact'
 };
 
-const defaultShapes: ShapeOptions[] = [
+const shapes: ShapeOptions[] = [
   {
     // Triangle
     type: 'polygon',
@@ -56,7 +55,10 @@ const defaultShapes: ShapeOptions[] = [
   x-transition:leave-end='opacity-0'
   class='grain bg-background fixed top-0 left-0 z-10 flex h-full min-h-dvh w-full flex-row justify-center gap-12 overflow-y-auto py-8 md:py-12'
 >
-  <Shapes class='fixed top-0 left-0 h-full w-full blur-sm' shapes={defaultShapes} />
+  <shape-canvas
+    :disabled='!$store.menuOpen'
+    class='fixed top-0 left-0 h-full w-full blur-sm'
+    shapes={JSON.stringify(shapes)}></shape-canvas>
 
   <!-- Header Shows Here -->
 
@@ -69,7 +71,7 @@ const defaultShapes: ShapeOptions[] = [
       <template x-for='(route, index) in routes' :key='route.name'>
         <li>
           <a
-            class='before:text-primary/80 hover:bg-primary focus:bg-primary flex cursor-pointer items-center gap-8 py-5 px-3 font-serif text-5xl transition-all duration-250 before:text-[1.75rem] hover:text-white hover:before:text-white/80 focus:text-white focus:shadow-none focus:outline-none focus:before:text-white/80 md:py-8 md:px-8 md:text-[5.25rem]'
+            class='before:text-primary/80 hover:bg-primary focus:bg-primary flex cursor-pointer items-center gap-8 px-3 py-5 font-serif text-5xl transition-all duration-250 before:text-[1.75rem] hover:text-white hover:before:text-white/80 focus:text-white focus:shadow-none focus:outline-none focus:before:text-white/80 md:px-8 md:py-8 md:text-[5.25rem]'
             :href='route.href'
             x-text='route.name'
           >

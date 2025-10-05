@@ -1,4 +1,7 @@
 import Alpine from 'alpinejs';
+import { ShapeCanvas } from '../components/ShapeCanvas';
+
+customElements.define('shape-canvas', ShapeCanvas);
 
 document.addEventListener('alpine:init', () => {
   console.log('Init Alpine');
