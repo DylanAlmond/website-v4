@@ -7,9 +7,9 @@ import JsonLD from '../../components/JsonLD.astro';
 import { site } from '../../config/site';
 import { BlogSchema } from '../../config/schema';
 
-const posts = (await getCollection('blog')).sort(
-  (a, b) => b.data.dateStarted.valueOf() - a.data.dateStarted.valueOf()
-);
+const posts = (
+  await getCollection('blog', ({ data }) => (import.meta.env.PROD ? data.draft !== true : true))
+).sort((a, b) => b.data.dateStarted.valueOf() - a.data.dateStarted.valueOf());
 
 const defaultShapes: ShapeOptions[] = [
   {
@@ -115,14 +115,17 @@ const pageSchema = BlogSchema(canonicalUrl.toString(), posts, title, description
         <template x-for='(post, index) in posts' :key='post.id'>
           <li>
             <a
-              class='hover:bg-primary flex w-full cursor-pointer items-center gap-3 py-4 pl-3 font-serif text-[1.75rem] transition-all duration-200 hover:text-white focus:outline-none md:gap-6 md:py-6 md:pl-6 md:text-4xl xl:text-5xl'
+              class='hover:bg-primary group flex w-full cursor-pointer items-center gap-3 py-4 px-3 font-serif text-[1.75rem] transition-all duration-200 hover:text-white focus:outline-none md:gap-6 md:py-6 md:px-6 md:text-4xl xl:text-5xl'
               :class="activeItem?.id === post.id && 'bg-primary text-white'"
               :aria-label='"Go to " + post.data.title + " project"'
               @mouseover='highlightWork(post)'
               @focus='highlightWork(post)'
-              x-text='post.data.title'
               :href='"/work/" + post.id'
             >
+              <span x-text='post.data.title'></span>
+              <template x-if='post.data.draft'>
+                <span class='text-red ml-auto'>Draft</span>
+              </template>
             </a>
           </li>
         </template>

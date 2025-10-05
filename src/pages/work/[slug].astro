@@ -3,9 +3,9 @@ import { getCollection, render } from 'astro:content';
 import PostLayout from '../../layouts/PostLayout.astro';
 
 export async function getStaticPaths() {
-  const posts = (await getCollection('blog')).sort(
-    (a, b) => b.data.dateStarted.valueOf() - a.data.dateStarted.valueOf()
-  );
+  const posts = (
+    await getCollection('blog', ({ data }) => (import.meta.env.PROD ? data.draft !== true : true))
+  ).sort((a, b) => b.data.dateStarted.valueOf() - a.data.dateStarted.valueOf());
 
   return posts.map((post, idx) => {
     const next = posts[(idx + 1) % posts.length];

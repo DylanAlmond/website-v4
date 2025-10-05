@@ -1,4 +1,5 @@
 ---
+draft: false
 title: 'Sudoku'
 dateStarted: '2025-01-05'
 description: 'A simple Sudoku game written in React + CSS.'

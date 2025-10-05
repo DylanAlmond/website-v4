@@ -1,4 +1,5 @@
 ---
+draft: false
 title: 'DA'
 dateStarted: '2025-09-01'
 dateFinished: '2025-10-04'
