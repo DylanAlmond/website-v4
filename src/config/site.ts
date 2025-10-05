@@ -11,6 +11,7 @@ export const site = {
     linkedin: 'https://linkedin.com/in/dylan-almond',
   },
   cv: '/Dylan-Almond-CV-03-25.pdf',
+  carbonCalculator: 'https://www.websitecarbon.com/website/dylanalmond-net/',
   services: [
     {
       name: 'Web Development',

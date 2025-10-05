@@ -3,9 +3,6 @@ import type { ShapeOptions } from '../components/ShapeManager';
 import { ContactSchema } from '../config/schema';
 import { site } from '../config/site';
 import PageLayout from '../layouts/PageLayout.astro';
-import type { ContactPage } from 'schema-dts';
-
-const date = new Date().getFullYear();
 
 const defaultShapes: ShapeOptions[] = [
   {
@@ -107,6 +104,13 @@ const pageSchema = ContactSchema(canonicalUrl.toString(), title, description);
         target='_blank'
         rel='noopener noreferrer'
         href={site.cv}>CV</a
+      >
+
+      <a
+        class='text-primary/80 font-serif text-xl transition-all duration-250 ease-in-out hover:opacity-60 xl:text-4xl'
+        target='_blank'
+        rel='noopener noreferrer'
+        href={site.carbonCalculator}>Carbon Calculator</a
       >
     </div>
   </div>
