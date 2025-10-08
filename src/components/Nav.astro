@@ -50,7 +50,7 @@ const shapes: ShapeOptions[] = [
   x-transition:enter='transition-opacity duration-700'
   x-transition:enter-start='opacity-0'
   x-transition:enter-end='opacity-100'
-  x-transition:leave='transition-opacity duration-1000'
+  x-transition:leave='transition-opacity duration-1500'
   x-transition:leave-start='opacity-100'
   x-transition:leave-end='opacity-0'
   class='grain bg-background fixed top-0 left-0 z-10 flex h-full min-h-dvh w-full flex-row justify-center gap-12 overflow-y-auto py-8 md:py-12'
@@ -69,9 +69,18 @@ const shapes: ShapeOptions[] = [
   >
     <ol class='md:ml-auto lg:w-1/2'>
       <template x-for='(route, index) in routes' :key='route.name'>
-        <li>
+        <li
+          x-show='$store.menuOpen'
+          x-transition:enter='transition transform duration-1000 ease-out'
+          x-transition:enter-start='opacity-0 translate-y-8'
+          x-transition:enter-end='opacity-100 translate-y-0'
+          x-transition:leave='transition transform duration-1000 ease-out'
+          x-transition:leave-start='opacity-100 translate-y-0'
+          x-transition:leave-end='opacity-0 translate-y-8'
+          :style='`transition-delay: ${(index + 1) * 50}ms`'
+        >
           <a
-            class='before:text-primary/80 hover:bg-primary focus:bg-primary flex cursor-pointer items-center gap-8 px-3 py-5 font-serif text-5xl transition-all duration-250 before:text-[1.75rem] hover:text-white hover:before:text-white/80 focus:text-white focus:shadow-none focus:outline-none focus:before:text-white/80 md:px-8 md:py-8 md:text-[5.25rem]'
+            class='before:text-primary/80 hover:bg-primary focus:bg-primary flex cursor-pointer items-center gap-8 px-3 py-5 font-serif text-5xl transition-all duration-500 before:transition-all before:duration-500 before:text-[1.75rem] hover:text-white hover:before:text-white/80 focus:text-white focus:shadow-none focus:outline-none focus:before:text-white/80 md:px-8 md:py-8 md:text-[5.25rem]'
             :href='route.href'
             x-text='route.name'
           >
