@@ -15,6 +15,8 @@ document.addEventListener('alpine:init', () => {
 
   // Close our menu when navigating to a new page
   document.addEventListener('astro:page-load', () => {
-    Alpine.store('menuOpen', false);
+    setTimeout(() => {
+      Alpine.store('menuOpen', false);
+    }, 250);
   });
 });
