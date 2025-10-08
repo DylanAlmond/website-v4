@@ -1,0 +1,17 @@
+---
+import Image from 'astro/components/Image.astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  caption?: string;
+}
+
+const { src, alt, caption } = Astro.props;
+---
+
+<figure class='flex flex-col gap-2'>
+  <Image src={src} alt={alt} class={'max-h-[800px] bg-white object-contain'} />
+
+  {caption && <figcaption class='text-primary/80 font-light'>{caption}</figcaption>}
+</figure>

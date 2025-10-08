@@ -1,0 +1,26 @@
+---
+draft: false
+title: "Pete's Property Services"
+dateStarted: '2025-07-15'
+description: 'I was asked to produce a brand new website from the ground up for a startup property maintenance company in Southampton, UK.'
+tags: ['Web Development', 'Design & SEO']
+link: 'https://petespropertyservices.uk/'
+image:
+  src: '../images/petes-property-services/laptop-mockup.png'
+  alt: "A device mockup of a Macbook placed on a chair in a well-lit room displaying the hero section of the Pete's Property Services website."
+---
+
+import Img from '../components/blog/Img.astro';
+import hero from '../images/petes-property-services/hero-desktop.png';
+import services from '../images/petes-property-services/services-section-desktop.png';
+import about from '../images/petes-property-services/about-cta-map-desktop.png';
+import contact from '../images/petes-property-services/contact-form-desktop.png';
+
+<Img src={hero} alt='Desktop Hero Section' caption='Landing Page' />
+<Img src={services} alt='Desktop Services Section' caption='Services Section' />
+<Img
+  src={about}
+  alt='About, CTA, and Map Sections'
+  caption='About, CTA, and Map Sections'
+/>
+<Img src={contact} alt='Contact Form and Footer' caption='Contact & Footer' />
