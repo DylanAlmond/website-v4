@@ -3,9 +3,11 @@ import tailwindcss from '@tailwindcss/vite';
 import alpinejs from '@astrojs/alpinejs';
 import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
+import AstroPWA from '@vite-pwa/astro';
 import getModifiedTime from './src/util/getModifiedTime';
 import path from 'node:path';
 import fs from 'node:fs';
+import { site } from './src/config/site';
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,6 +18,32 @@ export default defineConfig({
   integrations: [
     alpinejs(),
     mdx(),
+    AstroPWA({
+      base: '/',
+      scope: '/',
+      includeAssets: ['favicon.svg'],
+      registerType: 'autoUpdate',
+      manifest: {
+        name: site.name,
+        short_name: site.name,
+        theme_color: '#fffaf0',
+      },
+      pwaAssets: {
+        config: true,
+      },
+      workbox: {
+        navigateFallback: '/404',
+        globPatterns: ['**/*.{css,js,html,svg,png,ico,txt,webp}'],
+        maximumFileSizeToCacheInBytes: 30000000,
+      },
+      devOptions: {
+        enabled: true,
+        navigateFallbackAllowlist: [/^\/$/],
+      },
+      experimental: {
+        directoryAndTrailingSlashHandler: true,
+      },
+    }),
     sitemap({
       async serialize(item) {
         const url = new URL(item.url);
