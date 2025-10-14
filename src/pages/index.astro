@@ -1,4 +1,5 @@
 ---
+import Button from '../components/Button.astro';
 import JsonLD from '../components/JsonLD.astro';
 import type { ShapeOptions } from '../components/ShapeManager';
 import { WebSiteSchema } from '../config/schema';
@@ -86,14 +87,20 @@ const canonicalUrl = new URL(Astro.url.pathname, site.url);
 const pageSchema = WebSiteSchema(canonicalUrl.toString(), title, description);
 ---
 
-<PageLayout title={title} description={description} leftBarLabel='Home' shapes={defaultShapes}>
+<PageLayout
+  title={title}
+  description={description}
+  leftBarLabel='Home'
+  shapes={defaultShapes}
+  class={'flex flex-col mt-12! justify-center gap-8 lg:gap-16 items-center'}
+>
   <!-- Head meta -->
   <Fragment slot='head'>
     <JsonLD graph={pageSchema} />
   </Fragment>
 
   <h1
-    class='text-inverted fixed top-1/2 left-1/2 z-10 w-full -translate-x-1/2 -translate-y-1/2 transform text-center leading-none capitalize mix-blend-difference select-none'
+    class='text-inverted w-full text-center leading-none capitalize mix-blend-difference select-none'
     x-data=`{
       services: ${JSON.stringify(site.services.map((s) => s.name))},
       currentIndex: 0,
@@ -166,9 +173,14 @@ const pageSchema = WebSiteSchema(canonicalUrl.toString(), title, description);
       x-transition:leave-end='opacity-0'></span>
   </h1>
 
+  <div class='flex flex-wrap justify-center gap-4 transition-all duration-500 ease-in-out lg:gap-8'>
+    <Button href='/work'>View My Work</Button>
+    <Button href='/contact' variant='outline'>Contact</Button>
+  </div>
+
   <Fragment slot='footer'>
     <footer
-      class='fixed bottom-8 left-1/2 -translate-x-1/2 transform transition-all duration-700 ease-in-out md:bottom-12'
+      class='fixed bottom-8 left-1/2 -translate-x-1/2 transform transition-all duration-700 ease-in-out lg:bottom-12'
     >
       <small class='text-primary/80 font-serif text-sm'>@{date} Dylan Almond</small>
     </footer>
