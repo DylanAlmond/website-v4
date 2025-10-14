@@ -23,7 +23,7 @@ const { label, class: className } = Astro.props;
     label && (
       <>
         <span
-          class={`max-h-1/2 truncate overflow-visible font-serif text-2xl leading-none italic [text-orientation:mixed] [writing-mode:sideways-lr]`}
+          class={`max-h-1/2 truncate font-serif text-2xl leading-none italic [text-orientation:mixed] [writing-mode:sideways-lr]`}
           :class="inverted && !$store.menuOpen ? 'text-inverted' : 'text-primary'"
         >
           {label}

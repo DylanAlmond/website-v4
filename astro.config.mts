@@ -26,15 +26,14 @@ export default defineConfig({
       manifest: {
         name: site.name,
         short_name: site.name,
-        theme_color: '#fffaf0',
+        theme_color: '#303030',
+        background_color: '#fffaf0',
       },
       pwaAssets: {
         config: true,
       },
       workbox: {
         navigateFallback: '/404',
-        globPatterns: ['**/*.{css,js,html,svg,png,ico,txt,webp}'],
-        maximumFileSizeToCacheInBytes: 30000000,
       },
       devOptions: {
         enabled: true,

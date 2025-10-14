@@ -4,16 +4,21 @@ type ButtonProps = astroHTML.JSX.ButtonHTMLAttributes & astroHTML.JSX.AnchorHTML
 interface Props extends ButtonProps {
   href?: string;
   class?: string;
+  variant?: 'solid' | 'outline';
 }
 
-const { href, class: className, ...props } = Astro.props;
+const { href, class: className, variant, ...props } = Astro.props;
 const baseClasses =
-  'inline-flex items-center justify-center bg-brown px-5 md:px-[2.375rem] focus:outline-none focus:shadow-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer h-12 md:h-16 min-w-40 font-serif text-2xl md:text-4xl leading-0 text-white italic  transition-all duration-250 ease-in-out hover:opacity-75';
+  'inline-flex items-center justify-center bg-brown px-5 lg:px-[2.375rem] focus:outline-none focus:shadow-none focus:ring-2 focus:ring-primary focus:ring-offset-2 cursor-pointer h-12 lg:h-16 min-w-40 font-serif text-2xl lg:text-4xl leading-0 text-white italic  transition-all duration-250 ease-in-out hover:opacity-75';
 ---
 
 {
   href ? (
-    <a href={href} class={`${baseClasses} ${className ?? ''}`} {...props}>
+    <a
+      href={href}
+      class={`${baseClasses} ${variant === 'outline' && 'text-primary! border-primary border-[2.5px] bg-transparent hover:opacity-50!'} ${className ?? ''}`}
+      {...props}
+    >
       <slot />
     </a>
   ) : (
