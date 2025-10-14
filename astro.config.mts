@@ -33,7 +33,10 @@ export default defineConfig({
         config: true,
       },
       workbox: {
-        navigateFallback: '/404',
+        globPatterns: ['**/*.{css,js,html,svg,png,ico,txt,webp,woff,woff2}'],
+        // SiteGround does not seem to be a fan of passing error pages
+        globIgnores: ['**/404.html', '**/500.html'],
+        maximumFileSizeToCacheInBytes: 30000000,
       },
       devOptions: {
         enabled: true,
