@@ -33,9 +33,12 @@ export default defineConfig({
         config: true,
       },
       workbox: {
-        globPatterns: ['**/*.{css,js,html,svg,png,ico,txt,webp,woff,woff2}'],
+        globPatterns: [
+          '**/*.{css,js,html,svg,png,ico,txt,webp,woff,woff2,pdf}',
+        ],
         // SiteGround does not seem to be a fan of passing error pages
         globIgnores: ['**/404.html', '**/500.html'],
+        navigateFallbackDenylist: [/\.pdf$/],
         maximumFileSizeToCacheInBytes: 30000000,
       },
       devOptions: {
