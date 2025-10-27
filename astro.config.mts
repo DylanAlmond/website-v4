@@ -38,7 +38,9 @@ export default defineConfig({
         ],
         // SiteGround does not seem to be a fan of passing error pages
         globIgnores: ['**/404.html', '**/500.html'],
-        navigateFallbackDenylist: [/\.pdf$/],
+        navigateFallbackDenylist: [
+          /\/[^?]*\.[^/]+$/, // “has an extension”
+        ],
         maximumFileSizeToCacheInBytes: 30000000,
       },
       devOptions: {
