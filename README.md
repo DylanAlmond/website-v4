@@ -1,16 +1,24 @@
 # Website V4
 
-4th iteration of my Portfolio site.
+Version 4 of [my portfolio site](https://dylanalmond.net/).
 
-## 🛠️ Tech Stack
 
-- **Astro** – Static site generator
-- **TypeScript** – Type safety and scripting
-- **Tailwind CSS** – Utility-first CSS framework
-- **Markdown** – Content for blog posts
-- **Yarn** – Package manager
+## Overview
 
-## 📁 Project Structure
+- Static site built with Astro, focused on fast, accessible, and SEO-friendly delivery.
+- Content is authored in Markdown/MDX and served as static pages with optional client-side enhancements.
+
+## Tech stack
+
+- Astro (framework)
+- TypeScript
+- Tailwind CSS
+- Alpine.js (lightweight client-side interactivity)
+- Web Components (custom elements)
+- Markdown / MDX for content
+- PWA (offline support)
+
+## Project layout
 
 ```
 /
@@ -18,46 +26,56 @@
 ├── src/
 │   ├── blog/         # Markdown blog posts
 │   ├── components/   # Reusable UI components
+│   ├── config/       # JSON-LD schemas + site config
 │   ├── images/       # Project images
 │   ├── layouts/      # Layout components
 │   ├── pages/        # Site pages and routes
-│   └── styles/       # Global styles (Tailwind)
-└── package.json      # Project metadata and scripts
+│   ├── scripts/      # Client-side script entry points
+|   ├── styles/       # Global styles (Tailwind)
+|   └── util/         # Utility helpers
+└── package.json      # Project scripts and dependencies
 ```
 
-## 🚀 Getting Started
+## Getting started
 
-Install dependencies:
+1. Install dependencies
 
 ```sh
 yarn install
 ```
 
-Start the development server:
+2. Start the development server
 
 ```sh
 yarn dev
 ```
 
-Build for production:
+3. Build for production
 
 ```sh
 yarn build
 ```
 
-Preview the production build locally:
+4. Preview the production build locally
 
 ```sh
 yarn preview
 ```
 
-Run Astro CLI commands:
+## Notes / Conventions
+
+- Content: Add new posts under src/blog. Posts are MD or MDX and should follow the collection schema in src/content.config.ts.
+- Web components: Component implementations and definitions live in src/components. Register custom elements once (e.g., in a client script) and import where needed. Shadow DOM usage is allowed — prefer light DOM for SEO-critical content unless encapsulation is required.
+- Site metadata and contact/social links: src/config/site.ts
+- RSS and sitemap: generated automatically; last-modified dates are derived from Git history using src/util/getModifiedTime.ts.
+- PWA: service worker and assets are configured via the Vite PWA integration and pwa-assets.config.ts.
+- Formatting: Prettier configuration is in .prettierrc. Run the configured script with:
 
 ```sh
-yarn astro ...
+yarn prettier
 ```
 
-## 🌟 Features
+## Features
 
 - Accessible, keyboard-friendly navigation
 - SEO best practices
