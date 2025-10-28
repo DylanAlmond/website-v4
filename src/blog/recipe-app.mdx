@@ -1,0 +1,116 @@
+---
+draft: true
+title: 'Recipe Tinder'
+dateStarted: '2025-08-11'
+description: 'A work in progress interactive recipe-matching platform.'
+tags: ['App Development', 'Backend Systems', 'AI Development', 'UI/UX Design']
+image:
+  src: '../images/recipe-app/banner.png'
+  alt: 'Dylan Almond Recipe App Mobile UI Mockup'
+---
+
+import Img from '../components/blog/Img.astro';
+
+import architectureOverview from '../images/recipe-app/architecture.png';
+import matchmakingOverview from '../images/recipe-app/matchmaking-overview.png';
+import uiInspirations from '../images/recipe-app/inspirations.png';
+import mobileUi from '../images/recipe-app/ui-concept.png';
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Problem & Goals](#problem--goals)
+- [Approach / Process](#approach--process)
+  - [Backend Architecture](#backend-architecture)
+  - [Matchmaking Logic](#matchmaking-logic)
+  - [UI/UX Prototyping](#uiux-prototyping)
+- [Challenges](#challenges)
+- [Results & Learnings](#results--learnings)
+
+## Overview
+
+---
+
+Recipe Tinder is an experimental recipe-matching platform that explores how AI and vector search can power more personalized food discovery. The concept borrows the familiar swipe interaction from dating apps, translating it into a system that learns what users like to eat through direct feedback.
+
+The project currently features a fully functional **[TypeScript](https://www.typescriptlang.org/)** + **[Express](https://expressjs.com/)** backend, using **[PostgreSQL](https://www.postgresql.org/)** with **[pgvector](https://github.com/pgvector/pgvector)** for storing and searching recipe embeddings, and **[LangChain](https://www.langchain.com/)** to integrate large language models for intelligent natural-language recipe queries. The backend supports semantic recipe matching and conversational recipe lookups, forming the foundation for the planned frontend experience.
+
+The planned frontend, to be developed with **[React Native](https://reactnative.dev/)** + **[Expo](https://expo.dev/)**, will deliver an intuitive mobile interface where users can swipe through recipes, like or dislike dishes, and watch their recommendations evolve in real time. For now, the project serves as a testbed for refining the backend architecture and experimenting with intelligent recommendation logic before the user interface is built.
+
+## Problem & Goals
+
+---
+
+Recipe search is often rigid and keyword-based, ignoring the nuances of user taste. The goal for Recipe Tinder is to create a system that understands preference contextually — not just through filters, but through patterns learned over time.
+
+**Goals:**
+
+- Develop a backend capable of semantic recipe matching using vector embeddings
+- Enable natural-language recipe search through LLM integration
+- Design an adaptive feedback model that improves with user interaction
+- Prepare scalable APIs ready for a future mobile interface
+
+## Approach / Process
+
+---
+
+### Backend Architecture
+
+The backend architecture revolves around **vector-based similarity search**. Each recipe is transformed into an embedding based on its name, ingredients, and metadata, allowing the system to perform nearest-neighbour lookups for semantically similar dishes.
+
+<Img
+  src={architectureOverview}
+  alt='Platform Architecture Diagram'
+  caption='Platform Architecture Diagram'
+/>
+
+- **PostgreSQL + pgvector** efficiently stores and indexes embeddings for fast similarity queries.
+- **LangChain** connects LLMs to the database, enabling queries like “show me spicy vegan dinners that are quick to cook.”
+- The backend exposes REST and WebSocket endpoints for flexible data retrieval and live updates.
+
+### Matchmaking Logic
+
+User preferences are stored as lists of recipe IDs — one tracking likes and another tracking dislikes.  
+The backend dynamically calculates the **average embedding vector** for each list to model overall taste preferences.  
+When generating new recommendations, the system compares recipe embeddings against these averages, prioritizing recipes that align more closely with the “liked” profile and diverge from the “disliked” one.
+
+<Img
+  src={matchmakingOverview}
+  alt='Matchmaking Logic Diagram'
+  caption='Matchmaking Logic Diagram'
+/>
+
+### UI/UX Prototyping
+
+Currently referred to as **Recipe Tinder** (a working title reflecting the swipe-based matching concept), the platform is an interactive recipe-matching system that learns user preferences through feedback. The name highlights the playful, Tinder-inspired interface while the app's final branding is still under consideration.
+
+Although the frontend is not yet implemented, early UI exploration focused on achieving a clean, swipe-based interaction model similar to Tinder. Inspiration was drawn from recipe and lifestyle apps emphasizing immediacy and visual appeal.
+
+<Img
+  src={uiInspirations}
+  alt='Various design inspirations'
+  caption='Various design inspirations'
+/>
+
+<Img src={mobileUi} alt='Mobile UI Mockup' caption='Mobile UI Mockup' />
+
+## Challenges
+
+Before building the frontend and refining the user experience, several technical and practical challenges arose during backend development. These ranged from optimizing performance for large-scale vector searches, to interpreting user intent through natural-language queries, to handling dataset limitations. The table below summarizes the key challenges encountered and the approaches taken to address them, as well as current workarounds where full solutions are planned for future development.
+
+| Challenge                              | Description                                                                                                                                                                             | Solution / Current Approach                                                                                                                                                                            |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Scaling Vector Similarity Search       | As the dataset expanded, similarity queries became computationally heavy.                                                                                                               | Adopted **pgvector** indexing to handle high-volume embeddings efficiently, reducing query latency to under 100 ms.                                                                                    |
+| Semantic Understanding of User Queries | Initial LLM prompts were too literal, missing subtle user intent.                                                                                                                       | Integrated **LangChain prompt templates** and refined embeddings to interpret natural-language inputs more contextually.                                                                               |
+| Balancing Development Phases           | Building the backend before the UI meant limited user testing and feedback loops.                                                                                                       | Implemented mock endpoints to emulate app behavior, allowing early validation of recommendation accuracy and system performance.                                                                       |
+| Dataset Quality                        | Finding a dataset that was large enough for meaningful recommendations and rich enough (ingredients, steps, nutritional info, images) was difficult. Current dataset varies in quality. | The current dataset is sufficient to get the system functional. A larger, higher-quality dataset (~10k recipes) is planned, potentially via web scraping, which will be tackled in future development. |
+
+## Results & Learnings
+
+Even at this early stage, the backend of Recipe Tinder demonstrates the core functionality needed for a fully interactive recipe-matching platform. Key outcomes include:
+
+- A **fully functional backend** capable of semantic recipe search and AI-driven recommendations.
+- **Optimized query performance** using pgvector, enabling fast nearest-neighbour searches on recipe embeddings.
+- A **modular architecture** that is ready to support a future mobile frontend and additional features.
+
+These results provide a strong foundation for building the user-facing interface, testing recommendation accuracy with real users, and scaling the system with larger datasets. The backend-first approach has also allowed early experimentation with LLM-based query handling and feedback-driven recommendation logic, forming the basis for future improvements.
