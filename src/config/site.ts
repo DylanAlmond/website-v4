@@ -4,13 +4,12 @@ export const site = {
   email: 'dylan@dylanalmond.net',
   telephone: '+4407900414970',
   jobTitle: 'Web/Software Developer',
-  description:
-    'Creative web developer delivering modern websites, apps, and digital products. Specializing in web development, app design, UI/UX, SEO optimization, and e-commerce solutions.',
+  description: `I'm a developer based in Southampton, UK, specializing in front-end development with experience across full-stack and AI projects. I've worked with clients to build modern websites, applications, and digital products. I love turning ideas into visually striking, user-friendly digital experiences.`,
   socials: {
     github: 'https://github.com/dylanalmond',
     linkedin: 'https://linkedin.com/in/dylan-almond',
   },
-  cv: '/Dylan-Almond-CV-10-25.pdf',
+  cv: '/Dylan-Almond-CV-11-25.pdf',
   carbonCalculator: 'https://www.websitecarbon.com/website/dylanalmond-net/',
   services: [
     {
