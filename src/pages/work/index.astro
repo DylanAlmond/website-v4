@@ -6,10 +6,18 @@ import type { ShapeOptions } from '../../components/ShapeManager';
 import JsonLD from '../../components/JsonLD.astro';
 import { site } from '../../config/site';
 import { BlogSchema } from '../../config/schema';
+import Pin from '../../images/pin.svg';
 
 const posts = (
   await getCollection('blog', ({ data }) => (import.meta.env.PROD ? data.draft !== true : true))
-).sort((a, b) => b.data.dateStarted.valueOf() - a.data.dateStarted.valueOf());
+).sort((a, b) => {
+  // If one is pinned and the other is not → pinned goes first
+  if (a.data.pinned && !b.data.pinned) return -1;
+  if (!a.data.pinned && b.data.pinned) return 1;
+
+  // Otherwise sort by dateStarted descending
+  return b.data.dateStarted.valueOf() - a.data.dateStarted.valueOf();
+});
 
 const defaultShapes: ShapeOptions[] = [
   {
@@ -115,7 +123,7 @@ const pageSchema = BlogSchema(canonicalUrl.toString(), posts, title, description
         <template x-for='(post, index) in posts' :key='post.id'>
           <li>
             <a
-              class='hover:bg-primary group flex w-full cursor-pointer items-center gap-3 py-4 px-3 font-serif text-[1.75rem] transition-all duration-200 hover:text-white focus:outline-none md:gap-6 md:py-6 md:px-6 md:text-4xl xl:text-5xl'
+              class='hover:bg-primary group flex w-full cursor-pointer items-center gap-3 px-3 py-4 font-serif text-[1.75rem] transition-all duration-200 hover:text-white focus:outline-none md:gap-6 md:px-6 md:py-6 md:text-4xl xl:text-5xl'
               :class="activeItem?.id === post.id && 'bg-primary text-white'"
               :aria-label='"Go to " + post.data.title + " project"'
               @mouseover='highlightWork(post)'
@@ -125,6 +133,17 @@ const pageSchema = BlogSchema(canonicalUrl.toString(), posts, title, description
               <span x-text='post.data.title'></span>
               <template x-if='post.data.draft'>
                 <span class='text-red ml-auto'>Draft</span>
+              </template>
+
+              <template x-if='post.data.pinned'>
+                <span class='ml-auto'>
+                  <span class='sr-only'>Pinned</span>
+                  <Pin
+                    aria-hidden='true'
+                    class={'size-7 md:size-10 fill-red stroke-red group-hover:fill-white group-hover:stroke-white stroke-[1] -rotate-12 transition-all duration-200'}
+                    :class="activeItem?.id === post.id && 'fill-white stroke-white'"
+                  />
+                </span>
               </template>
             </a>
           </li>
