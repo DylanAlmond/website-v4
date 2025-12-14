@@ -5,7 +5,8 @@ export default function getModifiedTime(filepath: string) {
   // Get the last modified date (most recent commit)
   let lastModified = execSync(`git log -1 --pretty="format:%cI" "${filepath}"`)
     .toString()
-    .trim();
+    .trim()
+    .split('\n')[0]; // take only the first line
 
   // Use FS as backup
   lastModified === '' &&
@@ -16,7 +17,8 @@ export default function getModifiedTime(filepath: string) {
     `git log --diff-filter=A --follow --format=%aI -- "${filepath}"`,
   )
     .toString()
-    .trim();
+    .trim()
+    .split('\n')[0]; // take only the first line
 
   // Use FS as backup
   dateCreated === '' && (dateCreated = statSync(filepath).ctime.toISOString());
