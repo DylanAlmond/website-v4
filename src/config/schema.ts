@@ -5,10 +5,60 @@ import type {
   Blog,
   BlogPosting,
   ContactPage,
+  ImageObject,
   WebPage,
   WebSite,
 } from 'schema-dts';
 import getModifiedTime from '../util/getModifiedTime';
+import { getImage } from 'astro:assets';
+import { unified } from 'unified';
+import rehypeParse from 'rehype-parse';
+import { visit } from 'unist-util-visit';
+import { decode } from 'html-entities';
+
+const imageFiles: Record<string, { default: ImageMetadata }> = import.meta.glob(
+  '../images/**/*',
+  {
+    eager: true,
+  },
+);
+
+async function decodeAstroImages(htmlString: string): Promise<ImageObject[]> {
+  const images: ImageObject[] = [];
+
+  const tree = unified().use(rehypeParse, { fragment: true }).parse(htmlString);
+  const promises: Promise<void>[] = [];
+
+  visit(tree, 'element', (node: any) => {
+    if (node.tagName === 'img' && node.properties?.__astro_image_) {
+      const decoded = decode(node.properties.__astro_image_);
+      const { src, alt }: { src: string; alt: string } = JSON.parse(decoded);
+
+      const fileModule = imageFiles[src];
+      if (!fileModule) {
+        console.warn(`Image not found in glob: ${src}`);
+        return;
+      }
+
+      promises.push(
+        getImage({
+          src: fileModule.default,
+          format: 'webp',
+        }).then((res) => {
+          images.push({
+            '@type': 'ImageObject',
+            author: { '@id': personSchema['@id'] },
+            url: new URL(res.src, site.url).toString(),
+            description: alt,
+          });
+        }),
+      );
+    }
+  });
+
+  await Promise.all(promises);
+  return images;
+}
 
 export const personSchema = {
   '@type': 'Person',
@@ -21,12 +71,33 @@ export const personSchema = {
   sameAs: Object.values(site.socials),
 };
 
-export const BlogPostSchema = (
+export const BlogPostSchema = async (
   url: string,
   post: CollectionEntry<'blog'>,
   dateCreatedISO: string,
   lastModifiedISO: string,
-): BlogPosting => {
+): Promise<BlogPosting> => {
+  const markdownImages: ImageObject[] = await decodeAstroImages(
+    post.rendered?.html || '',
+  );
+
+  console.log(markdownImages);
+
+  // Featured Image
+  if (post.data.image) {
+    const processedImage = await getImage({
+      src: post.data.image.src,
+      format: 'webp',
+    });
+
+    markdownImages.push({
+      '@type': 'ImageObject',
+      author: { '@id': personSchema['@id'] },
+      url: new URL(processedImage.src, site.url).toString(),
+      description: post.data.image.alt,
+    });
+  }
+
   return {
     '@type': 'BlogPosting',
     '@id': `${url}/#BlogPosting`,
@@ -39,25 +110,19 @@ export const BlogPostSchema = (
     dateModified: lastModifiedISO,
     author: { '@id': personSchema['@id'] },
     publisher: { '@id': personSchema['@id'] },
-    image: post.data.image ? site.url + post.data.image.src.src : '',
+    image: markdownImages,
     keywords: post.data.tags,
   };
 };
 
-export const BlogSchema = (
+export const BlogSchema = async (
   url: string,
   posts: CollectionEntry<'blog'>[],
   title: string,
   description: string,
-): Blog => {
-  return {
-    '@type': 'Blog',
-    '@id': url,
-    mainEntityOfPage: url,
-    name: title,
-    description: description,
-    publisher: { '@id': personSchema['@id'] },
-    blogPost: posts.map((post) => {
+): Promise<Blog> => {
+  const blogPost = await Promise.all(
+    posts.map(async (post) => {
       const { dateCreated, lastModified } = getModifiedTime(post.filePath!);
 
       return BlogPostSchema(
@@ -67,6 +132,16 @@ export const BlogSchema = (
         lastModified,
       );
     }),
+  );
+
+  return {
+    '@type': 'Blog',
+    '@id': url,
+    mainEntityOfPage: url,
+    name: title,
+    description: description,
+    publisher: { '@id': personSchema['@id'] },
+    blogPost: blogPost,
   };
 };
 

@@ -53,7 +53,7 @@ const defaultShapes: ShapeOptions[] = [
 const title = 'Work | Dylan Almond';
 const description = "Explore Dylan Almond's portfolio of websites, apps, and digital projects.";
 const canonicalUrl = new URL(Astro.url.pathname, site.url);
-const pageSchema = BlogSchema(canonicalUrl.toString(), posts, title, description);
+const pageSchema = await BlogSchema(canonicalUrl.toString(), posts, title, description);
 ---
 
 <PageLayout

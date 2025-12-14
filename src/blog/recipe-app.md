@@ -9,23 +9,17 @@ image:
   alt: 'Dylan Almond Recipe App Mobile UI Mockup'
 ---
 
-import Img from '../components/blog/Img.astro';
-
-import architectureOverview from '../images/recipe-app/architecture.png';
-import matchmakingOverview from '../images/recipe-app/matchmaking-overview.png';
-import uiInspirations from '../images/recipe-app/inspirations.png';
-import mobileUi from '../images/recipe-app/ui-concept.png';
-
 ## Table of Contents
 
+- [Table of Contents](#table-of-contents)
 - [Overview](#overview)
-- [Problem & Goals](#problem--goals)
+- [Problem \& Goals](#problem--goals)
 - [Approach / Process](#approach--process)
   - [Backend Architecture](#backend-architecture)
   - [Matchmaking Logic](#matchmaking-logic)
   - [UI/UX Prototyping](#uiux-prototyping)
 - [Challenges](#challenges)
-- [Results & Learnings](#results--learnings)
+- [Results \& Learnings](#results--learnings)
 
 ## Overview
 
@@ -52,11 +46,7 @@ Recipe search is often rigid and keyword-based, ignoring the nuances of user tas
 
 The backend architecture revolves around **vector-based similarity search**. Each recipe is transformed into an embedding based on its name, ingredients, and metadata, allowing the system to perform nearest-neighbour lookups for semantically similar dishes.
 
-<Img
-  src={architectureOverview}
-  alt='Platform Architecture Diagram'
-  caption='Platform Architecture Diagram'
-/>
+![Platform Architecture Diagram](../images/recipe-app/architecture.png)
 
 - **PostgreSQL + pgvector** efficiently stores and indexes embeddings for fast similarity queries.
 - **LangChain** connects LLMs to the database, enabling queries like “show me spicy vegan dinners that are quick to cook.”
@@ -68,11 +58,7 @@ User preferences are stored as lists of recipe IDs — one tracking likes and an
 The backend dynamically calculates the **average embedding vector** for each list to model overall taste preferences.  
 When generating new recommendations, the system compares recipe embeddings against these averages, prioritizing recipes that align more closely with the “liked” profile and diverge from the “disliked” one.
 
-<Img
-  src={matchmakingOverview}
-  alt='Matchmaking Logic Diagram'
-  caption='Matchmaking Logic Diagram'
-/>
+![Matchmaking Logic Diagram](../images/recipe-app/matchmaking-overview.png)
 
 ### UI/UX Prototyping
 
@@ -80,13 +66,9 @@ Currently referred to as **Recipe Tinder** (a working title reflecting the swipe
 
 Although the frontend is not yet implemented, early UI exploration focused on achieving a clean, swipe-based interaction model similar to Tinder. Inspiration was drawn from recipe and lifestyle apps emphasizing immediacy and visual appeal.
 
-<Img
-  src={uiInspirations}
-  alt='Various design inspirations'
-  caption='Various design inspirations'
-/>
+![Various design inspirations](../images/recipe-app/inspirations.png)
 
-<Img src={mobileUi} alt='Mobile UI Mockup' caption='Mobile UI Mockup' />
+![Mobile UI Mockup](../images/recipe-app/ui-concept.png)
 
 ## Challenges
 

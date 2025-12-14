@@ -26,7 +26,7 @@ const canonicalUrl = new URL(Astro.url.pathname, site.url);
 
 const { lastModified, dateCreated } = getModifiedTime(post.filePath!);
 
-const pageSchema = BlogPostSchema(canonicalUrl.toString(), post, dateCreated, lastModified);
+const pageSchema = await BlogPostSchema(canonicalUrl.toString(), post, dateCreated, lastModified);
 ---
 
 <BaseLayout

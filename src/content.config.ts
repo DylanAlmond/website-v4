@@ -15,6 +15,7 @@ const blog = defineCollection({
         src: image(),
         alt: z.string(),
       }),
+
       // Project start + finish dates
       dateStarted: z.date({ coerce: true }),
       // Undefined = ongoing project
