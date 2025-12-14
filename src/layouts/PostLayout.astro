@@ -75,7 +75,7 @@ const pageSchema = await BlogPostSchema(canonicalUrl.toString(), post, dateCreat
 
         {post.data.draft && <span class='text-red text-2xl md:text-4xl text font-serif'>Draft</span>}
 
-        <h1 class='text-5xl md:text-[5.25rem] md:leading-27'>
+        <h1 class='text-5xl md:text-[5.25em] md:leading-27'>
           {post.data.title}
         </h1>
 
@@ -87,7 +87,7 @@ const pageSchema = await BlogPostSchema(canonicalUrl.toString(), post, dateCreat
 
           <div class='flex flex-1 flex-col gap-5'>
             <!-- Tags -->
-            <div class='grid grid-cols-[10rem_1fr]'>
+            <div class='grid grid-cols-[10em_1fr]'>
               <span class='font-sans! text-xl font-bold md:text-2xl'>Category</span>
 
               <ul class='text-primary/80 text-lg capitalize md:mt-1 md:text-xl'>
@@ -96,7 +96,7 @@ const pageSchema = await BlogPostSchema(canonicalUrl.toString(), post, dateCreat
             </div>
 
             <!-- Published -->
-            <div class='grid grid-cols-[10rem_1fr]'>
+            <div class='grid grid-cols-[10em_1fr]'>
               <span class='font-sans! text-xl font-bold md:text-2xl'>Period</span>
 
               <span class="text-primary/80 text-lg capitalize md:mt-1 md:text-xl">
@@ -126,7 +126,7 @@ const pageSchema = await BlogPostSchema(canonicalUrl.toString(), post, dateCreat
                 <!-- Description -->
                 {
                   post.data.description && (
-                    <p class='text-primary/80 text-xl'>{post.data.description}</p>
+                    <p class='text-primary/80 text-lg'>{post.data.description}</p>
                   )
                 }
 
@@ -158,7 +158,7 @@ const pageSchema = await BlogPostSchema(canonicalUrl.toString(), post, dateCreat
         class='border-primary flex-wrap mt-8 flex justify-between gap-4 border-t-2 pt-3 flex-row items-center md:pt-8'
       >
         {post.data.draft && <span class='text-red w-full text-2xl md:text-4xl text font-serif'>Draft</span>}
-        <span class='font-serif text-[2rem] md:text-5xl'>{post.data.title}</span>
+        <span class='font-serif text-[2em] md:text-5xl'>{post.data.title}</span>
 
         <Button href={`/work/${next.id}`}>Next Project</Button>
       </footer>
@@ -175,11 +175,11 @@ const pageSchema = await BlogPostSchema(canonicalUrl.toString(), post, dateCreat
 
   :root {
     scroll-behavior: smooth;
-    scroll-padding: 7rem;
+    scroll-padding: 7em;
   }
 
   .prose {
-    @apply text-primary/80 flex flex-col text-xl leading-relaxed;
+    @apply text-primary/80 flex flex-col text-lg leading-relaxed;
     
     ul {
       @apply list-disc pl-8;
@@ -187,18 +187,6 @@ const pageSchema = await BlogPostSchema(canonicalUrl.toString(), post, dateCreat
 
     ol {
       @apply list-decimal pl-8;
-    }
-
-    li {
-      /* @apply mb-2; */
-
-      /* &:first-child {
-        @apply mt-0;
-      } */
-
-      /* &:last-child {
-        @apply mb-0;
-      } */
     }
 
     a {
@@ -215,36 +203,36 @@ const pageSchema = await BlogPostSchema(canonicalUrl.toString(), post, dateCreat
     h4,
     h5,
     h6 {
-      @apply text-primary font-serif mt-6 mb-4 pb-1 border-b-2 border-primary;
+      @apply text-primary font-serif mt-4 mb-2 font-bold tracking-wider leading-snug;
     }
 
     h1 {
-      @apply text-[4rem];
+      @apply text-[3.5em] border-b-2 border-primary pb-2 mt-8 mb-4;
     }
 
     h2 {
-      @apply text-[3rem];
+      @apply text-[2.75em] border-b-2 border-primary pb-2 mt-8 mb-4;
     }
 
     h3 {
-      @apply text-[2.5rem];
+      @apply text-[2.25em];
     }
 
     h4 {
-      @apply text-[2rem];
+      @apply text-[1.5em];
     }
 
     h5 {
-      @apply text-[1.75rem];
+      @apply text-[1.25em];
     }
 
     h6 {
-      @apply text-[1.25rem];
+      @apply text-[1em];
     }
 
     img,
     video {
-      @apply mt-6 w-full shadow-xl md:mt-8;
+      @apply mt-6 w-full shadow-xl md:mt-8 max-h-[800px] bg-white object-contain;
     }
 
     table {
