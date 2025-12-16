@@ -180,6 +180,12 @@ const pageSchema = await BlogPostSchema(canonicalUrl.toString(), post, dateCreat
 
   .prose {
     @apply text-primary/80 flex flex-col text-lg leading-relaxed;
+
+    ul,
+    ol,
+    p {
+      @apply mb-2;
+    }
     
     ul {
       @apply list-disc pl-8;
@@ -191,10 +197,6 @@ const pageSchema = await BlogPostSchema(canonicalUrl.toString(), post, dateCreat
 
     a {
       @apply underline transition-all duration-250 hover:opacity-60;
-    }
-
-    p {
-      @apply mb-2;
     }
 
     h1,
