@@ -9,7 +9,7 @@ export const site = {
     github: 'https://github.com/dylanalmond',
     linkedin: 'https://linkedin.com/in/dylan-almond',
   },
-  cv: '/Dylan-Almond-CV-11-25.pdf',
+  cv: '/Dylan-Almond-CV-01-26-B.pdf',
   carbonCalculator: 'https://www.websitecarbon.com/website/dylanalmond-net/',
   services: [
     {
