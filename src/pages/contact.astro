@@ -46,7 +46,7 @@ const pageSchema = ContactSchema(canonicalUrl.toString(), title, description);
   leftBarLabel='Contact'
   description={description}
   shapes={defaultShapes}
-  class='mt-4 flex flex-col justify-center items-center gap-8 xl:items-end xl:justify-start xl:gap-12'
+  class='mt-4 flex flex-col items-center justify-center gap-8 xl:items-end xl:justify-start xl:gap-12'
 >
   <!-- Head meta -->
   <Fragment slot='head'>
@@ -103,14 +103,14 @@ const pageSchema = ContactSchema(canonicalUrl.toString(), title, description);
         class='text-primary/80 font-serif text-xl transition-all duration-250 ease-in-out hover:opacity-60 xl:text-4xl'
         target='_blank'
         rel='noopener noreferrer'
-        href={site.cv}>CV</a
+        href={site.carbonCalculator}>Carbon Score</a
       >
 
       <a
         class='text-primary/80 font-serif text-xl transition-all duration-250 ease-in-out hover:opacity-60 xl:text-4xl'
         target='_blank'
         rel='noopener noreferrer'
-        href={site.carbonCalculator}>Carbon Score</a
+        href={site.cv}>CV</a
       >
     </div>
   </div>
