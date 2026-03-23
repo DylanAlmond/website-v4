@@ -1,5 +1,6 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/blog' }),
@@ -17,13 +18,13 @@ const blog = defineCollection({
       }),
 
       // Project start + finish dates
-      dateStarted: z.date({ coerce: true }),
+      dateStarted: z.coerce.date(),
       // Undefined = ongoing project
-      dateFinished: z.date({ coerce: true }).optional(),
+      dateFinished: z.coerce.date().optional(),
 
       // Handled by remark plugin
-      dateCreated: z.date({ coerce: true }).optional(),
-      lastModified: z.date({ coerce: true }).optional(),
+      dateCreated: z.coerce.date().optional(),
+      lastModified: z.coerce.date().optional(),
     }),
 });
 
