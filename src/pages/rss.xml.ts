@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import getModifiedTime from '../util/getModifiedTime';
 
 export async function GET(context: RSSOptions) {
-  const blog = await getCollection('blog');
+  const blog = await getCollection('blog', ({ data }) => !data.draft);
 
   return rss({
     title: 'Dylan Almond | Portfolio',
