@@ -1,6 +1,6 @@
 ---
 draft: false
-pinned: true
+pinned: false
 title: 'Sudoki!'
 dateStarted: '2025-11-01'
 dateFinished: '2026-02-01'
