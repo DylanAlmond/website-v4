@@ -3,9 +3,10 @@ draft: false
 pinned: true
 title: 'Sudoki!'
 dateStarted: '2025-11-01'
-description: 'Building a daily Sudoku experience in Next.js and Firebase, featuring simple, focused gameplay, streak bonuses, and social competition worldwide.'
+dateFinished: '2026-02-01'
+description: 'Built a daily Sudoku experience in Next.js and Firebase, featuring simple, focused gameplay, streak bonuses, and social competition worldwide.'
 tags: ['Web Development', 'Game Development', 'Responsive Design']
-link: 'https://sudoki.uk/'
+link: 'https://github.com/Sudoki-Game/sudoki'
 image:
   src: '../images/sudoki/banner.png'
   alt: 'An online Sudoku game.'
